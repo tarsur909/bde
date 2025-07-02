@@ -12,6 +12,11 @@ namespace bsltf {
                      // ----------------
 
 // CLASS METHODS
+POST(
+    (std::string(__out) == "NOT_MOVED" || std::string(__out) == "MOVED" || std::string(__out) == "UNKNOWN" || std::string(__out) == "(* UNKNOWN *)")
+)
+
+This postcondition ensures that the return value of the function is one of the expected strings, without referencing undefined enum values.
 const char *MoveState::toAscii(MoveState::Enum value)
 {
 #define CASE(X) case(e_ ## X): return #X;

@@ -41,6 +41,7 @@ static int computeDaysDiff(const bdlt::Date& beginDate,
                              // ----------------
 
 // CLASS METHODS
+__out == computeDaysDiff(beginDate, endDate)
 int BasicIsma30360::daysDiff(const bdlt::Date& beginDate,
                              const bdlt::Date& endDate)
 {

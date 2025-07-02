@@ -101,6 +101,7 @@ static const int leapDaysPerMonth[] = { 0,
 /// indicated by an integer index in the range `[ 0 .. k_MAX_MONTH ]`, where
 /// an index of 0 always results in the value 0.  The behavior is undefined
 /// unless `k_MIN_YEAR <= year <= k_MAX_YEAR`.
+__out != NULL
 static inline
 const int *getArrayDaysThroughMonth(int year)
 {
@@ -148,6 +149,7 @@ int numDaysInPreviousYears(int year)
 
 /// Return the number of leap years from year 1 to the specified `year`.
 /// The behavior is undefined unless `0 <= year <= k_MAX_YEAR`.
+__out >= 0
 static
 int numLeapYearsSoFar(int year)
 {
@@ -184,6 +186,7 @@ int numLeapYearsSoFar(int year)
                            // -----------------------
 
 // CLASS METHODS
+__out > 0
 int PosixDateImpUtil::lastDayOfMonth(int year, int month)
 {
     BSLS_ASSERT(k_MIN_YEAR  <= year);

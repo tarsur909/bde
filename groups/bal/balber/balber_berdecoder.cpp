@@ -74,6 +74,7 @@ BerDecoder::ErrorSeverity BerDecoder::logMsg(const char *prefix,
                        // -----------------------------
 
 // ACCESSORS
+__out >= 0
 int BerDecoder_Node::startPos() const
 {
     int ret = 0;
@@ -179,6 +180,7 @@ void BerDecoder_Node::print(bsl::ostream&  out,
 }
 
 // MANIPULATORS
+__out == d_decoder->logError(msg)
 int BerDecoder_Node::logError(const char *msg)
 {
     BerDecoder::ErrorSeverity rc = d_decoder->logError(msg);

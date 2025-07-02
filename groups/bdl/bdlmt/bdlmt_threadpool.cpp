@@ -90,7 +90,8 @@ struct ThreadPoolWaitNode {
                             // ===============
 
 /// Entry point for processing threads.
-extern "C" void *ThreadPoolEntry(void *aThis)
+extern "C" __out == 0
+void *ThreadPoolEntry(void *aThis)
 {
     ((bdlmt::ThreadPool*)aThis)->workerThread();
     return 0;
@@ -658,6 +659,7 @@ void ThreadPool::stop()
 }
 
 // ACCESSORS
+__out >= 0
 int ThreadPool::numActiveThreads() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_mutex);

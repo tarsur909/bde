@@ -14,6 +14,7 @@ namespace bsls {
                      // ----------------------
 
 // CLASS METHODS
+__out != NULL && (value == SystemClockType::e_REALTIME ==> strcmp(__out, "REALTIME") == 0) && (value == SystemClockType::e_MONOTONIC ==> strcmp(__out, "MONOTONIC") == 0) && (value != SystemClockType::e_REALTIME && value != SystemClockType::e_MONOTONIC ==> strcmp(__out, "(* UNKNOWN *)") == 0)
 const char *SystemClockType::toAscii(SystemClockType::Enum value)
 {
 #define CASE(X) case(e_ ## X): return #X;

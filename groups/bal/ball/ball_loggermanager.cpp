@@ -234,6 +234,7 @@ void bufferPoolDeleter(void *buffer, void *pool)
 /// result in the specified `filteredNameBuffer`, and return the address of
 /// the non-modifiable data of `filteredNameBuffer`; return `originalName`
 /// otherwise (i.e., if `nameFilter` is null).
+(nameFilter != nullptr ==> __out == filteredNameBuffer->c_str()) && (nameFilter == nullptr ==> __out == originalName)
 const char *filterName(
    bsl::string                                             *filteredNameBuffer,
    const char                                              *originalName,
@@ -259,6 +260,7 @@ const char *filterName(
 /// specified `category`, and return `true` if the specified `severity` is
 /// more severe (i.e., is numerically less than) at least one of the
 /// threshold levels of `category`, and `false` otherwise.
+(category.relevantRuleMask() && ball::ThresholdAggregate::maxLevel(*levels) >= severity) ==> __out == true && (!category.relevantRuleMask() && category.maxLevel() >= severity) ==> __out == true && (ball::ThresholdAggregate::maxLevel(*levels) < severity || category.maxLevel() < severity) ==> __out == false
 bool isCategoryEnabled(ball::ThresholdAggregate *levels,
                        const ball::Category&     category,
                        int                       severity)
@@ -434,6 +436,7 @@ Logger::~Logger()
 }
 
 // PRIVATE MANIPULATORS
+__out != nullptr
 bsl::shared_ptr<Record> Logger::getRecordPtr(const char *fileName,
                                              int         lineNumber)
 {
@@ -602,6 +605,7 @@ void Logger::publish(const bsl::shared_ptr<Record>& record,
 }
 
 // MANIPULATORS
+__out != NULL
 Record *Logger::getRecord(const char *fileName, int lineNumber)
 {
    // The shared pointer returned by 'getRecordPtr' is reconstituted in the
@@ -1605,6 +1609,7 @@ void LoggerManager::setDefaultThresholdLevelsCallback(
 }
 
 // ACCESSORS
+__out == (category->relevantRuleMask() ? (AttributeContext::getContext()->determineThresholdLevels(&ThresholdAggregate(), category)[ThresholdAggregate::maxLevel()] >= severity) : (category->maxLevel() >= severity))
 bool LoggerManager::isCategoryEnabled(const Category *category,
                                       int             severity) const
 {

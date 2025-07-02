@@ -26,6 +26,7 @@ namespace BloombergLP {
 /// allocation.  The behavior is undefined unless
 /// `0 < alignment <= bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT` and alignment
 /// is an integral power of 2.
+(__out == NULL) || ((char*)__out >= buffer && (char*)__out < buffer + bufSize)
 static
 void *allocateFromBufferImp(int                               *cursor,
                             char                              *buffer,
