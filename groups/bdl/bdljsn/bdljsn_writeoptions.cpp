@@ -33,6 +33,7 @@ WriteOptions::WriteOptions()
 }
 
 // MANIPULATORS
+__out.d_initialIndentLevel == s_DEFAULT_INITIALIZER_INITIAL_INDENT_LEVEL && __out.d_sortMembers == s_DEFAULT_INITIALIZER_SORT_MEMBERS && __out.d_escapeForwardSlash == s_DEFAULT_INITIALIZER_ESCAPE_FORWARD_SLASH && __out.d_spacesPerLevel == s_DEFAULT_INITIALIZER_SPACES_PER_LEVEL && __out.d_style == s_DEFAULT_INITIALIZER_STYLE
 WriteOptions& WriteOptions::reset()
 {
     d_initialIndentLevel = s_DEFAULT_INITIALIZER_INITIAL_INDENT_LEVEL;

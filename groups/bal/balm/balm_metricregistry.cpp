@@ -46,6 +46,7 @@ void combineUserData(bsl::vector<const void *>        *result,
 
 /// Return `true` if the specified `candidatePrefix` is a prefix of the
 /// specified `string`, and `false` otherwise.
+(__out == true ==> *candidatePrefix == 0) && (__out == false ==> *candidatePrefix != 0 || *string != *candidatePrefix)
 bool isPrefix(const char *candidatePrefix, const char *string)
 {
     while (*candidatePrefix == *string && *candidatePrefix) {
@@ -64,6 +65,7 @@ bool isPrefix(const char *candidatePrefix, const char *string)
 namespace balm {
 
 // PRIVATE MANIPULATORS
+(__out.second == false ==> EXISTS(d_metrics.begin(), d_metrics.end(), it, it->first == bsl::make_pair(__out.first.category(), __out.first.name()))) && (__out.second == true ==> FORALL(d_metrics.begin(), d_metrics.end(), it, !(it->first == bsl::make_pair(__out.first.category(), __out.first.name()))))
 bsl::pair<MetricId, bool>
 MetricRegistry::insertId(const char *category, const char *name)
 {
@@ -172,6 +174,7 @@ MetricRegistry::~MetricRegistry()
 }
 
 // MANIPULATORS
+(__out == ret.first) || (__out == MetricId())
 MetricId MetricRegistry::addId(const char *category,
                                const char *name)
 {
@@ -393,6 +396,7 @@ MetricDescription::UserDataKey MetricRegistry::createUserDataKey()
 }
 
 // ACCESSORS
+__out >= 0
 bsl::size_t MetricRegistry::numMetrics() const
 {
     bslmt::ReadLockGuard<bslmt::RWMutex> guard(&d_lock);

@@ -36,6 +36,7 @@ Allocator::~Allocator()
 }
 
 // PROTECTED MANIPULATORS
+__out != nullptr
 void *Allocator::do_allocate(std::size_t bytes, std::size_t align)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_UNLIKELY(0 == bytes)) {

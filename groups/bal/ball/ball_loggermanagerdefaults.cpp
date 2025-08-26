@@ -30,6 +30,7 @@ namespace ball {
                          // ---------------------------
 
 // CLASS METHODS
+(numBytes > 0 ==> __out == true) && (numBytes <= 0 ==> __out == false)
 bool LoggerManagerDefaults::isValidDefaultRecordBufferSize(int numBytes)
 {
     return 0 < numBytes;
@@ -119,6 +120,7 @@ LoggerManagerDefaults::~LoggerManagerDefaults()
 }
 
 // MANIPULATORS
+(__out.d_recordBufferSize == rhs.d_recordBufferSize) && (__out.d_loggerBufferSize == rhs.d_loggerBufferSize) && (__out.d_defaultRecordLevel == rhs.d_defaultRecordLevel) && (__out.d_defaultPassLevel == rhs.d_defaultPassLevel) && (__out.d_defaultTriggerLevel == rhs.d_defaultTriggerLevel) && (__out.d_defaultTriggerAllLevel == rhs.d_defaultTriggerAllLevel)
 LoggerManagerDefaults& LoggerManagerDefaults::operator=(
                                               const LoggerManagerDefaults& rhs)
 {
@@ -182,6 +184,7 @@ int LoggerManagerDefaults::setDefaultThresholdLevelsIfValid(
 }
 
 // ACCESSORS
+__out == d_recordBufferSize
 int LoggerManagerDefaults::defaultRecordBufferSize() const
 {
     return d_recordBufferSize;
@@ -255,6 +258,7 @@ LoggerManagerDefaults::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(lhs.d_recordBufferSize == rhs.d_recordBufferSize && lhs.d_loggerBufferSize == rhs.d_loggerBufferSize && lhs.d_defaultRecordLevel == rhs.d_defaultRecordLevel && lhs.d_defaultPassLevel == rhs.d_defaultPassLevel && lhs.d_defaultTriggerLevel == rhs.d_defaultTriggerLevel && lhs.d_defaultTriggerAllLevel == rhs.d_defaultTriggerAllLevel) ==> __out == true
 bool ball::operator==(const LoggerManagerDefaults& lhs,
                       const LoggerManagerDefaults& rhs)
 {

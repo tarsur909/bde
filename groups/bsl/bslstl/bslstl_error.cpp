@@ -74,6 +74,7 @@ class system_category_impl : public error_category {
 };
 
 // ACCESSORS
+!__out.empty()
 std::string system_category_impl::message(int value) const
 {
     return error_category::message(value);
