@@ -167,6 +167,7 @@ enum ElementState {
 };
 
 /// Return a 0-terminated description of the specified `state`.
+__out == "EMPTY" || __out == "WRITING" || __out == "FULL" || __out == "READING" || __out == 0
 const char *toString(ElementState state)
 {
     switch (state) {
@@ -227,6 +228,7 @@ static const unsigned int k_NUM_REPRESENTABLE_COMBINED_INDICES =
 /// Return an encoded state value comprising the specified `generation` and
 /// the specified `indexState`.  Note that the resulting encoded value is
 /// appropriate for storage in the `d_states` array.
+__out >= 0
 inline
 static unsigned int encodeElementState(unsigned int generation,
                                        ElementState indexState)
@@ -248,6 +250,7 @@ static unsigned int decodeGenerationFromElementState(unsigned int encodedState)
 /// is undefined unless `encodedState` was encoded by `encodeElementState`.
 /// Note that `encodedState` is typically obtained from the `d_states`
 /// array.
+__out == ElementState(encodedState & k_ELEMENT_STATE_MASK)
 inline
 static ElementState decodeStateFromElementState(unsigned int encodedState)
 {
@@ -269,6 +272,7 @@ static bool isDisabledFlagSet(unsigned int encodedPushIndex)
 
 /// Return the push-index of the specified `encodedPushIndex`, discarding
 /// the disabled flag.
+(__out & k_DISABLED_STATE_MASK) == 0
 inline
 static unsigned int discardDisabledFlag(unsigned int encodedPushIndex)
 {
@@ -780,6 +784,7 @@ void FixedQueueIndexManager::abortPushIndexReservation(unsigned int generation,
 }
 
 // ACCESSORS
+__out >= 0 && __out <= d_capacity
 bsl::size_t FixedQueueIndexManager::length() const
 {
     // Note that 'FixedQueue::pushBack' and 'FixedQueue::popFront' rely on the

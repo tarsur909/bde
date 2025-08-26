@@ -1437,6 +1437,7 @@ bsl::ostream& Datum::print(bsl::ostream& stream,
                          // -------------------
 
 // ACCESSORS
+!__out.bad()
 bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1462,6 +1463,7 @@ bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                           // ----------------------
 
 // ACCESSORS
+!(__out.bad())
 bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const
@@ -1487,6 +1489,7 @@ bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                             // -------------------
 
 // ACCESSORS
+&__out == &stream
 bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1563,6 +1566,7 @@ bsl::ostream& DatumIntMapRef::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(lhs.type() != rhs.type() ==> __out == false) && (lhs.type() == rhs.type() ==> (lhs.theDouble() == rhs.theDouble() || lhs.theString() == rhs.theString() || lhs.theInteger() == rhs.theInteger() || lhs.theBoolean() == rhs.theBoolean() || (lhs.type() == Datum::e_NIL && __out == true) || lhs.theError() == rhs.theError() || lhs.theDate() == rhs.theDate() || lhs.theTime() == rhs.theTime() || lhs.theDatetime() == rhs.theDatetime() || lhs.theDatetimeInterval() == rhs.theDatetimeInterval() || lhs.theInteger64() == rhs.theInteger64() || lhs.theBinary() == rhs.theBinary() || lhs.theDecimal64() == rhs.theDecimal64() || (lhs.theArray().length() == rhs.theArray().length() && bsl::equal(lhs.theArray().data(), lhs.theArray().data() + lhs.theArray().length(), rhs.theArray().data())) || lhs.theMap() == rhs.theMap() || lhs.theIntMap() == rhs.theIntMap() || lhs.theUdt() == rhs.theUdt()))
 bool bdld::operator==(const Datum& lhs, const Datum& rhs)
 {
     const Datum::DataType type = lhs.type();

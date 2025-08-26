@@ -345,6 +345,7 @@ TimerEventSchedulerTestTimeSource_Data::TimerEventSchedulerTestTimeSource_Data(
 }
 
 // MANIPULATORS
+__out == d_currentTime && __out > d_currentTime - amount
 bsls::TimeInterval TimerEventSchedulerTestTimeSource_Data::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -356,6 +357,7 @@ bsls::TimeInterval TimerEventSchedulerTestTimeSource_Data::advanceTime(
 }
 
 // ACCESSORS
+__out == d_currentTime
 bsls::TimeInterval TimerEventSchedulerTestTimeSource_Data::currentTime() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_currentTimeMutex);
@@ -1316,6 +1318,7 @@ void TimerEventScheduler::cancelAllClocks(bool wait)
 }
 
 // ACCESSORS
+__out.totalMicroseconds() >= 0
 bsls::TimeInterval TimerEventScheduler::nextPendingEventTime() const
 {
     bsls::Types::Int64 minTime =
@@ -1396,6 +1399,7 @@ TimerEventSchedulerTestTimeSource::TimerEventSchedulerTestTimeSource(
 }
 
 // MANIPULATORS
+__out > amount
 bsls::TimeInterval TimerEventSchedulerTestTimeSource::advanceTime(
                                                      bsls::TimeInterval amount)
 {
