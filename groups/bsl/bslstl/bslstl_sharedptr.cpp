@@ -21,6 +21,7 @@ namespace bslstl {
                              // -------------------
 
 // MANIPULATORS
+__out != nullptr && (__out.get() != nullptr ⋆ __out.use_count() == 1 ⋆ __out.get_deleter() == basicAllocator)
 bsl::shared_ptr<char>
 SharedPtrUtil::createInplaceUninitializedBuffer(
                                               size_t            bufferSize,

@@ -182,6 +182,7 @@ RuleSet& RuleSet::operator=(const RuleSet& rhs)
 }
 
 // ACCESSORS
+(__out == -1 ==> (d_ruleHashtable.find(value) == d_ruleHashtable.end() || FORALL(0, d_ruleAddresses.size(), i, d_ruleAddresses[i] != &*d_ruleHashtable.find(value)))) && (__out != -1 ==> (d_ruleHashtable.find(value) != d_ruleHashtable.end() && d_ruleAddresses[__out] == &*d_ruleHashtable.find(value)))
 int RuleSet::ruleId(const Rule& value) const
 {
     HashtableType::const_iterator iter = d_ruleHashtable.find(value);

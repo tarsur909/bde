@@ -18,6 +18,7 @@ namespace ball {
                       // ---------------------
 
 // CLASS METHODS
+(__out == 0) ==> LoggerManager::singleton().addCategory(categoryName, recordLevel, passLevel, triggerLevel, triggerAllLevel) == 0
 int Administration::addCategory(const char *categoryName,
                                 int         recordLevel,
                                 int         passLevel,

@@ -154,6 +154,7 @@ void AttributeContainerList::removeAllAndRelease()
 }
 
 // ACCESSORS
+__out == true ==> EXISTS(0, d_head_p, node, node != nullptr && node->d_value_p->hasValue(value))
 bool AttributeContainerList::hasValue(const Attribute& value) const
 {
     Node *node = d_head_p;

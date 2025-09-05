@@ -557,6 +557,7 @@ MultiQueueThreadPool::~MultiQueueThreadPool()
 }
 
 // MANIPULATORS
+d_queueRegistry[__out] != 0 && d_nextId == __out + 1
 int MultiQueueThreadPool::createQueue()
 {
     bslmt::WriteLockGuard<bslmt::ReaderWriterMutex> guard(&d_lock);

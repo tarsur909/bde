@@ -1102,6 +1102,7 @@ const bsl::size_t JsonTestSuiteUtil::s_numData = sizeof  s_data
 #undef JSON
 
 // ACCESSORS
+__out != 0 && (index < s_numData) && ((index == 68) ==> (__out->d_JSON_p ↦ u::leftBrackets100000 ⋆ __out->d_length ↦ u::lenLeftBrackets100000) || (index != 68) ==> (__out->d_JSON_p ↦ _ ⋆ __out->d_length ↦ _))
 const JsonTestSuiteUtil::Datum *JsonTestSuiteUtil::data(bsl::size_t index)
 {
     BSLS_ASSERT(index < s_numData);

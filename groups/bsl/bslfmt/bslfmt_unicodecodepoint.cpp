@@ -179,6 +179,7 @@ static int get4ByteUtf8Value(const unsigned char *pc)
 /// Determine the width of the specified `codepoint` per the rules in the C++
 /// standard in [format.string.std].  Note that this width may differ from that
 /// specified by the Unicode standard.
+(__out == 1) || (__out == 2)
 inline
 static int getCodepointWidth(unsigned long int codepoint)
 {
@@ -211,6 +212,7 @@ static int getCodepointWidth(unsigned long int codepoint)
 
 /// Return `true` if the specified `value` is NOT a UTF-8 continuation byte,
 /// and `false` otherwise.
+__out == ((value & 0xC0) != 0x80)
 inline
 static bool isNotUtf8Continuation(unsigned char value)
 {
@@ -219,6 +221,7 @@ static bool isNotUtf8Continuation(unsigned char value)
 
 /// Return `true` if the specified `value` is a surrogate value, and `false`
 /// otherwise.
+(__out == true) ==> ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) == k_UTF16_HIGH_SURROGATE_START) && (__out == false) ==> ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) != k_UTF16_HIGH_SURROGATE_START)
 inline
 static bool isSurrogateValue(unsigned int value)
 {
@@ -230,6 +233,7 @@ static bool isSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+(__out == true) ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_HIGH_SURROGATE_START) && (__out == false) ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) != k_UTF16_HIGH_SURROGATE_START)
 inline
 static bool isHighSurrogateValue(unsigned int value)
 {
@@ -241,6 +245,7 @@ static bool isHighSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+__out == (((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_LOW_SURROGATE_START))
 inline
 static bool isLowSurrogateValue(unsigned int value)
 {

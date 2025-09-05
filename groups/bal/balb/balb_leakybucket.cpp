@@ -22,6 +22,7 @@ namespace {
 /// `timeInterval.seconds() * drainRate <= ULLONG_MAX`.  Note that
 /// `fractionalUnitDrainedInNanoUnits` is represented in nano-units to avoid
 /// using a floating point representation.
+__out == (drainRate * timeInterval.seconds() + (drainRate / 1000000000) * timeInterval.nanoseconds() + (*fractionalUnitDrainedInNanoUnits + (drainRate % 1000000000) * timeInterval.nanoseconds()) / 1000000000
 bsls::Types::Uint64 calculateNumberOfUnitsToDrain(
                     bsls::Types::Uint64*      fractionalUnitDrainedInNanoUnits,
                     bsls::Types::Uint64       drainRate,
@@ -161,6 +162,7 @@ LeakyBucket::LeakyBucket(bsls::Types::Uint64       drainRate,
 }
 
 // MANIPULATORS
+__out >= bsls::TimeInterval(0, 0)
 bsls::TimeInterval LeakyBucket::calculateTimeToSubmit(
                                          const bsls::TimeInterval& currentTime)
 {

@@ -104,6 +104,7 @@ namespace {
 
 /// Return the specified `s` if `s` != 0, or "" otherwise.  Never returns a
 /// null pointer.
+__out != 0 && (s != 0 ==> __out == s) && (s == 0 ==> __out == "")
 inline
 const char* nonNullStr(const char *s)
 {
@@ -112,6 +113,7 @@ const char* nonNullStr(const char *s)
 
 /// Return the specified `val` cast to a `char`.  Bits of `val` that are
 /// too high-order to fit in a `char` will be discarded.
+__out == static_cast<char>(val)
 inline
 char toChar(unsigned val)
 {
@@ -641,6 +643,7 @@ int MiniReader::open(bsl::streambuf *stream,
 }
 
 // ACCESSORS
+__out == d_errorInfo
 const ErrorInfo&
 MiniReader::errorInfo () const
 {
@@ -1220,6 +1223,7 @@ MiniReader::advanceToNextNode()
 // ----------------------------------------------------------------------------
 //                              PRIVATE methods
 // ----------------------------------------------------------------------------
+(__out == 0 ==> d_scanPtr == d_endPtr) && (__out != 0 ==> *d_scanPtr == __out)
 int
 MiniReader::skipSpaces()
 {

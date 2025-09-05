@@ -123,6 +123,7 @@ BSLMF_ASSERT(0 == (k_BITS_PER_UINT64 & (k_BITS_PER_UINT64 - 1))); // power of 2
 /// cast to is `unsigned int`, not `int`, since the `int` could wind up
 /// negative, in which case the `%` operation could return a negative
 /// result.
+__out == static_cast<unsigned int>(value)
 static inline
 unsigned int u32(uint64_t value)
 {
@@ -232,6 +233,7 @@ BitPtrDiff::BitPtrDiff(IntPtr hi, unsigned lo)
 }
 
 // ACCESSOR
+(__out.d_hi ↦ (~d_hi + (__out.d_lo < d_lo))) ⋆ (__out.d_lo ↦ ((k_USED_LO_MASK & ~d_lo) + 1) % k_BITS_PER_UINT64) && (__out.d_lo & k_UNUSED_LO_MASK) == 0
 inline
 BitPtrDiff BitPtrDiff::operator-() const
 {
@@ -260,6 +262,7 @@ BitPtrDiff BitPtrDiff::operator-() const
 
 /// Return `true` if the specified `lhs` is greater than the specified
 /// `rhs`, and `false` otherwise.
+(__out == true) ==> (lhs.d_hi > rhs.d_hi || (lhs.d_hi == rhs.d_hi && lhs.d_lo > rhs.d_lo)) && (__out == false) ==> !(lhs.d_hi > rhs.d_hi || (lhs.d_hi == rhs.d_hi && lhs.d_lo > rhs.d_lo))
 inline
 bool operator>(const BitPtrDiff& lhs, const BitPtrDiff& rhs)
 {
@@ -415,6 +418,7 @@ BitPtr::BitPtr(const uint64_t *ptr, size_t index)
 
 /// Return a `BitPtrDiff` representing the distance in bits between the
 /// specified `lhs` and `rhs`.
+__out.d_hi == (lhs.d_hi - rhs.d_hi - (lhs.d_lo < rhs.d_lo ? 1 : 0)) && __out.d_lo == (lhs.d_lo - rhs.d_lo + (lhs.d_lo < rhs.d_lo ? k_BITS_PER_UINT64 : 0))
 inline
 BitPtrDiff operator-(const BitPtr& lhs, const BitPtr& rhs)
 {
@@ -889,6 +893,7 @@ void Mover<OPER_DO_BITS, OPER_DO_ALIGNED_WORD>::move(
 /// `0 <= numBits < k_BITS_PER_UINT64`.  Note that this function performs
 /// the same calculation as `BitMaskUtil::lt64`, except that it doesn't
 /// waste time handling the case of `k_BITS_PER_UINT64 == numBits`.
+(__out == ((1ULL << numBits) - 1))
 static inline
 uint64_t lt64Raw(int numBits)
 {
@@ -903,6 +908,7 @@ uint64_t lt64Raw(int numBits)
 /// `0 <= numBits < k_BITS_PER_UINT64`.  Note that this function performs
 /// the same calculation as `BitMaskUtil::ge64`, except that it doesn't
 /// waste time handling the case of `k_BITS_PER_UINT64 == numBits`.
+(__out == (~0ULL << numBits))
 static inline
 uint64_t ge64Raw(int numBits)
 {
@@ -933,6 +939,7 @@ TYPE absRaw(TYPE x)
 /// `pos1 + numBits <= k_BITS_PER_UINT64`, and
 /// `pos2 + numBits <= k_BITS_PER_UINT64`.  Note that this function does not
 /// handle the case of `0 == numBits`.
+(__out == true) ==> (((word1 >> pos1) ^ (word2 >> pos2)) & BitMaskUtil::lt64(numBits)) != 0
 static inline
 bool bitsInWordsDiffer(uint64_t word1,
                        int      pos1,
@@ -1022,6 +1029,7 @@ void putSpaces(bsl::ostream& stream, int numSpaces)
 /// Output indentation to the specified `stream` that is appropriate
 /// according to BDE printing conventions for the specified `level` and
 /// the specified `spacesPerLevel`.
+__out == stream
 static
 bsl::ostream& indent(bsl::ostream& stream,
                      int           level,
@@ -1037,6 +1045,7 @@ bsl::ostream& indent(bsl::ostream& stream,
 
 /// Output a newline and indentation to the specified `stream` appropriate
 /// for the specified `level` and the specified `spacesPerLevel`.
+__out == &stream && (spacesPerLevel < 0 ==> true) && (spacesPerLevel >= 0 ==> (__out->tellp() > 0))
 static
 bsl::ostream& newlineAndIndent(bsl::ostream& stream,
                                int           level,

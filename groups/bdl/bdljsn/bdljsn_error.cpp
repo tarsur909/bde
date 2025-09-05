@@ -43,6 +43,7 @@ bsl::ostream& Error::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+__out == stream && (__out << object.location() && __out << object.message())
 bsl::ostream& bdljsn::operator<<(bsl::ostream& stream,
                                  const Error&  object)
 {

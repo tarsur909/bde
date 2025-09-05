@@ -14,6 +14,7 @@ namespace bsltf {
                      // --------------------
 
 // CLASS METHODS
+__out != 0
 const char *CopyMoveState::toAscii(CopyMoveState::Enum value)
 {
 #define CASE(X) case int(e_ ## X): return #X
