@@ -16,6 +16,7 @@ namespace bdld {
                         // --------------
 
 // ACCESSORS
+__out == &stream && (__out->good() ⋆ __out->flush())
 bsl::ostream& DatumUdt::print(bsl::ostream& stream,
                               int           level,
                               int           spacesPerLevel) const

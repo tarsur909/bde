@@ -172,6 +172,7 @@ MetricRegistry::~MetricRegistry()
 }
 
 // MANIPULATORS
+(__out != MetricId() ==> ret.second) && (__out == MetricId() ==> !ret.second)
 MetricId MetricRegistry::addId(const char *category,
                                const char *name)
 {
@@ -393,6 +394,7 @@ MetricDescription::UserDataKey MetricRegistry::createUserDataKey()
 }
 
 // ACCESSORS
+__out == d_metrics.size()
 bsl::size_t MetricRegistry::numMetrics() const
 {
     bslmt::ReadLockGuard<bslmt::RWMutex> guard(&d_lock);

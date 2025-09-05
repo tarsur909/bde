@@ -130,6 +130,7 @@ const bsls::Types::Int64 MINIMUM_ZIC_TRANSITION = -576460752303423488LL;
 
 /// Return `true` if every character in the specified `buffer` of the
 /// specified `length` is printable, and `false` otherwise.
+__out == true ==> FORALL(0, length, i, bdlb::CharType::isPrint(buffer[i]))
 static
 bool areAllPrintable(const char *buffer, int length)
 {
@@ -196,6 +197,7 @@ int readRawArray(bsl::vector<TYPE> *result,
 /// and non-zero value otherwise.  The first character is discarded from the
 /// stream whether it is newline character or not.  The final '\n' is not
 /// appended to the `result`.
+(__out == -1) || (__out == -2) || (__out == 0 && (result->size() >= 0))
 static inline
 int readRawTz(bsl::string   *result,
               bsl::istream&  stream)

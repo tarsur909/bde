@@ -340,6 +340,7 @@ int encodeArray(baljsn::SimpleFormatter    *formatter,
 /// unsupported types or values are encountered.Optionally specify the
 /// `name` to be used for this object.  Return 0 on success, and a negative
 /// value if `datum` cannot be encoded, which should stop further encoding.
+(__out == 0 || __out != 0)
 int encodeObject(baljsn::SimpleFormatter  *formatter,
                  const bdld::DatumMapRef&  datum,
                  int                      *strictTypesCheckStatus,
@@ -475,6 +476,7 @@ namespace baljsn {
                               // ----------------
 
 // CLASS METHODS
+(__out == 0 ==> result->datum() ↦ _ ⋆ true) && (__out < 0 ==> true)
 int DatumUtil::decode(bdld::ManagedDatum         *result,
                       bsl::ostream               *errorStream,
                       bsl::streambuf             *jsonBuffer,
