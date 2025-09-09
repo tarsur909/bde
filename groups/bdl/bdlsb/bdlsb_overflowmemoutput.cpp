@@ -64,6 +64,7 @@ OverflowMemOutput::OverflowMemOutput(char             *buffer,
 }
 
 // MANIPULATORS
+(!(which & bsl::ios_base::out) || way != bsl::ios_base::beg && way != bsl::ios_base::cur && way != bsl::ios_base::end || __out < 0 ==> __out == -1) && (!(__out < 0) ==> __out >= 0)
 OverflowMemOutput::pos_type
 OverflowMemOutput::pubseekoff(off_type                offset,
                               bsl::ios_base::seekdir  way,

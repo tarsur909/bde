@@ -716,6 +716,7 @@ class Crc32cCalculator {
 /// over the specified `length` number of bytes, using the specified `crc`
 /// value as the starting point for the calculation.  Note that the `data`
 /// is permitted to be null if the `length` is 0.
+(data == nullptr && length == 0) ==> __out == crc
 inline
 unsigned int calculateCrc32c(const unsigned char *data,
                              bsl::size_t          length,

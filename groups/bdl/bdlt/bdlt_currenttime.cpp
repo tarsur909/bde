@@ -24,6 +24,7 @@ bsls::AtomicOperations::AtomicTypes::Pointer
                     CurrentTime::currentTimeDefault)) };
 
 // CLASS METHODS
+(-1440 < __out.offset()) && (__out.offset() < 1440)
 DatetimeTz CurrentTime::asDatetimeTz()
 {
     Datetime now = utc();

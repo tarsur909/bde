@@ -49,6 +49,7 @@ BSLMF_ASSERT(!bslmf::IsTriviallyCopyableCheck<Time>::value);
 /// ```
 /// *number == *number % base + (*number / base) * base
 /// ```
+*number == initial % base && __out == initial / base && initial == *number + __out * base
 static
 bsls::Types::Int64 fastMod(int *number, int base)
 {
@@ -75,6 +76,7 @@ bsls::Types::Int64 fastMod(int *number, int base)
 /// ```
 /// *number == *number % base + (*number / base) * base
 /// ```
+(*number + __out * base == initial)
 static
 bsls::Types::Int64 fastMod(bsls::Types::Int64 *number, bsls::Types::Int64 base)
 {
@@ -203,6 +205,7 @@ int printToBufferFormatted(char       *result,
 bsls::AtomicInt64 Time::s_invalidRepresentationCount(0);
 
 // PRIVATE ACCESSORS
+__out >= 0
 bsls::Types::Int64 Time::invalidMicrosecondsFromMidnight() const
 {
     BSLS_ASSERT(k_REP_MASK > d_value);

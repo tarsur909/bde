@@ -147,6 +147,7 @@ static bool isByteOrderMarker(const void *bytes, size_t maxBytes)
 /// 2-byte UTF-8 sequence referred to by the specified `pc`.  The behavior is
 /// undefined unless the 2 bytes starting at `pc` contain a UTF-8 sequence
 /// describing a single valid code point.
+__out >= 0x80 && __out <= 0x7FF
 inline
 static int get2ByteUtf8Value(const unsigned char *pc)
 {
@@ -157,6 +158,7 @@ static int get2ByteUtf8Value(const unsigned char *pc)
 /// 3-byte UTF-8 sequence referred to by the specified `pc`.  The behavior is
 /// undefined unless the 3 bytes starting at `pc` contain a UTF-8 sequence
 /// describing a single valid code point.
+__out >= 0x0800 && __out <= 0xFFFF
 inline
 static int get3ByteUtf8Value(const unsigned char *pc)
 {
@@ -179,6 +181,7 @@ static int get4ByteUtf8Value(const unsigned char *pc)
 /// Determine the width of the specified `codepoint` per the rules in the C++
 /// standard in [format.string.std].  Note that this width may differ from that
 /// specified by the Unicode standard.
+__out == 1 || __out == 2
 inline
 static int getCodepointWidth(unsigned long int codepoint)
 {
@@ -211,6 +214,7 @@ static int getCodepointWidth(unsigned long int codepoint)
 
 /// Return `true` if the specified `value` is NOT a UTF-8 continuation byte,
 /// and `false` otherwise.
+(value & 0xc0) != 0x80 ==> __out == true && (value & 0xc0) == 0x80 ==> __out == false
 inline
 static bool isNotUtf8Continuation(unsigned char value)
 {
@@ -219,6 +223,7 @@ static bool isNotUtf8Continuation(unsigned char value)
 
 /// Return `true` if the specified `value` is a surrogate value, and `false`
 /// otherwise.
+(__out == true) == ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) == k_UTF16_HIGH_SURROGATE_START)
 inline
 static bool isSurrogateValue(unsigned int value)
 {
@@ -230,6 +235,7 @@ static bool isSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+(__out == true) || (__out == false)
 inline
 static bool isHighSurrogateValue(unsigned int value)
 {
@@ -241,6 +247,7 @@ static bool isHighSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+__out == ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_LOW_SURROGATE_START)
 inline
 static bool isLowSurrogateValue(unsigned int value)
 {
