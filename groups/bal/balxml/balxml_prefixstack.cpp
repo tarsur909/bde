@@ -34,6 +34,7 @@ const PredefinedPrefix nullPrefix = { "", -1 };
 /// Return the namespace ID for the specified predefined `prefix` or -1 if
 /// `prefix` is not predefined.  The behavior is undefined unless
 /// `prefix.data()` is non-null.
+(EXISTS(0, ARRAY_LEN(predefinedPrefixes), i, (prefix == predefinedPrefixes[i].d_prefix && &__out == &predefinedPrefixes[i])) || (&__out == &nullPrefix))
 const PredefinedPrefix& lookupPredefinedPrefix(const bsl::string_view& prefix)
 {
     for (int i = 0; i < ARRAY_LEN(predefinedPrefixes); ++i) {
@@ -106,6 +107,7 @@ int PrefixStack::popPrefixes(int count)
 }
 
 // ACCESSORS
+(EXISTS(0, d_numPrefixes, i, d_prefixes[i].first == prefix && __out == d_prefixes[i].second)) || (__out == lookupPredefinedPrefix(prefix).d_nsid)
 int
 PrefixStack::lookupNamespaceId(const bsl::string_view& prefix) const
 {

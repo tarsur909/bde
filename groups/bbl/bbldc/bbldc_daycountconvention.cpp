@@ -16,6 +16,7 @@ namespace bbldc {
                         // -------------------------
 
 // CLASS METHODS
+__out == &stream ⋆ __out->str() == old_stream.str() + toAscii(value)
 bsl::ostream& DayCountConvention::print(
                                        bsl::ostream&            stream,
                                        DayCountConvention::Enum value,

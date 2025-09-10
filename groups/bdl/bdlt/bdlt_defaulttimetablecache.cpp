@@ -40,6 +40,7 @@ bsls::ObjectBuffer<TimetableCache>           g_buffer;
 
 /// Return the address of the lock used to initialize and destroy the
 /// default timetable cache in a thread-safe manner.
+__out != 0
 static
 bslmt::Mutex *getLock()
 {

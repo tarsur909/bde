@@ -35,6 +35,7 @@ namespace u {
 /// specified length `inputLength` is "1" or "true" and false if `input` is
 /// "0" or "false".  Strings are case-insensitive.  Return 0 on success and
 /// non-zero if `input` is not "1", "0", "true", or "false".
+(__out == BAEXML_SUCCESS ==> ((*input == '1' && *result == true) || (*input == '0' && *result == false) || (inputLength == 4 && *result == true) || (inputLength == 5 && *result == false))) && (__out == BAEXML_FAILURE ==> *result == old_result)
 int parseBoolean(bool *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -155,6 +156,7 @@ int parseDoubleImpl(double *result, const char *input, bool formatDecimal)
 /// specified length `inputLength` should contain only decimal digits,
 /// period and sign characters; otherwise `input` can contain any floating-
 /// point representation form.  Return 0 on success and non-zero otherwise.
+(__out == BAEXML_SUCCESS ==> (*result ↦ _)) && (__out == BAEXML_FAILURE ==> *result == *result)
 int parseDouble(double     *result,
                 const char *input,
                 int         inputLength,
@@ -185,6 +187,7 @@ int parseDouble(double     *result,
 }
 
 /// Parse an unsigned long decimal string
+(__out == BAEXML_SUCCESS ==> (*result == static_cast<int>(bsl::strtol(input, nullptr, 10)) && inputLength == static_cast<int>(strlen(input)))) || (__out == BAEXML_FAILURE)
 int parseInt(int *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -304,6 +307,7 @@ int parseUnsignedDecimal(INT_TYPE *result, const char *input, int inputLength)
 /// Load, into the specificed `result`, the `Decimal64` value represented by
 /// the specified `input` string.  Return 0 on success and non-zero
 /// otherwise.
+(__out == BAEXML_SUCCESS ==> (result != 0 && *result ↦ _)) && (__out == BAEXML_FAILURE)
 int parseDecimal64Impl(bdldfp::Decimal64  *result,
                        const char         *input,
                        bool                decimalMode)

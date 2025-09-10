@@ -53,6 +53,7 @@ TimetableCache_Entry::~TimetableCache_Entry()
 }
 
 // MANIPULATORS
+__out.d_ptr ↦ rhs.d_ptr ⋆ __out.d_loadTime ↦ rhs.d_loadTime
 TimetableCache_Entry& TimetableCache_Entry::operator=(
                                                const TimetableCache_Entry& rhs)
 {
@@ -63,6 +64,7 @@ TimetableCache_Entry& TimetableCache_Entry::operator=(
 }
 
 // ACCESSORS
+__out ↦ d_ptr
 bsl::shared_ptr<const Timetable> TimetableCache_Entry::get() const
 {
     return d_ptr;
@@ -110,6 +112,7 @@ TimetableCache::~TimetableCache()
 }
 
 // MANIPULATORS
+__out != nullptr || __out == nullptr
 bsl::shared_ptr<const Timetable>
 TimetableCache::getTimetable(const char *timetableName)
 {

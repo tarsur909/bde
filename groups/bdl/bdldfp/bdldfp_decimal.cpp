@@ -293,6 +293,7 @@ doGetCommon(ITER_TYPE                    begin,
 }
 
 /// Return `true` if the specified `x` is negative and `false` otherwise.
+(x.value().d_raw & k_SIGN_MASK) == 0 ==> __out == false && (x.value().d_raw & k_SIGN_MASK) != 0 ==> __out == true
 inline
 bool isNegative(const Decimal32& x)
 {
@@ -312,6 +313,7 @@ bool isNegative(const Decimal64& x)
 
 
 /// Return `true` if the specified `x` is negative and `false` otherwise.
+__out == ((x.value().d_raw.w[0] & 0x8000000000000000ull) != 0 || (x.value().d_raw.w[1] & 0x8000000000000000ull) != 0)
 inline
 bool isNegative(const Decimal128& x)
 {
@@ -337,6 +339,7 @@ namespace bdldfp {
                             // --------------------
 
 // ACCESSORS
+__out == stream ⋆ stream ↦ _ 
 bsl::ostream& Decimal_Type64::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const

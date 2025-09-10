@@ -90,6 +90,7 @@ bslmt::Sluice::~Sluice()
 }
 
 // MANIPULATORS
+__out != 0 && ((GenerationDescriptor*)__out)->d_numThreads == ((GenerationDescriptor*)old_d_pendingGeneration)->d_numThreads + 1
 const void *bslmt::Sluice::enter()
 {
     LockGuard<Mutex> lock(&d_mutex);

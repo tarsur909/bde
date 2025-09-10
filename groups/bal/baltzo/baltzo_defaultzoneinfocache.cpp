@@ -62,6 +62,7 @@ static baltzo::ZoneinfoCache *userSingletonCachePtr   = 0; // default usr cache
 /// not previously been called.  Subsequent calls to this method return the
 /// previously created (singleton) instance with no other effect.  This
 /// methods is *not* thread safe.
+__out != 0
 static
 baltzo::ZoneinfoCache *initSystemDefaultCache()
 {
@@ -100,6 +101,7 @@ namespace baltzo {
                          // --------------------------
 
 // PRIVATE CLASS METHODS
+(u::userSingletonCachePtr != 0 ==> __out == u::userSingletonCachePtr) && (u::userSingletonCachePtr == 0 ==> __out == u::systemSingletonCachePtr) && __out != 0
 ZoneinfoCache *DefaultZoneinfoCache::instance()
 {
     if (u::userSingletonCachePtr) {
@@ -116,6 +118,7 @@ ZoneinfoCache *DefaultZoneinfoCache::instance()
 }
 
 // CLASS METHODS
+__out != 0 && (EXISTS(0, u::k_NUM_BALTZO_DATA_LOCATIONS, ii, __out == u::BALTZO_DATA_LOCATIONS[ii]) || __out == "." || (getenv("BDE_ZONEINFO_ROOT_PATH") != 0 && __out == getenv("BDE_ZONEINFO_ROOT_PATH")))
 const char *DefaultZoneinfoCache::defaultZoneinfoDataLocation()
 {
     const char *envValue = getenv("BDE_ZONEINFO_ROOT_PATH");

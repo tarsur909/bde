@@ -152,6 +152,7 @@ TokenizerIterator::TokenizerIterator(const TokenizerIterator& origin)
 }
 
 // MANIPULATORS
+__out == *this && (this != &rhs ==> (d_sharedData_p == rhs.d_sharedData_p ⋆ d_cursor_p == rhs.d_cursor_p ⋆ d_token_p == rhs.d_token_p ⋆ d_postDelim_p == rhs.d_postDelim_p ⋆ d_end_p == rhs.d_end_p ⋆ d_endFlag == rhs.d_endFlag))
 TokenizerIterator& TokenizerIterator::operator=(const TokenizerIterator& rhs)
 {
     if (this != &rhs)
@@ -314,6 +315,7 @@ Tokenizer::~Tokenizer()
 }
 
 // MANIPULATORS
+__out == *this && (d_endFlag == true || (d_prevDelim_p != nullptr ⋆ d_token_p != nullptr ⋆ d_postDelim_p != nullptr ⋆ d_cursor_p != nullptr))
 Tokenizer& Tokenizer::operator++()
 {
     // Operator++ called on invalid tokenizer
@@ -408,6 +410,7 @@ void Tokenizer::reset(const bsl::string_view& input)
 }
 
 // ACCESSORS
+(__out == true ==> EXISTS(d_prevDelim_p, d_token_p, p, SFT == d_sharedData.inputType(*(p)))) && (__out == false ==> FORALL(d_prevDelim_p, d_token_p, p, SFT != d_sharedData.inputType(*(p))))
 bool Tokenizer::hasPreviousSoft() const
 {
     const char *p = d_prevDelim_p;

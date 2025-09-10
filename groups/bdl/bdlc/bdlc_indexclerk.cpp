@@ -60,6 +60,7 @@ IndexClerk::areInvariantsPreserved(const bsl::vector<int>& unusedStack,
 }
 
 // ACCESSORS
+(FORALL(0, d_unusedStack.size(), i, d_unusedStack[i] != index) ==> __out == true) && (EXISTS(0, d_unusedStack.size(), i, d_unusedStack[i] == index) ==> __out == false)
 bool IndexClerk::isInUse(int index) const
 {
     BSLS_ASSERT((unsigned int) index < (unsigned int)d_nextNewIndex);

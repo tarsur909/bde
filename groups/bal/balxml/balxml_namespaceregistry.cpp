@@ -30,6 +30,7 @@ const char *const predefinedNamespaces[] =
 
 /// Private function.  Look up the specified `namespaceUri` in the list of
 /// preregistered namespaces and return the namespace ID or -1 if not found.
+(EXISTS(0, predefinedNamespaces.size(), i, namespaceUri == predefinedNamespaces[i] ==> __out == i + balxml::NamespaceRegistry::e_PREDEF_MIN)) && (FORALL(0, predefinedNamespaces.size(), i, namespaceUri != predefinedNamespaces[i]) ==> __out == -1)
 int lookupPredefinedId(const bsl::string_view& namespaceUri)
 {
     for (int i = 0; i < ARRAY_LEN(predefinedNamespaces); ++i) {

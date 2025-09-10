@@ -1151,6 +1151,7 @@ int FixedFieldFormatter::parse(bdld::DatumMapRef v)
 }
 
 // ACCESSORS
+__out ↦ d_name
 inline
 const bsl::string& FixedFieldFormatter::name() const
 {
@@ -1354,6 +1355,7 @@ int AttributeFormatter::parse(bdld::DatumMapRef v)
 }
 
 // ACCESSORS
+__out ↦ d_key
 const bsl::string& AttributeFormatter::key() const
 {
     return d_key;
@@ -1422,6 +1424,7 @@ int AttributesFormatter::parse(bdld::DatumMapRef v)
                        // -----------------
 
 // CLASS METHODS
+__out != 0
 RecordJsonFormatter_FieldFormatter *
 DatumParser::make(const bslstl::StringRef& v)
 {

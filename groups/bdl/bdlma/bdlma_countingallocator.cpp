@@ -105,6 +105,7 @@ void CountingAllocator::deallocate(void *address)
 }
 
 // ACCESSORS
+__out == stream ⋆ true
 bsl::ostream& CountingAllocator::print(bsl::ostream& stream) const
 {
     stream << "----------------------------------------\n"

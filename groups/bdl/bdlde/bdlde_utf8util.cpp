@@ -91,6 +91,7 @@ bool BSLA_UNUSED isValidUtf8CodePoint(const char *sequence)
 /// Return the length of the UTF-8 code point for which the specified
 /// `character` is the first `char`.  The behavior is undefined unless
 /// `character` is the first `char` of a UTF-8 code point.
+(character & k_ONEBYTEHEAD_TEST) == k_ONEBYTEHEAD_RES ==> __out == 1
 int utf8Size(char character)
 {
     if ((character & k_ONEBYTEHEAD_TEST) == k_ONEBYTEHEAD_RES) {
@@ -165,6 +166,7 @@ int appendUtf8CodePointImpl(ITERATOR output, unsigned int codePoint)
 
 /// Return `true` if the specified `value` is NOT a UTF-8 continuation byte,
 /// and `false` otherwise.
+(0x80 != (value & 0xc0) ==> __out == true) && (0x80 == (value & 0xc0) ==> __out == false)
 inline
 bool isNotContinuation(char value)
 {
@@ -173,6 +175,7 @@ bool isNotContinuation(char value)
 
 /// Return `true` if the specified `value` is a surrogate value, and `false`
 /// otherwise.
+(__out == true) ==> ((k_SURROGATE_MASK & value) == k_MIN_SURROGATE) && (__out == false) ==> ((k_SURROGATE_MASK & value) != k_MIN_SURROGATE)
 inline
 bool isSurrogateValue(int value)
 {
@@ -185,6 +188,7 @@ bool isSurrogateValue(int value)
 /// 2-byte UTF-8 sequence referred to by the specified `pc`.  The behavior
 /// is undefined unless the 2 bytes starting at `pc` contain a UTF-8
 /// sequence describing a single valid code point.
+__out == ((*pc & 0x1f) << 6) | (pc[1] & k_CONT_VALUE_MASK)
 inline
 int get2ByteValue(const char *pc)
 {
@@ -679,6 +683,7 @@ namespace bdlde {
                           // -----------------------
 
 // CLASS METHODS
+__out > 0 && __out <= input.length()
 Utf8Util_ImpUtil::size_type
 Utf8Util_ImpUtil::advancePastValidOrInvalidCodePoint(
                                                  const bsl::string_view& input)

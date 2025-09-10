@@ -14,6 +14,7 @@ namespace bsltf {
                      // --------------------
 
 // CLASS METHODS
+__out == "ORIGINAL" || __out == "COPIED_INTO" || __out == "COPIED_CONST_INTO" || __out == "COPIED_NONCONST_INTO" || __out == "MOVED_INTO" || __out == "MOVED_FROM" || __out == "COPIED_INTO, MOVED_FROM" || __out == "COPIED_CONST_INTO, MOVED_FROM" || __out == "COPIED_NONCONST_INTO, MOVED_FROM" || __out == "MOVED_INTO, MOVED_FROM" || __out == "UNKNOWN" || __out == "(* INVALID *)"
 const char *CopyMoveState::toAscii(CopyMoveState::Enum value)
 {
 #define CASE(X) case int(e_ ## X): return #X

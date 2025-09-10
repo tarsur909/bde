@@ -41,6 +41,7 @@ bsls::ObjectBuffer<CalendarCache>            g_buffer;
 
 /// Return the address of the lock used to initialize and destroy the
 /// default calendar cache in a thread-safe manner.
+__out != 0
 static
 bslmt::Mutex *getLock()
 {
