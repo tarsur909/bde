@@ -46,6 +46,7 @@ BerEncoder::~BerEncoder()
 }
 
 // PRIVATE MANIPULATORS
+(d_severity == e_BER_ERROR || d_severity == old_d_severity) && (__out == logMsg("ERROR", tagClass, tagNumber, name, index))
 BerEncoder::ErrorSeverity
 BerEncoder::logError(BerConstants::TagClass  tagClass,
                      int                     tagNumber,

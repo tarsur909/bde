@@ -23,6 +23,7 @@ namespace ball {
                          // ----------
 
 // CLASS METHODS
+(__out == rule.d_hashValue) && (rule.d_hashValue >= 0) && (rule.d_hashSize == size) && ((rule.d_hashValue ↦ _ ⋆ rule.d_hashSize ↦ _) || (rule.d_hashValue < 0 && rule.d_hashSize != size) ==> (rule.d_hashValue >= 0 && rule.d_hashSize == size))
 int Rule::hash(const Rule& rule, int size)
 {
     BSLS_ASSERT(0 < size);
@@ -42,6 +43,7 @@ int Rule::hash(const Rule& rule, int size)
 }
 
 // MANIPULATORS
+__out.d_pattern ↦ rhs.d_pattern ⋆ __out.d_thresholds ↦ rhs.d_thresholds ⋆ __out.d_attributeSet ↦ rhs.d_attributeSet ⋆ __out.d_hashValue ↦ rhs.d_hashValue ⋆ __out.d_hashSize ↦ rhs.d_hashSize
 Rule& Rule::operator=(const Rule& rhs)
 {
     d_pattern      = rhs.d_pattern,
@@ -53,6 +55,7 @@ Rule& Rule::operator=(const Rule& rhs)
 }
 
 // ACCESSORS
+__out == &stream && (__out ↦ _)
 bsl::ostream& Rule::print(bsl::ostream& stream,
                           int           level,
                           int           spacesPerLevel) const

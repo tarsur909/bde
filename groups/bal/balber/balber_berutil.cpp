@@ -100,6 +100,7 @@ ReadRestFunctor::ReadRestFunctor(bsl::streambuf *streamBuf, int oldSize)
 }
 
 // MODIFIERS
+__out == (d_oldSize + nRead) && SFORALL(d_oldSize, __out, i, (buf + i ↦ _))
 size_t ReadRestFunctor::operator()(char *buf, size_t newSize)
 {
     bsl::streamsize nRead = d_streamBuf->sgetn(
@@ -209,6 +210,7 @@ int BerUtil_IdentifierImpUtil::getIdentifierOctets(
 }
 
 /// Write the specified `tag*` to the specified `streamBuf`.
+(__out == SUCCESS) ==> (streamBuf != 0) && (tagNumber >= 0)
 int BerUtil_IdentifierImpUtil::putIdentifierOctets(
                                              bsl::streambuf         *streamBuf,
                                              BerConstants::TagClass  tagClass,
@@ -432,6 +434,7 @@ int BerUtil_LengthImpUtil::putEndOfContentOctets(bsl::streambuf *streamBuf)
                        // -----------------------------
 
 // CLASS METHODS
+(value == 0 ==> __out == 1) && (value != 0 ==> __out > 0)
 int BerUtil_IntegerImpUtil::getNumOctetsToStream(short value)
 {
     // This overload of 'numBytesToStream' is optimized for a 16-bit 'value'.
@@ -1238,6 +1241,7 @@ int BerUtil_Iso8601ImpUtil::putTimeTzValue(bsl::streambuf          *streamBuf,
                     // ------------------------------------
 
 // CLASS METHODS
+(__out == true ==> (k_MIN_OFFSET <= value && k_MAX_OFFSET >= value)) && (__out == false ==> !(k_MIN_OFFSET <= value && k_MAX_OFFSET >= value))
 bool BerUtil_TimezoneOffsetImpUtil::isValidTimezoneOffsetInMinutes(int value)
 {
     return (k_MIN_OFFSET <= value) && (k_MAX_OFFSET >= value);

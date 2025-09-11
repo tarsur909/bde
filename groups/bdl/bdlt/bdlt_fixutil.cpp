@@ -224,6 +224,7 @@ int Impl::generate(STRING                      *string,
 /// non-zero value (with no effect) otherwise.  All characters in the range
 /// `[begin .. end)` must be decimal digits.  The behavior is undefined
 /// unless `begin < end` and the parsed value does not exceed `INT_MAX`.
+(__out == 0 ==> (*result ↦ tmp ⋆ *nextPos ↦ end)) && (__out == -1 ==> (begin < end && !isdigit(*begin)))
 int asciiToInt(const char **nextPos,
                int         *result,
                const char  *begin,
@@ -262,6 +263,7 @@ int asciiToInt(const char **nextPos,
 /// `*nextPos`) otherwise.  The behavior is undefined unless `begin <= end`.
 /// Note that successfully parsing a date before `end` is reached is not an
 /// error.
+(__out == 0 ==> (*nextPos == begin + 8)) && (__out == -1 ==> (*nextPos == old_nextPos))
 int parseDate(const char **nextPos,
               Date        *date,
               const char  *begin,
@@ -315,6 +317,7 @@ int parseDate(const char **nextPos,
 /// the first 7 are parsed but ignored.  The behavior is undefined unless
 /// `begin <= end`.  Note that successfully parsing a fractional second
 /// before `end` is reached is not an error.
+(__out == 0 ==> (*nextPos ↦ _ ⋆ *microsecond ↦ _)) && (__out == -1 ==> (*nextPos ↦ _ ⋆ *microsecond ↦ _))
 int parseFractionalSecond(const char **nextPos,
                           int         *microsecond,
                           const char  *begin,
@@ -376,6 +379,7 @@ int parseFractionalSecond(const char **nextPos,
 /// otherwise.  The behavior is undefined unless `begin <= end`.  Note that
 /// successfully parsing a timezone offset before `end` is reached is not an
 /// error.
+(__out == 0 ==> (*nextPos ↦ _ ⋆ *minuteOffset ↦ _)) && (__out == -1 ==> (*nextPos ↦ old_nextPos ⋆ *minuteOffset ↦ old_minuteOffset))
 int parseTimezoneOffset(const char **nextPos,
                         int         *minuteOffset,
                         const char  *begin,
@@ -575,6 +579,7 @@ int parseTime(const char **nextPos,
 /// that if the decimal string representation of `value` is more than
 /// `paddedLen` digits, only the low-order `paddedLen` digits of `value` are
 /// output.
+(__out == paddedLen) && SFORALL(0, paddedLen, i, (buffer + i |-> ('0' + (value / static_cast<int>(std::pow(10, paddedLen - i - 1))) % 10)))
 int generateInt(char *buffer, int value, int paddedLen)
 {
     BSLS_ASSERT(buffer);
@@ -785,6 +790,7 @@ namespace bdlt {
                               // --------------
 
 // CLASS METHODS
+(__out == k_DATE_STRLEN) && (bufferLength >= k_DATE_STRLEN + 1 ==> SFORALL(0, k_DATE_STRLEN, i, buffer + i |-> _)) && (bufferLength < k_DATE_STRLEN + 1 ==> SFORALL(0, bufferLength, i, buffer + i |-> _))
 int FixUtil::generate(char                        *buffer,
                       int                          bufferLength,
                       const Date&                  object,

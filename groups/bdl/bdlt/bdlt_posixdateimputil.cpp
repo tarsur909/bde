@@ -101,6 +101,7 @@ static const int leapDaysPerMonth[] = { 0,
 /// indicated by an integer index in the range `[ 0 .. k_MAX_MONTH ]`, where
 /// an index of 0 always results in the value 0.  The behavior is undefined
 /// unless `k_MIN_YEAR <= year <= k_MAX_YEAR`.
+(__out == y1752DaysThroughMonth) || (__out == leapDaysThroughMonth) || (__out == normDaysThroughMonth) && (bdlt::PosixDateImpUtil::isLeapYear(year) && year == k_YEAR_1752 ==> __out == y1752DaysThroughMonth) && (bdlt::PosixDateImpUtil::isLeapYear(year) && year != k_YEAR_1752 ==> __out == leapDaysThroughMonth) && (!bdlt::PosixDateImpUtil::isLeapYear(year) ==> __out == normDaysThroughMonth)
 static inline
 const int *getArrayDaysThroughMonth(int year)
 {
@@ -117,6 +118,7 @@ const int *getArrayDaysThroughMonth(int year)
 /// Return the total number of days in all years, beginning with the year 1,
 /// up to but not including the specified `year`.  The behavior is undefined
 /// unless `k_MIN_YEAR <= year <= k_MAX_YEAR`.
+__out == ((year - 1) * k_DAYS_IN_NON_LEAP_YEAR + (year - 1) / 4 - (year > k_YEAR_1752 ? k_YEAR_1752_NUM_MISSING_DAYS + (year > k_YEAR_1800 ? (year - k_YEAR_1701) / 100 - (year - k_YEAR_1601) / 400 : 0) : 0))
 static
 int numDaysInPreviousYears(int year)
 {
@@ -184,6 +186,7 @@ int numLeapYearsSoFar(int year)
                            // -----------------------
 
 // CLASS METHODS
+(month == k_FEBRUARY && isLeapYear(year)) ==> (__out == normDaysPerMonth[month] + 1) && ((month != k_FEBRUARY || !isLeapYear(year)) ==> (__out == normDaysPerMonth[month]))
 int PosixDateImpUtil::lastDayOfMonth(int year, int month)
 {
     BSLS_ASSERT(k_MIN_YEAR  <= year);
