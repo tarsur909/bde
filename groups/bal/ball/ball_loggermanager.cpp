@@ -602,6 +602,7 @@ void Logger::publish(const bsl::shared_ptr<Record>& record,
 }
 
 // MANIPULATORS
+__out != 0
 Record *Logger::getRecord(const char *fileName, int lineNumber)
 {
    // The shared pointer returned by 'getRecordPtr' is reconstituted in the
@@ -1605,6 +1606,7 @@ void LoggerManager::setDefaultThresholdLevelsCallback(
 }
 
 // ACCESSORS
+(__out == true ==> (category->relevantRuleMask() && category->maxLevel() >= severity) || (!category->relevantRuleMask() && category->maxLevel() >= severity)) && (__out == false ==> (category->relevantRuleMask() && category->maxLevel() < severity) || (!category->relevantRuleMask() && category->maxLevel() < severity))
 bool LoggerManager::isCategoryEnabled(const Category *category,
                                       int             severity) const
 {

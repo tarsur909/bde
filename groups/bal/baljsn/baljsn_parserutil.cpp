@@ -147,6 +147,7 @@ namespace baljsn {
                              // -----------------
 
 // CLASS METHODS
+(__out == 0 ==> (value != 0 ⋆ *value ↦ _)) && (__out != 0 ==> true)
 int ParserUtil::getUnquotedString(bsl::string             *value,
                                   const bsl::string_view&  data)
 {

@@ -75,6 +75,7 @@ static bool compareGreater(const DatumIntMapEntry& lhs,
 
 /// Return `true` if key in the specified `lhs` is less than key in the
 /// specified `rhs` and `false` otherwise.
+(__out == true ==> lhs.key() < rhs.key()) && (__out == false ==> lhs.key() >= rhs.key())
 static bool compareLess(const DatumIntMapEntry& lhs,
                         const DatumIntMapEntry& rhs)
 {

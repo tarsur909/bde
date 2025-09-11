@@ -134,6 +134,7 @@ EncoderTestAddress::~EncoderTestAddress()
 
 // MANIPULATORS
 
+(this != &rhs ==> (d_street ↦ rhs.d_street ⋆ d_city ↦ rhs.d_city ⋆ d_state ↦ rhs.d_state)) && (__out == *this)
 EncoderTestAddress&
 EncoderTestAddress::operator=(const EncoderTestAddress& rhs)
 {
@@ -316,6 +317,7 @@ void EncoderTestChoiceWithAllCategoriesChoice::reset()
     d_selectionId = SELECTION_ID_UNDEFINED;
 }
 
+(__out == 0 && (selectionId == SELECTION_ID_SELECTION0 || selectionId == SELECTION_ID_UNDEFINED)) || (__out == -1 && selectionId != SELECTION_ID_SELECTION0 && selectionId != SELECTION_ID_UNDEFINED)
 int EncoderTestChoiceWithAllCategoriesChoice::makeSelection(int selectionId)
 {
     switch (selectionId) {
@@ -331,6 +333,7 @@ int EncoderTestChoiceWithAllCategoriesChoice::makeSelection(int selectionId)
     return 0;
 }
 
+(__out == -1 ==> selectionInfo == 0) && (__out != -1 ==> selectionInfo != 0 && __out == makeSelection(selectionInfo->d_id))
 int EncoderTestChoiceWithAllCategoriesChoice::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -357,6 +360,7 @@ int& EncoderTestChoiceWithAllCategoriesChoice::makeSelection0()
     return d_selection0.object();
 }
 
+(d_selectionId == SELECTION_ID_SELECTION0 ==> (d_selection0.object() ↦ value)) && (d_selectionId != SELECTION_ID_SELECTION0 ==> (d_selectionId == SELECTION_ID_SELECTION0 ⋆ d_selection0.object() ↦ value)) && (__out == d_selection0.object())
 int& EncoderTestChoiceWithAllCategoriesChoice::makeSelection0(int value)
 {
     if (SELECTION_ID_SELECTION0 == d_selectionId) {
@@ -393,6 +397,7 @@ bsl::ostream& EncoderTestChoiceWithAllCategoriesChoice::print(
 }
 
 
+(d_selectionId == SELECTION_ID_SELECTION0 ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SELECTION0].name()) && (d_selectionId != SELECTION_ID_SELECTION0 ==> __out == "(* UNDEFINED *)")
 const char *EncoderTestChoiceWithAllCategoriesChoice::selectionName() const
 {
     switch (d_selectionId) {
@@ -462,6 +467,7 @@ const bdlat_EnumeratorInfo EncoderTestChoiceWithAllCategoriesEnumeration::ENUMER
 
 // CLASS METHODS
 
+(__out == 0 ==> (*result ↦ static_cast<EncoderTestChoiceWithAllCategoriesEnumeration::Value>(number) && (number == EncoderTestChoiceWithAllCategoriesEnumeration::A || number == EncoderTestChoiceWithAllCategoriesEnumeration::B))) && (__out == -1 ==> *result ↦ old_result)
 int EncoderTestChoiceWithAllCategoriesEnumeration::fromInt(EncoderTestChoiceWithAllCategoriesEnumeration::Value *result, int number)
 {
     switch (number) {
@@ -474,6 +480,7 @@ int EncoderTestChoiceWithAllCategoriesEnumeration::fromInt(EncoderTestChoiceWith
     }
 }
 
+(__out == 0 ==> EXISTS(0, 2, i, (stringLength == EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_nameLength && 0 == bsl::memcmp(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_name_p, string, stringLength)) && (*result ↦ static_cast<EncoderTestChoiceWithAllCategoriesEnumeration::Value>(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_value)))) && (__out == -1 ==> *result ↦ old_result)
 int EncoderTestChoiceWithAllCategoriesEnumeration::fromString(
         EncoderTestChoiceWithAllCategoriesEnumeration::Value *result,
         const char         *string,
@@ -494,6 +501,7 @@ int EncoderTestChoiceWithAllCategoriesEnumeration::fromString(
     return -1;
 }
 
+(value == EncoderTestChoiceWithAllCategoriesEnumeration::A ==> __out == "A") && (value == EncoderTestChoiceWithAllCategoriesEnumeration::B ==> __out == "B") && (value != EncoderTestChoiceWithAllCategoriesEnumeration::A && value != EncoderTestChoiceWithAllCategoriesEnumeration::B ==> __out == 0)
 const char *EncoderTestChoiceWithAllCategoriesEnumeration::toString(EncoderTestChoiceWithAllCategoriesEnumeration::Value value)
 {
     switch (value) {
@@ -717,6 +725,7 @@ EncoderTestSequenceWithAllCategoriesChoice::EncoderTestSequenceWithAllCategories
 
 // MANIPULATORS
 
+(this != &rhs) ==> ((rhs.d_selectionId == SELECTION_ID_SELECTION0 ==> (d_selectionId == SELECTION_ID_SELECTION0 ⋆ d_selection0.object() == rhs.d_selection0.object())) ⋆ (rhs.d_selectionId == SELECTION_ID_UNDEFINED ==> (d_selectionId == SELECTION_ID_UNDEFINED))) ⋆ (__out == *this)
 EncoderTestSequenceWithAllCategoriesChoice&
 EncoderTestSequenceWithAllCategoriesChoice::operator=(const EncoderTestSequenceWithAllCategoriesChoice& rhs)
 {
@@ -767,6 +776,7 @@ void EncoderTestSequenceWithAllCategoriesChoice::reset()
     d_selectionId = SELECTION_ID_UNDEFINED;
 }
 
+(__out == 0 && (selectionId == SELECTION_ID_SELECTION0 || selectionId == SELECTION_ID_UNDEFINED)) || (__out == -1 && selectionId != SELECTION_ID_SELECTION0 && selectionId != SELECTION_ID_UNDEFINED)
 int EncoderTestSequenceWithAllCategoriesChoice::makeSelection(int selectionId)
 {
     switch (selectionId) {
@@ -782,6 +792,7 @@ int EncoderTestSequenceWithAllCategoriesChoice::makeSelection(int selectionId)
     return 0;
 }
 
+(__out == -1 ==> selectionInfo == 0) && (__out != -1 ==> selectionInfo != 0)
 int EncoderTestSequenceWithAllCategoriesChoice::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -808,6 +819,7 @@ int& EncoderTestSequenceWithAllCategoriesChoice::makeSelection0()
     return d_selection0.object();
 }
 
+(d_selectionId == SELECTION_ID_SELECTION0 ==> (d_selection0.object() ↦ value)) && (d_selectionId != SELECTION_ID_SELECTION0 ==> (d_selection0.buffer() ↦ value ⋆ d_selectionId == SELECTION_ID_SELECTION0)) ⋆ (__out ↦ value)
 int& EncoderTestSequenceWithAllCategoriesChoice::makeSelection0(int value)
 {
     if (SELECTION_ID_SELECTION0 == d_selectionId) {
@@ -844,6 +856,7 @@ bsl::ostream& EncoderTestSequenceWithAllCategoriesChoice::print(
 }
 
 
+(d_selectionId == SELECTION_ID_SELECTION0 ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SELECTION0].name()) && (d_selectionId != SELECTION_ID_SELECTION0 ==> __out == "(* UNDEFINED *)")
 const char *EncoderTestSequenceWithAllCategoriesChoice::selectionName() const
 {
     switch (d_selectionId) {
@@ -913,6 +926,7 @@ const bdlat_EnumeratorInfo EncoderTestSequenceWithAllCategoriesEnumeration::ENUM
 
 // CLASS METHODS
 
+(__out == 0 ==> ((*result ↦ static_cast<EncoderTestSequenceWithAllCategoriesEnumeration::Value>(number)) && (number == EncoderTestSequenceWithAllCategoriesEnumeration::A || number == EncoderTestSequenceWithAllCategoriesEnumeration::B))) && (__out == -1 ==> true)
 int EncoderTestSequenceWithAllCategoriesEnumeration::fromInt(EncoderTestSequenceWithAllCategoriesEnumeration::Value *result, int number)
 {
     switch (number) {
@@ -945,6 +959,7 @@ int EncoderTestSequenceWithAllCategoriesEnumeration::fromString(
     return -1;
 }
 
+(value == A ==> __out == "A") && (value == B ==> __out == "B") && (value != A && value != B ==> __out == 0)
 const char *EncoderTestSequenceWithAllCategoriesEnumeration::toString(EncoderTestSequenceWithAllCategoriesEnumeration::Value value)
 {
     switch (value) {
@@ -2482,6 +2497,7 @@ void EncoderTestChoiceWithAllCategories::reset()
     d_selectionId = SELECTION_ID_UNDEFINED;
 }
 
+(__out == 0) || (__out == -1 && selectionId != SELECTION_ID_CHAR_ARRAY && selectionId != SELECTION_ID_CHOICE && selectionId != SELECTION_ID_CUSTOMIZED_TYPE && selectionId != SELECTION_ID_ENUMERATION && selectionId != SELECTION_ID_SEQUENCE && selectionId != SELECTION_ID_SIMPLE && selectionId != SELECTION_ID_UNDEFINED)
 int EncoderTestChoiceWithAllCategories::makeSelection(int selectionId)
 {
     switch (selectionId) {
@@ -2512,6 +2528,7 @@ int EncoderTestChoiceWithAllCategories::makeSelection(int selectionId)
     return 0;
 }
 
+(__out == -1 ==> selectionInfo == 0) && (__out != -1 ==> selectionInfo != 0 && __out == makeSelection(selectionInfo->d_id))
 int EncoderTestChoiceWithAllCategories::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -2682,6 +2699,7 @@ EncoderTestChoiceWithAllCategoriesEnumeration::Value& EncoderTestChoiceWithAllCa
     return d_enumeration.object();
 }
 
+(d_selectionId == SELECTION_ID_ENUMERATION ==> (d_enumeration.object() == value)) && (d_selectionId != SELECTION_ID_ENUMERATION ==> (d_selectionId == SELECTION_ID_ENUMERATION ⋆ d_enumeration.object() == value)) && (__out == d_enumeration.object())
 EncoderTestChoiceWithAllCategoriesEnumeration::Value& EncoderTestChoiceWithAllCategories::makeEnumeration(EncoderTestChoiceWithAllCategoriesEnumeration::Value value)
 {
     if (SELECTION_ID_ENUMERATION == d_selectionId) {
@@ -2760,6 +2778,7 @@ int& EncoderTestChoiceWithAllCategories::makeSimple()
     return d_simple.object();
 }
 
+(d_selectionId == SELECTION_ID_SIMPLE) && (__out == d_simple.object()) && (d_simple.object() ↦ value)
 int& EncoderTestChoiceWithAllCategories::makeSimple(int value)
 {
     if (SELECTION_ID_SIMPLE == d_selectionId) {
@@ -2970,6 +2989,7 @@ void EncoderTestDegenerateChoice1::reset()
     d_selectionId = SELECTION_ID_UNDEFINED;
 }
 
+(selectionId == SELECTION_ID_SEQUENCE || selectionId == SELECTION_ID_UNDEFINED) ==> (__out == 0) && (selectionId != SELECTION_ID_SEQUENCE && selectionId != SELECTION_ID_UNDEFINED) ==> (__out == -1)
 int EncoderTestDegenerateChoice1::makeSelection(int selectionId)
 {
     switch (selectionId) {
@@ -2985,6 +3005,7 @@ int EncoderTestDegenerateChoice1::makeSelection(int selectionId)
     return 0;
 }
 
+(__out == -1 ==> selectionInfo == 0) && (__out != -1 ==> selectionInfo != 0)
 int EncoderTestDegenerateChoice1::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -3065,6 +3086,7 @@ bsl::ostream& EncoderTestDegenerateChoice1::print(
 }
 
 
+(d_selectionId == SELECTION_ID_SEQUENCE ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SEQUENCE].name()) && (d_selectionId != SELECTION_ID_SEQUENCE ==> __out == "(* UNDEFINED *)")
 const char *EncoderTestDegenerateChoice1::selectionName() const
 {
     switch (d_selectionId) {
@@ -3183,6 +3205,7 @@ EncoderTestEmployee::~EncoderTestEmployee()
 
 // MANIPULATORS
 
+(this != &rhs ==> (d_name ↦ rhs.d_name ⋆ d_homeAddress ↦ rhs.d_homeAddress ⋆ d_age ↦ rhs.d_age)) && (__out == *this)
 EncoderTestEmployee&
 EncoderTestEmployee::operator=(const EncoderTestEmployee& rhs)
 {
@@ -3421,6 +3444,7 @@ EncoderTestSequenceWithAllCategories::~EncoderTestSequenceWithAllCategories()
 
 // MANIPULATORS
 
+__out == *this && (d_charArray ↦ rhs.d_charArray ⋆ d_aString ↦ rhs.d_aString ⋆ d_array ↦ rhs.d_array ⋆ d_choice ↦ rhs.d_choice ⋆ d_customizedType ↦ rhs.d_customizedType ⋆ d_enumeration ↦ rhs.d_enumeration ⋆ d_nullableValue ↦ rhs.d_nullableValue ⋆ d_sequence ↦ rhs.d_sequence ⋆ d_simple ↦ rhs.d_simple)
 EncoderTestSequenceWithAllCategories&
 EncoderTestSequenceWithAllCategories::operator=(const EncoderTestSequenceWithAllCategories& rhs)
 {

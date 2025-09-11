@@ -109,6 +109,7 @@ extern "C" void deleteThreadLocalSemaphore(void *semaphore)
 /// thread-safe: calling it multiple times simultaneously will result in the
 /// initialization of a single TLS key.  Note that the returned key can be
 /// used to access the thread-local semaphore for the current thread.
+__out != 0 && ((__out == key) || (__out == reinterpret_cast<TlsKey *>(oldKey)))
 TlsKey *initializeSemaphoreTLSKey()
 {
     TlsKey *key = new (semaphoreAllocator()) TlsKey;
@@ -143,6 +144,7 @@ TlsKey *initializeSemaphoreTLSKey()
 /// Create and initialize a new key if one has not been previously been
 /// created.  This operation is thread-safe: calling it multiple times
 /// simultaneously will return the same address to an initialized key.
+__out != 0 && (__out == reinterpret_cast<TlsKey*>(&s_semaphoreKey) || (__out == initializeSemaphoreTLSKey() && __out != reinterpret_cast<TlsKey*>(&s_semaphoreKey)))
 inline
 TlsKey *getSemaphoreTLSKey()
 {
@@ -157,6 +159,7 @@ TlsKey *getSemaphoreTLSKey()
 }
 
 /// Return the address of the semaphore unique to the calling thread.
+__out != 0 && (__out == s_semaphore ==> s_semaphore != 0) && (__out != s_semaphore ==> bslmt::ThreadUtil::getSpecific(*getSemaphoreTLSKey()) == __out)
 SemaphorePtr getSemaphoreForCurrentThread()
 {
 #ifdef BSLMT_THREAD_LOCAL_VARIABLE

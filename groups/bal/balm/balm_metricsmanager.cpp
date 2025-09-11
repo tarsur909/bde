@@ -1007,6 +1007,7 @@ MetricsManager_CallbackRegistry::~MetricsManager_CallbackRegistry()
 }
 
 // MANIPULATORS
+__out == d_nextHandle - 1 && d_callbacks.contains(category) && d_handles.contains(__out)
 MetricsManager_CallbackRegistry::CallbackHandle
 MetricsManager_CallbackRegistry::registerCollectionCallback(
                                     const Category                   *category,
