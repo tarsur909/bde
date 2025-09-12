@@ -44,6 +44,7 @@ AttributeContainerList::AttributeContainerList(
 }
 
 // MANIPULATORS
+__out == *this && SFORALL(rhs.begin(), rhs.end(), it, EXISTS(__out.begin(), __out.end(), jt, *it == *jt))
 AttributeContainerList& AttributeContainerList::operator=(
                                              const AttributeContainerList& rhs)
 {
@@ -154,6 +155,7 @@ void AttributeContainerList::removeAllAndRelease()
 }
 
 // ACCESSORS
+(__out == true ==> EXISTS(d_head_p, d_head_p + length, node, (node->d_value_p->hasValue(value)))) && (__out == false ==> SFORALL(d_head_p, d_head_p + length, node, (node->d_next_p ↦ _ ⋆ !(node->d_value_p->hasValue(value)))))
 bool AttributeContainerList::hasValue(const Attribute& value) const
 {
     Node *node = d_head_p;
@@ -189,6 +191,7 @@ AttributeContainerList::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(__out == true ==> (lhs.numContainers() == rhs.numContainers() && SFORALL(0, lhs.numContainers(), i, (*lhs.begin() + i |-> _ ⋆ *rhs.begin() + i |-> _ && *(*lhs.begin() + i) == *(*rhs.begin() + i))))) && (__out == false ==> (lhs.numContainers() != rhs.numContainers() || EXISTS(0, lhs.numContainers(), i, *(*lhs.begin() + i) != *(*rhs.begin() + i))))
 bool ball::operator==(const AttributeContainerList& lhs,
                       const AttributeContainerList& rhs)
 {

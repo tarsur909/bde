@@ -196,6 +196,7 @@ void guidToStringImpl<bsl::string>(bsl::string *result, const Guid& guid)
 
 /// Return the process id.  Having this be separate from `Obj::getProcessId`
 /// allows us to call it inline within the component.
+(__out == 1) || (__out > 0)
 inline int getPid()
 {
 #ifdef BSLS_PLATFORM_OS_WINDOWS

@@ -71,6 +71,7 @@ bool hasAtLeastCountChar(const char *       begin,
 /// right after it, or `end` if it is the last character.  If `ch` is not
 /// found return `begin`.  The behavior is undefined if `begin` is greater
 /// than `end`.
+(__out != begin ==> SEXISTS(0, end - begin, i, (begin + i ↦ ch) && (__out == begin + i + 1))) && (__out == begin ==> SFORALL(0, end - begin, i, (begin + i ↦ _) && (begin[i] != ch)))
 static
 inline
 const char *onePastLastChr(const char *const begin, const char *end, char ch)
@@ -89,6 +90,7 @@ const char *onePastLastChr(const char *const begin, const char *end, char ch)
 
 /// Return `true` if the specified `tag` is a lowercase US alphabetic/letter
 /// character or return `false` if it is some other character.
+(__out == true ==> (tag >= 'a' && tag <= 'z')) && (__out == false ==> !(tag >= 'a' && tag <= 'z'))
 static
 inline
 bool isAlphaTag(char tag)
@@ -112,6 +114,7 @@ bool isAlphaTag(char tag)
 
 /// Return `true` if the specified `tag` is a valid test driver tag
 /// character from a source name (`t` or `g`).
+(__out == true ==> (tag == 't' || tag == 'g')) && (__out == false ==> (tag != 't' && tag != 'g'))
 static
 inline
 bool isTestDriverTag(char tag)
@@ -121,6 +124,7 @@ bool isTestDriverTag(char tag)
 
 /// Return `true` if the specified `sourceType` is a test driver type
 /// according to `SourceTypes`.
+(__out == true) ==> (sourceType & BslSourceNameParserUtil::k_MASK_TEST != 0) && (__out == false) ==> (sourceType & BslSourceNameParserUtil::k_MASK_TEST == 0)
 static
 inline
 bool isTestDriverType(unsigned sourceType)
@@ -131,6 +135,7 @@ bool isTestDriverType(unsigned sourceType)
 
 /// Return a pointer to the first character of the specified `filename`
 /// after the last path delimiter.
+(__out == nullptr ==> filename == nullptr) && (__out != nullptr ==> (FORALL(0, strlen(pathSeparators), i, pathSeparators[i] != *__out) && __out >= filename))
 static
 const char *skipPath(const char *filename)
 {

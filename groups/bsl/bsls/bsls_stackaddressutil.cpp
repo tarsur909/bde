@@ -99,6 +99,7 @@ int getProcessId()
 /// least `length` bytes.  Note that this has been adapted from
 /// `bdls_processutil` to work within the constraints of the level of this
 /// component.
+(__out >= 0 ==> (output ↦ _ ⋆ SFORALL(0, length, i, (output + i) ↦ _))) && (__out < 0 ==> true)
 int getProcessName(char *output, int length)
 {
 #if defined(BSLS_PLATFORM_OS_AIX)

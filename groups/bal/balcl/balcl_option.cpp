@@ -159,6 +159,7 @@ Option::~Option()
 }
 
 // MANIPULATORS
+__out == *this ⋆ __out == rhs
 Option& Option::operator=(const Option& rhs)
 {
     const OptionInfo& optionInfo = rhs;

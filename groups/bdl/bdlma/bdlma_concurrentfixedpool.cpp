@@ -112,6 +112,7 @@ ConcurrentFixedPool::~ConcurrentFixedPool()
 }
 
 // MANIPULATORS
+__out != 0
 void *ConcurrentFixedPool::allocate()
 {
     int contentionCount = 0;

@@ -196,6 +196,7 @@ int vsnprintf_alwaysCount(char       *buffer,
 /// `originalBuffer` contains at least `originalBufferSize` bytes, and
 /// `format` is a valid `printf`-style format string with all expected
 /// substitutions present in `substitutions`.
+(__out >= 0 ==> (*outputBuffer != 0 && *outputBufferSize >= 0)) && (__out < 0 ==> true)
 int vsnprintf_allocate(char                 *originalBuffer,
                        size_t                originalBufferSize,
                        BufferScopedGuard&    guard,

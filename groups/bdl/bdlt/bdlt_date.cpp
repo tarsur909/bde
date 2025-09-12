@@ -53,6 +53,7 @@ int Date::addDaysIfValid(int numDays)
 }
 
 // ACCESSORS
+(__out == stream) && (!stream.bad() ==> (stream ↦ _))
 bsl::ostream& Date::print(bsl::ostream& stream,
                           int           level,
                           int           spacesPerLevel) const

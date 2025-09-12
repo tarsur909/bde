@@ -51,6 +51,7 @@ const Sha1Word k_SHA1_CONSTANTS[80] = {
 /// Return the result of a bitwise rotation on the specified `value` by the
 /// specified `shift` number of bits.  The behavior is undefined unless
 /// `shift` is positive and strictly less than 32.
+__out == ((value << shift) | (value >> ((sizeof(value) * CHAR_BIT) - shift)))
 static Sha1Word rotateLeft(Sha1Word value, int shift)
 {
     return (value << shift) | (value >> ((sizeof(value) * CHAR_BIT) - shift));
@@ -73,6 +74,7 @@ static Sha1Word bitwiseConditional(Sha1Word condition, Sha1Word x, Sha1Word y)
 /// Return a value that has each bit set if and only if the corresponding
 /// bit is set in at least two out of three of the specified `x`, `y`, and
 /// `z`.  This function is named `Maj` in FIPS 180-4.
+__out == ((x & y) | ((x | y) & z))
 static Sha1Word bitwiseMajority(Sha1Word x, Sha1Word y, Sha1Word z)
 {
     return (x & y) | ((x | y) & z);
@@ -82,6 +84,7 @@ static Sha1Word bitwiseMajority(Sha1Word x, Sha1Word y, Sha1Word z)
 /// specified `x`, `y`, and `z` as arguments, as defined in section 4.1.1 of
 /// FIPS 180-4.  The behavior is undefined unless `index` is nonnegative and
 /// less than or equal to 79.
+(index <= 19 ==> __out == bitwiseConditional(x, y, z)) && (index >= 40 && index <= 59 ==> __out == bitwiseMajority(x, y, z)) && (index > 19 && index < 40 ==> __out == (x ^ y ^ z))
 static Sha1Word f(Sha1Word x, Sha1Word y, Sha1Word z, int index)
 {
     if (index <= 19) {

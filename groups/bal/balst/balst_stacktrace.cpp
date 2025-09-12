@@ -16,6 +16,7 @@ namespace balst {
                               // ----------------
 
 // ACCESSORS
+__out == &stream ⋆ SFORALL(0, length(), i, (d_frames + i |-> _))
 bsl::ostream& StackTrace::print(bsl::ostream& stream,
                                 int           level,
                                 int           spacesPerLevel) const

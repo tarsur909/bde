@@ -122,6 +122,7 @@ BufferAllocator::~BufferAllocator()
 }
 
 // MANIPULATORS
+(size == 0 ==> __out == 0) && (__out != 0 ==> (__out ↦ _))
 void *BufferAllocator::allocate(size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_UNLIKELY(0 == size)) {

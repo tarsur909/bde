@@ -49,6 +49,7 @@ struct AfterUserBlockDeallocationData
 
 /// Utility function to compute the `AfterUserBlockDeallocationData*`
 /// corresponding to the specified `address`.
+__out != 0 && (__out == static_cast<AfterUserBlockDeallocationData*>(static_cast<void*>(static_cast<char*>(address) - OFFSET * 2)))
 AfterUserBlockDeallocationData *getDataBlockAddress(void *address)
 {
     return static_cast<AfterUserBlockDeallocationData*>(
@@ -62,6 +63,7 @@ BSLMF_ASSERT(sizeof(AfterUserBlockDeallocationData) <= OFFSET * 2);
 // HELPER FUNCTIONS
 
 /// Return the size (in bytes) of a system memory page.
+__out > 0
 int getSystemPageSize()
 {
     static bsls::AtomicInt pageSize(0);
@@ -199,6 +201,7 @@ GuardingAllocator::~GuardingAllocator()
 }
 
 // MANIPULATORS
+(__out == 0 ==> size == 0) && (__out != 0 ==> (__out ↦ _))
 void *GuardingAllocator::allocate(bsls::Types::size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_UNLIKELY(0 == size)) {

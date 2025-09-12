@@ -103,6 +103,7 @@ namespace bdls {
                               // ---------------
 
 // CLASS METHODS
+pipeName != 0
 int PipeUtil::makeCanonicalName(bsl::string             *pipeName,
                                 const bsl::string_view&  baseName)
 {

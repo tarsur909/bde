@@ -22,6 +22,7 @@ namespace BloombergLP {
 
 /// Return `true` if the specified `transitions` contain a transition with
 /// the specified `descriptor`, and `false` otherwise.
+(__out == true ==> EXISTS(transitions.begin(), transitions.end(), it, (*it).descriptor() == descriptor)) && (__out == false ==> FORALL(transitions.begin(), transitions.end(), it, (*it).descriptor() != descriptor))
 static
 bool containsDescriptor(
                     const bsl::vector<baltzo::ZoneinfoTransition>& transitions,
@@ -44,6 +45,7 @@ namespace baltzo {
                           // ------------------------
 
 // ACCESSORS
+__out == stream
 bsl::ostream&
 ZoneinfoTransition::print(bsl::ostream& stream,
                           int           level,
@@ -98,6 +100,7 @@ ZoneinfoTransition::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(__out == &stream) && (__out != nullptr)
 bsl::ostream& baltzo::operator<<(bsl::ostream&             stream,
                                  const ZoneinfoTransition& object)
 {
@@ -125,6 +128,7 @@ namespace baltzo {
                        // ------------------------------
 
 // ACCESSORS
+(__out == true ==> ((lhs.utcOffsetInSeconds() < rhs.utcOffsetInSeconds()) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() < rhs.description()) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() == rhs.description() && lhs.dstInEffectFlag() < rhs.dstInEffectFlag()))) && (__out == false ==> ((lhs.utcOffsetInSeconds() > rhs.utcOffsetInSeconds()) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() > rhs.description()) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() == rhs.description() && lhs.dstInEffectFlag() >= rhs.dstInEffectFlag())))
 bool Zoneinfo::DescriptorLess::operator()(const LocalTimeDescriptor& lhs,
                                           const LocalTimeDescriptor& rhs) const
 {
@@ -346,6 +350,7 @@ bsl::ostream& Zoneinfo::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(__out == &stream) && (__out != 0)
 bsl::ostream& baltzo::operator<<(bsl::ostream& stream, const Zoneinfo& object)
 {
     stream << "[ \"" << object.identifier() << "\" "

@@ -202,6 +202,7 @@ namespace {
 /// Using `bsl::memcpy` is the only portable way to copy the contents of
 /// `number` into an integral type without aliasing and/or alignment
 /// problems.
+__out == *reinterpret_cast<DoubleRep_t*>(&number)
 inline
 DoubleRep_t toRep(double number)
 {
