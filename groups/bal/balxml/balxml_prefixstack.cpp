@@ -71,6 +71,7 @@ PrefixStack::PrefixStack(const PrefixStack&  original,
 }
 
 // MANIPULATORS
+__out == d_namespaceRegistry->lookupOrRegister(namespaceUri) && (__out == -1 ==> namespaceUri.empty())
 int PrefixStack::pushPrefix(const bsl::string_view& prefix,
                             const bsl::string_view& namespaceUri)
 {
@@ -106,6 +107,7 @@ int PrefixStack::popPrefixes(int count)
 }
 
 // ACCESSORS
+(SEPEXISTS(d_prefixes.begin(), d_prefixes.end(), i, (i->first == prefix) && (__out == i->second))) || ((SEPFORALL(d_prefixes.begin(), d_prefixes.end(), i, (i->first != prefix))) && (__out == lookupPredefinedPrefix(prefix).d_nsid))
 int
 PrefixStack::lookupNamespaceId(const bsl::string_view& prefix) const
 {

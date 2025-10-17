@@ -51,6 +51,7 @@ const Sha1Word k_SHA1_CONSTANTS[80] = {
 /// Return the result of a bitwise rotation on the specified `value` by the
 /// specified `shift` number of bits.  The behavior is undefined unless
 /// `shift` is positive and strictly less than 32.
+__out == ((value << shift) | (value >> ((sizeof(value) * CHAR_BIT) - shift)))
 static Sha1Word rotateLeft(Sha1Word value, int shift)
 {
     return (value << shift) | (value >> ((sizeof(value) * CHAR_BIT) - shift));
@@ -60,6 +61,7 @@ static Sha1Word rotateLeft(Sha1Word value, int shift)
 /// the corresponding bit from the specified `x`, otherwise uses the
 /// corresponding bit from the specified `y`.  This function is named `Ch`
 /// in FIPS 180-4.
+__out == ((condition & (x ^ y)) ^ y)
 static Sha1Word bitwiseConditional(Sha1Word condition, Sha1Word x, Sha1Word y)
 {
     // The following implementation, taken from bdlde_sha2.cpp, only uses 3
@@ -73,6 +75,7 @@ static Sha1Word bitwiseConditional(Sha1Word condition, Sha1Word x, Sha1Word y)
 /// Return a value that has each bit set if and only if the corresponding
 /// bit is set in at least two out of three of the specified `x`, `y`, and
 /// `z`.  This function is named `Maj` in FIPS 180-4.
+__out == ((x & y) | ((x | y) & z))
 static Sha1Word bitwiseMajority(Sha1Word x, Sha1Word y, Sha1Word z)
 {
     return (x & y) | ((x | y) & z);
@@ -82,6 +85,7 @@ static Sha1Word bitwiseMajority(Sha1Word x, Sha1Word y, Sha1Word z)
 /// specified `x`, `y`, and `z` as arguments, as defined in section 4.1.1 of
 /// FIPS 180-4.  The behavior is undefined unless `index` is nonnegative and
 /// less than or equal to 79.
+(index <= 19 ==> __out == bitwiseConditional(x, y, z)) && (index >= 40 && index <= 59 ==> __out == bitwiseMajority(x, y, z)) && (index > 19 && index < 40 || index > 59 ==> __out == (x ^ y ^ z))
 static Sha1Word f(Sha1Word x, Sha1Word y, Sha1Word z, int index)
 {
     if (index <= 19) {
@@ -360,6 +364,7 @@ bsl::ostream& Sha1::print(bsl::ostream& stream) const
 }  // close package namespace
 
 // FREE OPERATORS
+(__out == true ==> (lhs.d_totalSize == rhs.d_totalSize ⋆ lhs.d_bufferSize == rhs.d_bufferSize ⋆ SEPFORALL(0, lhs.d_bufferSize, i, (lhs.d_buffer + i ↦ rhs.d_buffer[i])) ⋆ SEPFORALL(0, 5, i, (bsl::begin(lhs.d_state) + i ↦ bsl::begin(rhs.d_state)[i])))) && (__out == false ==> !(lhs.d_totalSize == rhs.d_totalSize && lhs.d_bufferSize == rhs.d_bufferSize && bsl::equal(lhs.d_buffer, lhs.d_buffer + lhs.d_bufferSize, rhs.d_buffer) && bsl::equal(bsl::begin(lhs.d_state), bsl::end(lhs.d_state), bsl::begin(rhs.d_state))))
 bool bdlde::operator==(const Sha1& lhs, const Sha1& rhs)
 {
     return lhs.d_totalSize == rhs.d_totalSize &&

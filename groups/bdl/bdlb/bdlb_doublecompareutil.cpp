@@ -15,6 +15,7 @@ const double DoubleCompareUtil::k_DEFAULT_RELATIVE_TOLERANCE = 1e-12;
 const double DoubleCompareUtil::k_DEFAULT_ABSOLUTE_TOLERANCE = 1e-24;
 
 /// Return the absolute value of the specified `input`.
+__out >= 0 && (input >= 0.0 ==> __out == input) && (input < 0.0 ==> __out == -input)
 static inline
 double fabsval(double input)
 {

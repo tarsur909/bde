@@ -15,6 +15,7 @@ namespace bdlb {
                                // -------------
 
 // CLASS METHODS
+__out == true ==> FORALL(0, strlen(lhsString), i, bdlb::CharType::toLower(lhsString[i]) == bdlb::CharType::toLower(rhsString[i]))
 bool String::areEqualCaseless(const char *lhsString,
                               const char *rhsString)
 {

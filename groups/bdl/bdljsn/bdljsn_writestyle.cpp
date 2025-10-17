@@ -17,6 +17,7 @@ namespace bdljsn {
                              // -----------------
 
 // CLASS METHODS
+__out == stream && (spacesPerLevel >= 0 ==> (__out->state ↦ (__out->state + "\n")))
 bsl::ostream& WriteStyle::print(bsl::ostream&    stream,
                                 WriteStyle::Enum value,
                                 int              level,
