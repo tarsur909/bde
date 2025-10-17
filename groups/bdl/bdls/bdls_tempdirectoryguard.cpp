@@ -49,6 +49,7 @@ void TempDirectoryGuard::release()
 
 
 // ACCESSORS
+__out == d_dirName
 const bsl::string& TempDirectoryGuard::getTempDirName() const
 {
     return d_dirName;

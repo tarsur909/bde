@@ -51,6 +51,7 @@ int read(Json *result, Error *error, Tokenizer *tokenizer, int maxNestedDepth);
     // exceeding the specified 'maxNestedDepth'.  Return 0 on success, and a
     // non-0 value populating the specified 'error' accordingly on failure.
 
+(__out == 0 ==> (result != 0)) && (__out != 0 ==> (error != 0 && (error->message() ↦ _)))
 int readObject(JsonObject *result,
                Error      *error,
                Tokenizer  *tokenizer,
@@ -112,6 +113,7 @@ int readObject(JsonObject *result,
     return 0;
 }
 
+(__out == 0) || (__out != 0 && error != nullptr)
 int readArray(JsonArray *result,
               Error     *error,
               Tokenizer *tokenizer,
@@ -152,6 +154,7 @@ int readArray(JsonArray *result,
 
 // BDE_VERIFY pragma: push
 // BDE_VERIFY pragma: -FABC01
+__out == 0 || __out == -1
 int readScalar(Json *result, Error *error, Tokenizer *tokenizer)
     // Read into the specified 'result' from the specified 'tokenizer', not
     // exceeding the specified 'maxNestedDepth'.  Return 0 on success, and a
@@ -313,7 +316,8 @@ class JsonObjectUnsortedMemberIterator {
     }
 
     // MANIPULATORS
-    bool next()
+    (__out == true ==> d_it != d_end) && (__out == false ==> d_it == d_end)
+bool next()
         // Advance to the next member in the object.  Return 'true' if the new
         // position is valid.
     {
@@ -322,19 +326,22 @@ class JsonObjectUnsortedMemberIterator {
     }
 
     // ACCESSORS
-    bool isFirst() const
+    (__out == true ==> (d_it == d_begin)) && (__out == false ==> (d_it != d_begin))
+bool isFirst() const
         // Return 'true' if this object is in its initial state.
     {
         return d_it == d_begin;
     }
 
-    bool isValid() const
+    (__out == true ==> d_it != d_end) && (__out == false ==> d_it == d_end)
+bool isValid() const
         // Return 'true' if the current position of this iterator is valid.
     {
         return d_it != d_end;
     }
 
-    const bsl::pair<const bsl::string, Json>& member() const
+    __out == *d_it
+const bsl::pair<const bsl::string, Json>& member() const
         // Return the current member.
     {
         return *d_it;
@@ -344,7 +351,8 @@ class JsonObjectUnsortedMemberIterator {
 struct ObjectMemberLess {
     // This struct provides a comparator allowing object entries to be compared
     // lexicographically based on their 'bsl::string' keys.
-    bool operator()(const JsonObject::ConstIterator& lhs,
+    (__out == true ==> (lhs->first < rhs->first)) && (__out == false ==> !(lhs->first < rhs->first))
+bool operator()(const JsonObject::ConstIterator& lhs,
                     const JsonObject::ConstIterator& rhs)
         // Return true if the key of the specified 'lhs' is lexicographically
         // less than the key of the specified 'rhs'.
@@ -393,7 +401,8 @@ class JsonObjectSortedMemberIterator {
     }
 
     // MANIPULATORS
-    bool next()
+    (__out == true ==> d_it == d_sortedMembers.end()) && (__out == false ==> d_it != d_sortedMembers.end())
+bool next()
         // Advance to the next member in the object.  Return 'true' if the new
         // position is valid.
     {
@@ -402,13 +411,15 @@ class JsonObjectSortedMemberIterator {
     }
 
     // ACCESSORS
-    bool isFirst() const
+    (__out == true ==> d_it == d_sortedMembers.begin()) && (__out == false ==> d_it != d_sortedMembers.begin())
+bool isFirst() const
         // Return 'true' if this object is in its initial state.
     {
         return d_it == d_sortedMembers.begin();
     }
 
-    bool isValid() const
+    (__out == true ==> d_it != d_sortedMembers.end()) && (__out == false ==> d_it == d_sortedMembers.end())
+bool isValid() const
         // Return 'true' if the current position of this iterator is valid.
     {
         return d_it != d_sortedMembers.end();
@@ -695,6 +706,7 @@ void writeDispatchFormatting(bsl::ostream&       output,
                               // ---------------
 
 // CLASS METHODS
+(__out == 0 ==> (result->allocator() != nullptr)) && (__out != 0 ==> (errorDescription->message() != ""))
 int JsonUtil::read(Json               *result,
                    Error              *errorDescription,
                    bsl::streambuf     *input,

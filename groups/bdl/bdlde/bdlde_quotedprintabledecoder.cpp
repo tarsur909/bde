@@ -210,6 +210,7 @@ QuotedPrintableDecoder::~QuotedPrintableDecoder()
 }
 
 // MANIPULATORS
+(__out == -1 || __out == 0) && (__out == -1 ==> (d_state == e_ERROR_STATE || d_state == e_DONE_STATE)) && (__out == 0 ==> (d_state == e_INPUT_STATE || d_state == e_SAW_WS_STATE || d_state == e_SAW_EQUAL_STATE || d_state == e_NEED_HEX_STATE || d_state == e_NEED_SOFT_LF_STATE || d_state == e_NEED_HARD_LF_STATE))
 int QuotedPrintableDecoder::convert(char       *out,
                                     int        *numOut,
                                     int        *numIn,

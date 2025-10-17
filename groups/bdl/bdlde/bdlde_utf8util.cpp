@@ -91,6 +91,7 @@ bool BSLA_UNUSED isValidUtf8CodePoint(const char *sequence)
 /// Return the length of the UTF-8 code point for which the specified
 /// `character` is the first `char`.  The behavior is undefined unless
 /// `character` is the first `char` of a UTF-8 code point.
+(__out == 1 || __out == 2 || __out == 3 || __out == 4)
 int utf8Size(char character)
 {
     if ((character & k_ONEBYTEHEAD_TEST) == k_ONEBYTEHEAD_RES) {
@@ -165,6 +166,7 @@ int appendUtf8CodePointImpl(ITERATOR output, unsigned int codePoint)
 
 /// Return `true` if the specified `value` is NOT a UTF-8 continuation byte,
 /// and `false` otherwise.
+(__out == true ==> (0x80 != (value & 0xc0))) && (__out == false ==> (0x80 == (value & 0xc0)))
 inline
 bool isNotContinuation(char value)
 {
@@ -173,6 +175,7 @@ bool isNotContinuation(char value)
 
 /// Return `true` if the specified `value` is a surrogate value, and `false`
 /// otherwise.
+(__out == true ==> ((k_SURROGATE_MASK & value) == k_MIN_SURROGATE)) && (__out == false ==> ((k_SURROGATE_MASK & value) != k_MIN_SURROGATE))
 inline
 bool isSurrogateValue(int value)
 {
@@ -185,6 +188,7 @@ bool isSurrogateValue(int value)
 /// 2-byte UTF-8 sequence referred to by the specified `pc`.  The behavior
 /// is undefined unless the 2 bytes starting at `pc` contain a UTF-8
 /// sequence describing a single valid code point.
+(pc ↦ _) ⋆ (pc + 1 ↦ _)
 inline
 int get2ByteValue(const char *pc)
 {
@@ -195,6 +199,7 @@ int get2ByteValue(const char *pc)
 /// 3-byte UTF-8 sequence referred to by the specified `pc`.  The behavior
 /// is undefined unless the 3 bytes starting at `pc` contain a UTF-8
 /// sequence describing a single valid code point.
+__out == ((*pc & 0xf) << 12) | ((pc[1] & k_CONT_VALUE_MASK) << 6) | (pc[2] & k_CONT_VALUE_MASK)
 inline
 int get3ByteValue(const char *pc)
 {
@@ -206,6 +211,7 @@ int get3ByteValue(const char *pc)
 /// 4-byte UTF-8 sequence referred to by the specified `pc`.  The behavior
 /// is undefined unless the 4 bytes starting at `pc` contain a UTF-8
 /// sequence describing a single valid code point.
+(pc ↦ _ ⋆ (pc + 1) ↦ _ ⋆ (pc + 2) ↦ _ ⋆ (pc + 3) ↦ _)
 inline
 int get4ByteValue(const char *pc)
 {
@@ -299,6 +305,7 @@ Utf8Util::size_type replaceErrors(STRING_TYPE      *output,
 /// `string` is necessarily null-terminated, so it cannot contain embedded
 /// null bytes.  Note that `string` may contain less than
 /// `bsl::strlen(string)` Unicode code points.
+(__out >= 0) || (__out < 0 ==> (*invalidString != nullptr))
 int validateAndCountCodePoints(const char **invalidString, const char *string)
 {
     // The following assertions are redundant with those in the CLASS METHODS.
@@ -438,6 +445,7 @@ int validateAndCountCodePoints(const char **invalidString, const char *string)
 /// embedded null bytes.  The behavior is undefined unless
 /// `0 <= IntPtr(length)`.  Note that `string` may contain less than
 /// `length` Unicode code points.
+(__out >= 0) || (__out < 0 ==> (*invalidString != nullptr))
 int validateAndCountCodePoints(const char             **invalidString,
                                const char              *string,
                                bsls::Types::size_type   length)
@@ -679,6 +687,7 @@ namespace bdlde {
                           // -----------------------
 
 // CLASS METHODS
+__out > 0 && __out <= input.length()
 Utf8Util_ImpUtil::size_type
 Utf8Util_ImpUtil::advancePastValidOrInvalidCodePoint(
                                                  const bsl::string_view& input)

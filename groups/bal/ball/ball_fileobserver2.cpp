@@ -110,6 +110,7 @@ enum {
 };
 
 /// Return the system-specific error code.
+__out >= 0
 static int getErrorCode(void)
 {
 #ifdef BSLS_PLATFORM_OS_WINDOWS
@@ -121,6 +122,7 @@ static int getErrorCode(void)
 }
 
 /// Return the specified `timestamp` in the `YYYYMMDD_hhmmss` format.
+__out == bsl::string(buffer)
 static bsl::string getTimestampSuffix(const bdlt::Datetime& timestamp)
 {
     char buffer[16];
@@ -219,6 +221,7 @@ static void getLogFileName(bsl::string    *logFileName,
 /// Return `true` if the specified `logFilePattern` contains a recognized
 /// `%`-escape sequence, and false otherwise.  The recognized escape
 /// sequence are "%Y", "%M", "%D", "%h", "%m", "%s", and "%%".
+(EXISTS(0, strlen(logFilePattern), i, (logFilePattern[i] == '%' && (logFilePattern[i+1] == 'Y' || logFilePattern[i+1] == 'M' || logFilePattern[i+1] == 'D' || logFilePattern[i+1] == 'h' || logFilePattern[i+1] == 'm' || logFilePattern[i+1] == 's' || logFilePattern[i+1] == '%'))) ==> __out == true) && (FORALL(0, strlen(logFilePattern), i, (i+1 < strlen(logFilePattern)) ==> !(logFilePattern[i] == '%' && (logFilePattern[i+1] == 'Y' || logFilePattern[i+1] == 'M' || logFilePattern[i+1] == 'D' || logFilePattern[i+1] == 'h' || logFilePattern[i+1] == 'm' || logFilePattern[i+1] == 's' || logFilePattern[i+1] == '%'))) ==> __out == false)
 static bool hasEscapePattern(const char *logFilePattern)
 
 {
@@ -248,6 +251,7 @@ static bool hasEscapePattern(const char *logFilePattern)
 /// Open a file stream referred to by the specified `stream` for the file
 /// with the specified `filename` in append mode.  Return 0 on success, and
 /// a non-zero value otherwise.
+(__out == 0) || (__out == -1)
 static int openLogFile(bsl::ostream *stream, const char *filename)
 {
     BSLS_ASSERT(stream);
@@ -312,6 +316,7 @@ static int openLogFile(bsl::ostream *stream, const char *filename)
 /// Return `true` if the specified `a` and `b` times are within 10% of the
 /// specified `interval` from each other, and `false` otherwise.  The
 /// behavior is undefined unless `0 <= interval.totalMilliseconds()`.
+(__out == true ==> (abs((a - b).totalMilliseconds()) < (interval.totalMilliseconds() / 10))) && (__out == false ==> (abs((a - b).totalMilliseconds()) >= (interval.totalMilliseconds() / 10)))
 bool fuzzyEqual(const bdlt::Datetime&         a,
                 const bdlt::Datetime&         b,
                 const bdlt::DatetimeInterval& interval)
@@ -847,6 +852,7 @@ void FileObserver2::setOnFileRotationCallback(
 }
 
 // ACCESSORS
+__out == d_logStreamBuf.isOpened()
 bool FileObserver2::isFileLoggingEnabled() const
 {
     bslmt::LockGuard<bslmt::Mutex> guard(&d_mutex);

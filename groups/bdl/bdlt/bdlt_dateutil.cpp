@@ -10,6 +10,7 @@ namespace {
 
 /// Return the difference in number of days from the specified `day1` to the
 /// specified `day2`.
+(day1 > day2 ==> __out == 7 - day1 + day2) && (day1 <= day2 ==> __out == day2 - day1) && (0 <= __out && __out < 7)
 int dayOfWeekDifference(DayOfWeek::Enum day1, DayOfWeek::Enum day2)
 {
     if (day1 > day2) {
@@ -27,6 +28,7 @@ int dayOfWeekDifference(DayOfWeek::Enum day1, DayOfWeek::Enum day2)
                              // ---------------
 
 // PRIVATE CLASS METHODS
+(__out.year() == original.year() + numYears) && (__out.month() == 2) && ((__out.day() == original.day()) || (__out.day() == (SerialDateImpUtil::isLeapYear(__out.year()) ? 29 : 28)))
 Date DateUtil::addYearsEomEndOfFebruary(const Date& original, int numYears)
 {
     // Implementation note: The complete 'addYearsEom' was too long to be
@@ -59,6 +61,7 @@ Date DateUtil::addYearsEomEndOfFebruary(const Date& original, int numYears)
 }
 
 // CLASS METHODS
+(original.day() == SerialDateImpUtil::lastDayOfMonth(original.year(), original.month()) ==> __out.day() == SerialDateImpUtil::lastDayOfMonth(__out.year(), __out.month())) && (original.day() != SerialDateImpUtil::lastDayOfMonth(original.year(), original.month()) && SerialDateImpUtil::lastDayOfMonth(__out.year(), __out.month()) < original.day() ==> __out.day() == SerialDateImpUtil::lastDayOfMonth(__out.year(), __out.month())) && (original.day() != SerialDateImpUtil::lastDayOfMonth(original.year(), original.month()) && SerialDateImpUtil::lastDayOfMonth(__out.year(), __out.month()) >= original.day() ==> __out.day() == original.day())
 Date DateUtil::addMonthsEom(const Date& original, int numMonths)
 {
     const int totalMonths = original.year() * 12 + original.month() +

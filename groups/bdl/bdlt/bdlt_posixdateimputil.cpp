@@ -101,6 +101,7 @@ static const int leapDaysPerMonth[] = { 0,
 /// indicated by an integer index in the range `[ 0 .. k_MAX_MONTH ]`, where
 /// an index of 0 always results in the value 0.  The behavior is undefined
 /// unless `k_MIN_YEAR <= year <= k_MAX_YEAR`.
+(k_MIN_YEAR <= year && year <= k_MAX_YEAR) ==> ((bdlt::PosixDateImpUtil::isLeapYear(year) && (year == k_YEAR_1752 ==> __out == y1752DaysThroughMonth) && (year != k_YEAR_1752 ==> __out == leapDaysThroughMonth)) || (!bdlt::PosixDateImpUtil::isLeapYear(year) && __out == normDaysThroughMonth))
 static inline
 const int *getArrayDaysThroughMonth(int year)
 {
@@ -184,6 +185,7 @@ int numLeapYearsSoFar(int year)
                            // -----------------------
 
 // CLASS METHODS
+(month == k_FEBRUARY && isLeapYear(year)) ==> (__out == normDaysPerMonth[month] + 1) && ((month != k_FEBRUARY || !isLeapYear(year)) ==> (__out == normDaysPerMonth[month]))
 int PosixDateImpUtil::lastDayOfMonth(int year, int month)
 {
     BSLS_ASSERT(k_MIN_YEAR  <= year);

@@ -252,6 +252,7 @@ QuotedPrintableEncoder::~QuotedPrintableEncoder()
 }
 
 // MANIPULATORS
+(__out == -1) ==> ((d_state == e_ERROR_STATE) || (d_state == e_DONE_STATE)) && (*numOut == 0) && (*numIn == 0)
 int QuotedPrintableEncoder::convert(char       *out,
                                     int        *numOut,
                                     int        *numIn,

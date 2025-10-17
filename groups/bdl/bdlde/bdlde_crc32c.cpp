@@ -716,6 +716,7 @@ class Crc32cCalculator {
 /// over the specified `length` number of bytes, using the specified `crc`
 /// value as the starting point for the calculation.  Note that the `data`
 /// is permitted to be null if the `length` is 0.
+(length == 0 || (data != nullptr && SEPFORALL(0, length, i, (data + i ↦ _)))) ==> __out == crc
 inline
 unsigned int calculateCrc32c(const unsigned char *data,
                              bsl::size_t          length,
@@ -769,6 +770,7 @@ unsigned int sparcHardware(const unsigned char *data,
 /// over the specified `length` number of bytes, using the specified `crc`
 /// value as the starting point for the calculation.  Note that the `data`
 /// is permitted to be null if the `length` is 0.
+__out == ~crc
 unsigned int crc32cSoftware(const unsigned char *data,
                             bsl::size_t          length,
                             unsigned int         crc)
