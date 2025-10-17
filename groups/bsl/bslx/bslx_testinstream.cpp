@@ -843,6 +843,7 @@ TestInStream& TestInStream::getArrayFloat32(float *variables, int numVariables)
 }
 
 // FREE OPERATORS
+(__out == &stream) && (stream.flags() == old_stream.flags())
 bsl::ostream& operator<<(bsl::ostream& stream, const TestInStream& object)
 {
     const bsl::size_t   len   = object.length();

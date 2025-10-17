@@ -151,6 +151,7 @@ int loadTimeZoneFilePath_Impl(STRING             *result,
 /// A return status of `ErrorCode::k_UNSUPPORTED_ID` indicates that
 /// `timeZoneId` is not recognized.  If an error occurs during this
 /// operation, `result` will be left in a valid, but unspecified state.
+(__out == u::UNSUPPORTED_ID || __out == u::UNSPECIFIED_ERROR) ==> (rc != 0 || !loader.isRootPathPlausible()) && (__out != u::UNSUPPORTED_ID && __out != u::UNSPECIFIED_ERROR) ==> (result->identifier() == timeZoneId)
 int loadTimeZoneImpl(baltzo::Zoneinfo              *result,
                      const baltzo::DataFileLoader&  loader,
                      const char                    *timeZoneId,
@@ -206,6 +207,7 @@ namespace baltzo {
                             // --------------------
 
 // CLASS METHODS
+(__out == true ==> bdls::FilesystemUtil::isDirectory(path, true) && bdls::FilesystemUtil::isRegularFile((std::string(path) + "/GMT").c_str(), true)) && (__out == false ==> !(bdls::FilesystemUtil::isDirectory(path, true) && bdls::FilesystemUtil::isRegularFile((std::string(path) + "/GMT").c_str(), true)))
 bool DataFileLoader::isPlausibleZoneinfoRootPath(const char *path)
 {
     BSLS_ASSERT(path);

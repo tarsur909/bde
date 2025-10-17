@@ -22,6 +22,7 @@ namespace {
 /// `timeInterval.seconds() * drainRate <= ULLONG_MAX`.  Note that
 /// `fractionalUnitDrainedInNanoUnits` is represented in nano-units to avoid
 /// using a floating point representation.
+(__out == units) && (*fractionalUnitDrainedInNanoUnits ↦ nanounits % k_NANOUNITS_PER_UNIT)
 bsls::Types::Uint64 calculateNumberOfUnitsToDrain(
                     bsls::Types::Uint64*      fractionalUnitDrainedInNanoUnits,
                     bsls::Types::Uint64       drainRate,

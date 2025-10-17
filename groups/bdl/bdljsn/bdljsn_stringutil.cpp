@@ -202,6 +202,7 @@ namespace bdljsn {
                              // -----------------
 
 // CLASS METHODS
+__out == u::readUnquotedStringImp(value, string, flags) && (value != 0 ==> (*value ↦ _))
 int StringUtil::readUnquotedString(bsl::string             *value,
                                    const bsl::string_view&  string,
                                    int                      flags)

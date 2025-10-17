@@ -81,6 +81,7 @@ TimeInterval::TimeInterval(double seconds)
 }
 
 // MANIPULATORS
+(__out.d_seconds == old_d_seconds + seconds) && (__out.d_nanoseconds == old_d_nanoseconds + nanoseconds) && (__out.d_seconds + (__out.d_nanoseconds / k_NANOSECS_PER_SEC) == old_d_seconds + (old_d_nanoseconds / k_NANOSECS_PER_SEC) + (seconds + (nanoseconds / k_NANOSECS_PER_SEC)))
 TimeInterval& TimeInterval::addInterval(bsls::Types::Int64 seconds,
                                         int                nanoseconds)
 {
@@ -117,6 +118,7 @@ TimeInterval& TimeInterval::addInterval(bsls::Types::Int64 seconds,
 }
 
 // ACCESSORS
+__out == stream
 std::ostream& TimeInterval::print(std::ostream& stream,
                                   int           level,
                                   int           spacesPerLevel) const
