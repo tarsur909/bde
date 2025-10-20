@@ -751,6 +751,7 @@ const char *printTextReplacingXMLEscapes(
 /// `stream` and do not write anything.
 ///
 /// Return a modifiable reference to `stream`.
+(__out == stream) && (__out.good() || __out.fail())
 bsl::ostream& printDecimalWithDigitsOptions(bsl::ostream& stream,
                                             double        object,
                                             int           maxTotalDigits,

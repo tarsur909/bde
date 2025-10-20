@@ -28,6 +28,7 @@ namespace baltzo {
                              // ------------------
 
 // CLASS METHODS
+(__out == 0 ==> resultTime != NULL && resultTransition != NULL) && (__out == ErrorCode::k_OUT_OF_RANGE ==> __out != 0)
 int ZoneinfoUtil::convertUtcToLocalTime(
                            bdlt::DatetimeTz                  *resultTime,
                            Zoneinfo::TransitionConstIterator *resultTransition,

@@ -57,6 +57,7 @@ void hex16sse(void *dst, const unsigned char *src)
 
 #else
 
+(x >= 0 && x <= 15) ==> __out == "0123456789abcdef"[x]
 char hex1(unsigned x)
     // Return the equivalent hex ASCII character for the nibble specified in
     // 'x'.

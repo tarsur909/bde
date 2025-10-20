@@ -378,6 +378,7 @@ Decoder::checkForErrors(const ErrorInfo& errInfo)
 }
 
 // MANIPULATORS
+(__out == BAEXML_SUCCESS || __out == BAEXML_FAILURE)
 int
 Decoder::parse(Decoder_ElementContext *context)
 {
@@ -525,6 +526,7 @@ bsl::ostream& Decoder::logStream()
 }
 
 // ACCESSORS
+(__out == ErrorInfo::e_FATAL_ERROR ==> d_fatalError) && (__out == ErrorInfo::e_ERROR ==> (d_errorCount != 0 && !d_fatalError)) && (__out == ErrorInfo::e_WARNING ==> (d_warningCount != 0 && d_errorCount == 0 && !d_fatalError)) && (__out == ErrorInfo::e_NO_ERROR ==> (d_warningCount == 0 && d_errorCount == 0 && !d_fatalError))
 ErrorInfo::Severity Decoder::errorSeverity() const
 {
     if (d_fatalError) {

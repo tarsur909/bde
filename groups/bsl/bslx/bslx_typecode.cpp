@@ -16,6 +16,7 @@ namespace bslx {
                      // ---------------
 
 // CLASS METHODS
+(__out == stream) && (__out.bad() ==> stream.bad()) && (__out.good() ==> (stream.str().find(TypeCode::toAscii(value)) != std::string::npos ⋆ __out == stream))
 bsl::ostream& TypeCode::print(bsl::ostream&  stream,
                               TypeCode::Enum value,
                               int            level,

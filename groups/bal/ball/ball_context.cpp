@@ -42,6 +42,7 @@ bool Context::isValid(Transmission::Cause transmissionCause,
 }
 
 // ACCESSORS
+(__out == &stream) && (__out->rdbuf() ↦ _)
 bsl::ostream& Context::print(bsl::ostream& stream,
                              int           level,
                              int           spacesPerLevel) const

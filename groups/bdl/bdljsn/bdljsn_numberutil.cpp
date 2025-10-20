@@ -164,6 +164,7 @@ bsl::ostream& operator<<(bsl::ostream& stream, const DecomposedNumber& n)
 /// for equality), and primarily serves to ignore a `+` character if it
 /// appears in the Exp.  E.g., "1e100000000000000000000" and
 /// "1e+100000000000000000000" would compare equal.
+(__out == true ==> (lhs.d_isExpNegative == rhs.d_isExpNegative && lhs.d_significantDigits == rhs.d_significantDigits && lhs.d_exponent == rhs.d_exponent)) && (__out == false ==> (lhs.d_isExpNegative != rhs.d_isExpNegative || lhs.d_significantDigits != rhs.d_significantDigits || lhs.d_exponent != rhs.d_exponent))
 static bool compareNumberTextFallback(const DecomposedNumber& lhs,
                                       const DecomposedNumber& rhs)
 {
@@ -182,6 +183,7 @@ static bool compareNumberTextFallback(const DecomposedNumber& lhs,
 /// iterator, and prior to the specified `end` character.  Return `end` if
 /// all of the characters are digits.  Note that `find_if_not` is a C++20
 /// algorithm.
+(__out == end) || (!bdlb::CharType::isDigit(*__out))
 static bsl::string_view::const_iterator findFirstNonDigit(
                                         bsl::string_view::const_iterator begin,
                                         bsl::string_view::const_iterator end)
