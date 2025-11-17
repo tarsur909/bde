@@ -257,6 +257,7 @@ void FileObserver::setStdoutThreshold(Severity::Level stdoutThreshold)
 }
 
 // ACCESSORS
+// ensures: __out != 0
 bslma::Allocator *FileObserver::allocator() const
 {
     return d_stdoutLongFormat.get_allocator().mechanism();

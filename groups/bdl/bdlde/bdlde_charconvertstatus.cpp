@@ -16,6 +16,7 @@ namespace bdlde {
                           // ------------------------
 
 // CLASS METHODS
+// ensures: (__out == stream) && (__out.bad() == false) && (__out.good() == true) && (__out.str().find(CharConvertStatus::toAscii(value)) != std::string::npos)
 bsl::ostream& CharConvertStatus::print(bsl::ostream&           stream,
                                        CharConvertStatus::Enum value,
                                        int                     level,

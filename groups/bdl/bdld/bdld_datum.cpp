@@ -1437,6 +1437,7 @@ bsl::ostream& Datum::print(bsl::ostream& stream,
                          // -------------------
 
 // ACCESSORS
+// ensures: (__out == stream) && (__out.good() || __out.bad())
 bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1462,6 +1463,7 @@ bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                           // ----------------------
 
 // ACCESSORS
+// ensures: (__out == stream) && (__out.bad() ==> stream.bad()) && (__out.good() ==> stream.good()) && (__out != stream ==> (__out ↦ _ ⋆ stream ↦ _))
 bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const
@@ -1487,6 +1489,7 @@ bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                             // -------------------
 
 // ACCESSORS
+// ensures: (__out == stream) && (stream.bad() ==> __out.bad()) && (stream.good() ==> __out.good()) && (__out->stream_state ↦ stream->stream_state ⋆ __out->buffer ↦ stream->buffer) && (__out->buffer ↦ bsl::flush)
 bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1508,6 +1511,7 @@ bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                           // class DatumMapRef
                           // -----------------
 // ACCESSORS
+// ensures: (__out == 0 ==> !findElementBinary(key, *this) && !findElementLinear(key, *this)) && (__out != 0 ==> true)
 const Datum *DatumIntMapRef::find(int key) const
 {
     return d_sorted ? findElementBinary(key, *this) :

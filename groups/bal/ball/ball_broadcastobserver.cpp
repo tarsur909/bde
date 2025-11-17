@@ -26,6 +26,7 @@ BroadcastObserver::~BroadcastObserver()
 }
 
 // MANIPULATORS
+// ensures: (__out == 1 ==> !(d_observers.find(observerName) != d_observers.end())) && (__out == 0 ==> (d_observers.find(observerName) == d_observers.end()))
 int BroadcastObserver::deregisterObserver(const bsl::string_view& observerName)
 {
     bslmt::WriteLockGuard<bslmt::ReaderWriterMutex> guard(&d_rwMutex);
@@ -109,6 +110,7 @@ void BroadcastObserver::releaseRecords()
 }
 
 // ACCESSORS
+// ensures: (__out.use_count() == 0) ==> (__out.get() == nullptr) && (__out.use_count() > 0) ==> (__out.get() != nullptr)
 bsl::shared_ptr<const Observer>
 BroadcastObserver::findObserver(const bsl::string_view& observerName) const
 {

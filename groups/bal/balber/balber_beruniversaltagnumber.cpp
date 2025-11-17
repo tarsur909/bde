@@ -14,6 +14,7 @@ namespace balber {
                         // ----------------------------
 
 // CLASS METHODS
+// ensures: (value == e_BER_BOOL ==> __out == "BOOL") && (value == e_BER_INT ==> __out == "INT") && (value == e_BER_OCTET_STRING ==> __out == "OCTET_STRING") && (value == e_BER_REAL ==> __out == "REAL") && (value == e_BER_ENUMERATION ==> __out == "ENUMERATION") && (value == e_BER_UTF8_STRING ==> __out == "UTF8_STRING") && (value == e_BER_SEQUENCE ==> __out == "SEQUENCE") && (value == e_BER_VISIBLE_STRING ==> __out == "VISIBLE_STRING") && (value != e_BER_BOOL && value != e_BER_INT && value != e_BER_OCTET_STRING && value != e_BER_REAL && value != e_BER_ENUMERATION && value != e_BER_UTF8_STRING && value != e_BER_SEQUENCE && value != e_BER_VISIBLE_STRING ==> __out == "(* UNKNOWN *)")
 const char *BerUniversalTagNumber::toString(BerUniversalTagNumber::Value value)
 {
 #ifdef CASE

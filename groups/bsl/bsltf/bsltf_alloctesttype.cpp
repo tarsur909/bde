@@ -62,6 +62,7 @@ AllocTestType::~AllocTestType()
 }
 
 // MANIPULATORS
+// ensures: &__out == this && (&rhs != this ==> *d_data_p == *rhs.d_data_p)
 AllocTestType& AllocTestType::operator=(const AllocTestType& rhs)
 {
     if (&rhs != this)

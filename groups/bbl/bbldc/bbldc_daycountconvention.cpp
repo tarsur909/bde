@@ -16,6 +16,7 @@ namespace bbldc {
                         // -------------------------
 
 // CLASS METHODS
+// ensures: __out == &stream && (__out ↦ _)
 bsl::ostream& DayCountConvention::print(
                                        bsl::ostream&            stream,
                                        DayCountConvention::Enum value,
