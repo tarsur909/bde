@@ -71,6 +71,7 @@ using namespace BloombergLP;
     } while (false)
 
 /// Return a ptr to a string describing whether "/proc" exists or not.
+// ensures: __out != 0
 static
 const char *doesProcExist()
 {
@@ -99,6 +100,7 @@ int getPid()
 /// not a directory, and is executable (or is a symbolic link to such a
 /// file) and `false` otherwise.  On Windows, return `true` if the file
 /// exists and is not a directory.
+// ensures: (__out == true ==> (0 == rc && !(s.st_mode & S_IFDIR) && (s.st_mode & executableBits))) && (__out == false ==> (rc != 0 || (s.st_mode & S_IFDIR) || !(s.st_mode & executableBits)))
 static inline
 bool isExecutable(const char *path)
 {

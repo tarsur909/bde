@@ -28,6 +28,7 @@ namespace bbldc {
                          // ------------------------
 
 // CLASS METHODS
+// ensures: __out == numDays
 int BasicDayCountUtil::daysDiff(const bdlt::Date&        beginDate,
                                 const bdlt::Date&        endDate,
                                 DayCountConvention::Enum convention)

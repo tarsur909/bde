@@ -179,6 +179,7 @@ void BerDecoder_Node::print(bsl::ostream&  out,
 }
 
 // MANIPULATORS
+// ensures: __out == d_decoder->logError(msg)
 int BerDecoder_Node::logError(const char *msg)
 {
     BerDecoder::ErrorSeverity rc = d_decoder->logError(msg);

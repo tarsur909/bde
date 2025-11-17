@@ -19,6 +19,7 @@ namespace bbldc {
 /// specified `year` is the last day of February for that `year`, and
 /// `false` otherwise.  The behavior is undefined unless `year`, `month`,
 /// and `day` represent a valid `bdlt::Date` value.
+// ensures: (__out == true ==> (month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year))))) && (__out == false ==> !(month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year)))))
 inline
 static bool isLastDayOfFebruary(int year, int month, int day)
 {

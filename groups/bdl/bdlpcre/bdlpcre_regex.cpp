@@ -339,6 +339,7 @@ RegEx_MatchContext::~RegEx_MatchContext()
 }
 
 // PRIVATE ACCESSORS
+// ensures: (__out == 0 ==> (matchContextData->d_matchData_p != 0 ⋆ matchContextData->d_matchContext_p != 0 ⋆ (matchContextData->d_jitStack_p == 0 || (matchContextData->d_jitStack_p != 0)))) && (__out == k_INTERNAL_ERROR ==> true)
 int
 RegEx_MatchContext::allocateMatchContext(
                                 RegEx_MatchContextData *matchContextData) const
@@ -401,6 +402,7 @@ RegEx_MatchContext::deallocateMatchContext(
 }
 
 // MANIPULATORS
+// ensures: (d_pcre2Context_p ↦ pcre2Context) ⋆ (d_pcre2PatternCode_p ↦ patternCode) ⋆ (d_depthLimit ↦ depthLimit) ⋆ (d_jitStackSize ↦ jitStackSize) ⋆ (__out == allocateMatchContext(&d_mainThreadMatchData))
 int RegEx_MatchContext::initialize(pcre2_general_context *pcre2Context,
                                    pcre2_code            *patternCode,
                                    int                    depthLimit,
@@ -430,6 +432,7 @@ void RegEx_MatchContext::setDepthLimit(int depthLimit)
 }
 
 // ACCESSORS
+// ensures: (bslmt::ThreadUtil::isEqual(d_mainThread, bslmt::ThreadUtil::self()) ==> __out == RegEx::k_STATUS_SUCCESS) && (!bslmt::ThreadUtil::isEqual(d_mainThread, bslmt::ThreadUtil::self()) ==> __out == allocateMatchContext(matchContextData))
 int
 RegEx_MatchContext::acquireMatchContext(
                                 RegEx_MatchContextData *matchContextData) const
@@ -468,6 +471,7 @@ const size_t RegEx::k_INVALID_OFFSET = ~(size_t)0;
 
 
 // PRIVATE MANIPULATORS
+// ensures: ((__out == k_STATUS_SUCCESS) ==> (d_patternCode_p != nullptr)) && ((__out == k_INTERNAL_ERROR) ==> (d_patternCode_p == nullptr)) && (__out == k_STATUS_SUCCESS || __out == k_INTERNAL_ERROR)
 int RegEx::prepareImp(char       *errorMessage,
                       size_t      errorMessageLength,
                       size_t     *errorOffset,
@@ -820,6 +824,7 @@ int RegEx::replaceImp(STRING                  *result,
 }
 
 // CLASS METHODS
+// ensures: __out == k_IS_JIT_SUPPORTED
 bool RegEx::isJitAvailable()
 {
     unsigned int result = 0;
