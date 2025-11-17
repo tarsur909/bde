@@ -252,6 +252,8 @@ QuotedPrintableEncoder::~QuotedPrintableEncoder()
 }
 
 // MANIPULATORS
+// requires: out != NULL && numOut != NULL && numIn != NULL && begin != NULL && end != NULL && (d_state != e_ERROR_STATE && d_state != e_DONE_STATE)
+// ensures: (maxNumOut == 0 ==> *numOut == 0 && *numIn == 0)
 int QuotedPrintableEncoder::convert(char       *out,
                                     int        *numOut,
                                     int        *numIn,

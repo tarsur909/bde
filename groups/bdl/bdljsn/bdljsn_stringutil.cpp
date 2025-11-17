@@ -202,6 +202,8 @@ namespace bdljsn {
                              // -----------------
 
 // CLASS METHODS
+// requires: value != nullptr && string.size() >= 0
+// ensures: __out == u::readUnquotedStringImp(value, string, flags)
 int StringUtil::readUnquotedString(bsl::string             *value,
                                    const bsl::string_view&  string,
                                    int                      flags)

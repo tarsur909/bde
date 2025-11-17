@@ -44,6 +44,7 @@ AttributeContainerList::AttributeContainerList(
 }
 
 // MANIPULATORS
+// ensures: __out == *this
 AttributeContainerList& AttributeContainerList::operator=(
                                              const AttributeContainerList& rhs)
 {
@@ -189,6 +190,8 @@ AttributeContainerList::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: lhs.numContainers() >= 0 && rhs.numContainers() >= 0 && SEPFORALL(0, lhs.numContainers(), i, (std::next(lhs.begin(), i) ↦ _)) && SEPFORALL(0, rhs.numContainers(), i, (std::next(rhs.begin(), i) ↦ _))
+// ensures: (__out == true ==> (lhs.numContainers() == rhs.numContainers() && SEPFORALL(0, lhs.numContainers(), i, (*std::next(lhs.begin(), i) == *std::next(rhs.begin(), i))))) && (__out == false ==> (lhs.numContainers() != rhs.numContainers() || SEPEXISTS(0, lhs.numContainers(), i, (*std::next(lhs.begin(), i) != *std::next(rhs.begin(), i)))))
 bool ball::operator==(const AttributeContainerList& lhs,
                       const AttributeContainerList& rhs)
 {

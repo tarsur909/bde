@@ -12,6 +12,8 @@ namespace bbldc {
                             // -----------------
 
 // CLASS METHODS
+// requires: beginDate <= endDate
+// ensures: __out == ((y2 - y1) * 365 + (m2 - m1) * 31 - (s_daysInMonthCorrection[m2] - s_daysInMonthCorrection[m1]) + d2 - d1)
 int BasicNl365::daysDiff(const bdlt::Date& beginDate,
                          const bdlt::Date& endDate)
 {

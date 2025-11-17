@@ -524,6 +524,8 @@ FdStreamBuf::~FdStreamBuf()
 }
 
 // PRIVATE MANIPULATORS
+// requires: d_mode != e_ERROR_MODE && (d_mode != e_OUTPUT_MODE || (isOpened() && ((int) d_fileHandler.openMode() & (int) bsl::ios_base::in) != 0 && d_buf_p != 0 || allocateBuffer() == 0))
+// ensures: (__out == 0 ==> (d_mode == e_INPUT_MODE)) && (__out == -1 ==> (d_mode != e_INPUT_MODE))
 int FdStreamBuf::switchToInputMode()
 {
     switch (d_mode) {
@@ -812,6 +814,7 @@ int FdStreamBuf::flush()
 }
 
 // PROTECTED MANIPULATORS
+// ensures: (__out != traits_type::eof() ==> (__out == traits_type::to_int_type(*gptr()))) || (__out == traits_type::eof())
 bsl::streambuf::int_type
 FdStreamBuf::underflow()
 {
@@ -997,6 +1000,7 @@ FdStreamBuf::overflow(int_type c)
     return ret;
 }
 
+// ensures: __out == this
 FdStreamBuf *FdStreamBuf::setbuf(char *buffer, bsl::streamsize numBytes)
     // 'buffer == 0 && n == 0' means to make this object have a 1 byte buffer.
     // 'buffer != 0 && n > 0' means to use 'buffer' as this object's internal

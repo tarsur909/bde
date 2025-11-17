@@ -53,6 +53,8 @@ DayOfWeekSet_Iter::DayOfWeekSet_Iter(int data, int index)
 }
 
 // MANIPULATORS
+// requires: d_index < 8
+// ensures: (d_index < 8 && (1 << d_index) & d_data) || d_index == 8
 DayOfWeekSet_Iter& DayOfWeekSet_Iter::operator++()
 {
     while (d_index < 8) {
@@ -82,6 +84,8 @@ DayOfWeekSet_Iter& DayOfWeekSet_Iter::operator--()
                          // ------------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == stream ⋆ SEPFORALL(0, length(), i, (stream + i ↦ _)) && (length() > 0 ==> SEPEXISTS(0, length(), i, (stream + i ↦ *begin() + i)))
 bsl::ostream& DayOfWeekSet::print(bsl::ostream& stream,
                                   int           level,
                                   int           spacesPerLevel) const

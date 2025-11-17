@@ -15,6 +15,8 @@ namespace bbldc {
                       // -----------------------------
 
 // CLASS METHODS
+// requires: beginDate.isValid() && endDate.isValid() && terminationDate.isValid()
+// ensures: __out == ((y2 - y1) * 360 + (m2 - m1) * 30 + d2 - d1) * (negationFlag ? -1 : 1)
 int TerminatedIsda30360Eom::daysDiff(const bdlt::Date& beginDate,
                                      const bdlt::Date& endDate,
                                      const bdlt::Date& terminationDate)

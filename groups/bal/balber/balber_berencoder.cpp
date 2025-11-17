@@ -46,6 +46,7 @@ BerEncoder::~BerEncoder()
 }
 
 // PRIVATE MANIPULATORS
+// ensures: (static_cast<int>(d_severity) < static_cast<int>(e_BER_ERROR) ==> d_severity == e_BER_ERROR) && (__out == logMsg("ERROR", tagClass, tagNumber, name, index))
 BerEncoder::ErrorSeverity
 BerEncoder::logError(BerConstants::TagClass  tagClass,
                      int                     tagNumber,

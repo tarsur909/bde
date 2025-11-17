@@ -28,6 +28,7 @@ namespace bbldc {
                          // ------------------------
 
 // CLASS METHODS
+// requires: convention >= DayCountConvention::e_ACTUAL_360 && convention <= DayCountConvention::e_SIA_30_360_NEOM
 int BasicDayCountUtil::daysDiff(const bdlt::Date&        beginDate,
                                 const bdlt::Date&        endDate,
                                 DayCountConvention::Enum convention)

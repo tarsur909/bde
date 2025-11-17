@@ -82,6 +82,8 @@ namespace bdlb {
                         // ------------------------
 
 // CLASS METHODS
+// requires: (numBytes == 0) || (buffer != NULL)
+// ensures: (numBytes == 0 ==> __out == 0) && (numBytes != 0 ==> true)
 int RandomDevice::getRandomBytes(unsigned char *buffer, size_t numBytes)
 {
     if (0 == numBytes) {

@@ -37,6 +37,7 @@ bsl::ostream& LocalTimeDescriptor::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// ensures: __out == stream && (__out << object.utcOffsetInSeconds() && __out << object.dstInEffectFlag() && __out << object.description().c_str())
 bsl::ostream& baltzo::operator<<(bsl::ostream&              stream,
                                  const LocalTimeDescriptor& object)
 {

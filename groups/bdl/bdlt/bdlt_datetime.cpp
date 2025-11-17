@@ -152,6 +152,8 @@ const bsls::Types::Uint64 Datetime::k_MAX_US_FROM_EPOCH =
 bsls::AtomicInt64 Datetime::s_invalidRepresentationCount(0);
 
 // ACCESSORS
+// requires: stream ↦ _ && level >= 0 && spacesPerLevel >= 0
+// ensures: __out == stream && (__out ↦ _)
 bsl::ostream& Datetime::print(bsl::ostream& stream,
                               int           level,
                               int           spacesPerLevel) const
@@ -275,6 +277,7 @@ int Datetime::printToBuffer(char *result,
 }  // close package namespace
 
 // FREE OPERATORS
+// ensures: __out == &stream && __out == object.print(stream, 0, -1)
 bsl::ostream& bdlt::operator<<(bsl::ostream& stream, const Datetime& object)
 {
     return object.print(stream, 0, -1);

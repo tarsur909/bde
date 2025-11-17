@@ -16,6 +16,7 @@ namespace bdld {
                         // --------------------
 
 // ACCESSORS
+// ensures: (__out == stream) && (stream.bad() ==> __out.bad()) && (!stream.bad() ==> true)
 bsl::ostream& DatumBinaryRef::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const

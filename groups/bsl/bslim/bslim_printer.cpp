@@ -80,6 +80,7 @@ Printer::~Printer()
 }
 
 // ACCESSORS
+// ensures: __out == d_level
 int Printer::absLevel() const
 {
     return d_level;

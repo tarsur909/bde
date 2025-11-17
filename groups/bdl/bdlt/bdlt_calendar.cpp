@@ -90,6 +90,8 @@ void Calendar::synchronizeCache()
 }
 
 // PRIVATE ACCESSORS
+// requires: d_packedCalendar.length() >= 0 && d_nonBusinessDays.length() >= 0
+// ensures: (__out == true ==> (d_packedCalendar.length() == static_cast<int>(d_nonBusinessDays.length()) && (d_packedCalendar.length() == 0 || SEPFORALL(0, d_packedCalendar.length(), i, (*d_packedCalendar.beginBusinessDays() + i - d_packedCalendar.firstDate()) == d_nonBusinessDays.find0AtMinIndex(i))))) && (__out == false ==> (d_packedCalendar.length() != static_cast<int>(d_nonBusinessDays.length()) || SEPEXISTS(0, d_packedCalendar.length(), i, (*d_packedCalendar.beginBusinessDays() + i - d_packedCalendar.firstDate()) != d_nonBusinessDays.find0AtMinIndex(i))))
 bool Calendar::isCacheSynchronized() const
 {
     if (d_packedCalendar.length() !=
@@ -306,6 +308,8 @@ void Calendar::unionNonBusinessDays(const PackedCalendar& other)
 }
 
 // ACCESSORS
+// requires: nextBusinessDay != 0 && date < Date(9999, 12, 31) && isInRange(date + 1) && nth > 0
+// ensures: (__out == e_SUCCESS ==> (*nextBusinessDay == firstDate() + offset)) && (__out == e_FAILURE ==> nth > 0 && (0 > offset))
 int Calendar::getNextBusinessDay(Date        *nextBusinessDay,
                                  const Date&  date,
                                  int          nth) const
@@ -334,6 +338,7 @@ int Calendar::getNextBusinessDay(Date        *nextBusinessDay,
 #ifndef BDE_OMIT_INTERNAL_DEPRECATED  // BDE3.0
 
 // DEPRECATED METHODS
+// ensures: __out > initialDate && !isWeekendDay(__out)
 Date Calendar::getNextBusinessDay(const Date& initialDate) const
 {
     Date currentDate = initialDate;

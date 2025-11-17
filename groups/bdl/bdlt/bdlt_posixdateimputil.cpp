@@ -101,6 +101,8 @@ static const int leapDaysPerMonth[] = { 0,
 /// indicated by an integer index in the range `[ 0 .. k_MAX_MONTH ]`, where
 /// an index of 0 always results in the value 0.  The behavior is undefined
 /// unless `k_MIN_YEAR <= year <= k_MAX_YEAR`.
+// requires: k_MIN_YEAR <= year && year <= k_MAX_YEAR
+// ensures: (bdlt::PosixDateImpUtil::isLeapYear(year) && year == k_YEAR_1752 ==> __out == y1752DaysThroughMonth) && (bdlt::PosixDateImpUtil::isLeapYear(year) && year != k_YEAR_1752 ==> __out == leapDaysThroughMonth) && (!bdlt::PosixDateImpUtil::isLeapYear(year) ==> __out == normDaysThroughMonth)
 static inline
 const int *getArrayDaysThroughMonth(int year)
 {
@@ -117,6 +119,8 @@ const int *getArrayDaysThroughMonth(int year)
 /// Return the total number of days in all years, beginning with the year 1,
 /// up to but not including the specified `year`.  The behavior is undefined
 /// unless `k_MIN_YEAR <= year <= k_MAX_YEAR`.
+// requires: k_MIN_YEAR <= year && year <= k_MAX_YEAR
+// ensures: __out == (year - 1) * k_DAYS_IN_NON_LEAP_YEAR + (year - 1) / 4 - (year > k_YEAR_1752 ? k_YEAR_1752_NUM_MISSING_DAYS + (year > k_YEAR_1800 ? (year - k_YEAR_1701) / 100 - (year - k_YEAR_1601) / 400 : 0) : 0)
 static
 int numDaysInPreviousYears(int year)
 {
@@ -148,6 +152,8 @@ int numDaysInPreviousYears(int year)
 
 /// Return the number of leap years from year 1 to the specified `year`.
 /// The behavior is undefined unless `0 <= year <= k_MAX_YEAR`.
+// requires: 0 <= year && year <= k_MAX_YEAR
+// ensures: (year >= k_YEAR_2000 ==> __out == k_NUM_LEAP_YEARS_UNTIL_YEAR_2000 + (year - k_YEAR_2000) / 4 - (year - k_YEAR_2000) / 100 + (year - k_YEAR_2000) / 400) && (year >= k_YEAR_1800 && year < k_YEAR_2000 ==> __out == k_NUM_LEAP_YEARS_UNTIL_YEAR_1800 + (year - k_YEAR_1800) / 4 - (year - k_YEAR_1800) / 100) && (year < k_YEAR_1800 ==> __out == year / 4)
 static
 int numLeapYearsSoFar(int year)
 {
@@ -184,6 +190,8 @@ int numLeapYearsSoFar(int year)
                            // -----------------------
 
 // CLASS METHODS
+// requires: k_MIN_YEAR <= year && year <= k_MAX_YEAR && k_MIN_MONTH <= month && month <= k_MAX_MONTH
+// ensures: (month == k_FEBRUARY && isLeapYear(year) ==> __out == normDaysPerMonth[month] + 1) && (month != k_FEBRUARY || !isLeapYear(year) ==> __out == normDaysPerMonth[month])
 int PosixDateImpUtil::lastDayOfMonth(int year, int month)
 {
     BSLS_ASSERT(k_MIN_YEAR  <= year);

@@ -16,6 +16,8 @@ namespace balst {
                               // ----------------
 
 // ACCESSORS
+// requires: stream ↦ _ && level >= 0 && spacesPerLevel >= 0
+// ensures: __out == stream && (__out ↦ _)
 bsl::ostream& StackTrace::print(bsl::ostream& stream,
                                 int           level,
                                 int           spacesPerLevel) const

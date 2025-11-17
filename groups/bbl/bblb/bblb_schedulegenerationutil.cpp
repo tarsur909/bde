@@ -66,6 +66,8 @@ void computeSerialMonthAndDay(int               *serialMonth,
 /// of the `month in `year'.  The behavior is undefined unless
 /// `1 <= year <= 9999`, `1 <= month <= 12`, and the resulting date is a
 /// valid `bdlt::Date`.
+// requires: (1 <= year && 9999 >= year) && (1 <= month && 12 >= month) && (1 <= day && day <= bdlt::SerialDateImpUtil::lastDayOfMonth(year, month)) && (dayOfFeb == 0 || (1 <= dayOfFeb && dayOfFeb <= bdlt::SerialDateImpUtil::lastDayOfMonth(year, 2)))
+// ensures: (__out.year() == year) && (__out.month() == month) && (__out.day() == bsl::min(bdlt::SerialDateImpUtil::lastDayOfMonth(year, month), (dayOfFeb == 0 || month != 2) ? day : dayOfFeb)) && bdlt::Date::isValidYearMonthDay(year, month, __out.day())
 inline
 bdlt::Date getDayOfMonth(int year, int month, int day, int dayOfFeb)
 {
@@ -86,6 +88,8 @@ bdlt::Date getDayOfMonth(int year, int month, int day, int dayOfFeb)
 /// by the ratio of the specified `numerator` and the specified
 /// `denominator`, without the use of floating-point calculations.  The
 /// behavior is undefined unless `denominator > 0`.
+// requires: denominator > 0
+// ensures: (numerator < 0 && numerator % denominator != 0) ==> (__out == (numerator / denominator - 1)) && (!(numerator < 0 && numerator % denominator != 0)) ==> (__out == (numerator / denominator))
 inline
 int rationalFloor(int numerator, int denominator)
 {
@@ -100,6 +104,8 @@ int rationalFloor(int numerator, int denominator)
 /// by the ratio of the specified `numerator` and the specified
 /// `denominator`, without the use of floating-point calculations.  The
 /// behavior is undefined unless `denominator > 0`.
+// requires: denominator > 0
+// ensures: (numerator > 0 && numerator % denominator != 0) ==> (__out == (numerator / denominator) + 1) && (numerator <= 0 || numerator % denominator == 0) ==> (__out == (numerator / denominator))
 inline
 int rationalCeiling(int numerator, int denominator)
 {
@@ -120,6 +126,7 @@ int rationalCeiling(int numerator, int denominator)
 /// serial month.  The behavior is undefined unless
 /// `k_MIN_SERIAL_MONTH <= exampleSerialMonth <= k_MAX_SERIAL_MONTH`, and
 /// `earliestSerialMonth <= latestSerialMonth`.
+// ensures: (__out == e_VALID_RANGE ==> ((*startSerialMonth ↦ startSerialMonthCandidate) ⋆ (*endSerialMonth ↦ endSerialMonthCandidate) ⋆ (startSerialMonthCandidate >= earliestSerialMonth) ⋆ (endSerialMonthCandidate <= latestSerialMonth))) && (__out == e_OUT_OF_RANGE ==> (startSerialMonthCandidate > u::k_MAX_SERIAL_MONTH || endSerialMonthCandidate < u::k_MIN_SERIAL_MONTH))
 int computeMonthRange(int *startSerialMonth,
                       int *endSerialMonth,
                       int  earliestSerialMonth,

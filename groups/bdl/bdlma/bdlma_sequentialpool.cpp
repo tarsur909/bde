@@ -30,6 +30,8 @@ namespace BloombergLP {
 /// in the presence of a supplied allocator returning naturally-aligned
 /// memory, the size of the overall allocation will be rounded up to an
 /// integral multiple of `bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT`.
+// requires: size >= 0 && sizeOfBlock >= 0
+// ensures: __out == ((size + sizeOfBlock - 1) & ~(bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1))
 inline
 static bsls::Types::size_type alignedAllocationSize(
                                             bsls::Types::size_type size,
@@ -55,6 +57,7 @@ namespace bdlma {
                            // --------------------
 
 // PRIVATE CLASS FUNCTIONS
+// ensures: __out == ((static_cast<uint64_t>(-1) << k_NUM_GEOMETRIC_BIN) | (bdlb::BitUtil::roundUpToBinaryPower(static_cast<uint64_t>(initialSize)) - 1))
 uint64_t SequentialPool::initAlwaysUnavailable(
                                             bsls::Types::size_type initialSize)
 {
@@ -73,6 +76,8 @@ uint64_t SequentialPool::initAlwaysUnavailable(
 }
 
 // PRIVATE MANIPULATORS
+// requires: size >= 0
+// ensures: (__out != 0 ==> (__out ↦ _)) && (__out == 0 ==> size == 0)
 void *SequentialPool::allocateNonFastPath(bsls::Types::size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_LIKELY(size)) {

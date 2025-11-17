@@ -48,6 +48,8 @@ const char *Base64Alphabet::toAscii(Base64Alphabet::Enum value)
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream && stream.good()) &
+// ensures: (__out == &stream) && (__out != 0)
 bsl::ostream& bdlde::operator<<(bsl::ostream&               stream,
                                 bdlde::Base64Alphabet::Enum value)
 {

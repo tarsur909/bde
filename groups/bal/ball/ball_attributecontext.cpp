@@ -65,6 +65,7 @@ namespace ball {
                // ------------------------------------------
 
 // MANIPULATORS
+// ensures: __out == d_resultMask
 RuleSet::MaskType
 AttributeContext_RuleEvaluationCache::update(
                                bsls::Types::Int64            sequenceNumber,
@@ -106,6 +107,8 @@ AttributeContext_RuleEvaluationCache::update(
 }
 
 // ACCESSORS
+// requires: stream
+// ensures: __out == stream
 bsl::ostream&
 AttributeContext_RuleEvaluationCache::print(bsl::ostream& stream,
                                             int           level,
@@ -183,6 +186,7 @@ AttributeContext::~AttributeContext()
 }
 
 // PRIVATE CLASS METHODS
+// ensures: __out == &s_contextKey
 const bslmt::ThreadUtil::Key& AttributeContext::contextKey()
 {
     static bslmt::ThreadUtil::Key s_contextKey;
@@ -213,6 +217,7 @@ void AttributeContext::removeContext(void *arg)
 }
 
 // CLASS METHODS
+// ensures: __out != 0 && (g_threadLocalContext != 0 ==> __out == g_threadLocalContext)
 AttributeContext *AttributeContext::getContext()
 {
 #ifdef BSLMT_THREAD_LOCAL_VARIABLE
@@ -308,6 +313,8 @@ void AttributeContext::visitAttributes(
 }
 
 // ACCESSORS
+// requires: category != NULL
+// ensures: (category->relevantRuleMask() == 0 ==> __out == false) && (category->relevantRuleMask() != 0 ==> (__out == true || __out == false))
 bool AttributeContext::hasRelevantActiveRules(const Category *category) const
 {
     BSLS_ASSERT(category);
@@ -422,6 +429,8 @@ AttributeContext::determineThresholdLevels(ThresholdAggregate *levels,
 }
 
 // ACCESSORS
+// requires: stream ↦ _ && level >= 0 && spacesPerLevel >= 0
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& AttributeContext::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const

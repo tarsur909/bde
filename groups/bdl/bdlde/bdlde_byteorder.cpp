@@ -15,6 +15,8 @@ namespace bdlde {
                               // ----------------
 
 // CLASS METHODS
+// requires: !stream.bad()
+// ensures: __out == stream && !stream.bad()
 bsl::ostream& ByteOrder::print(bsl::ostream&   stream,
                                ByteOrder::Enum value,
                                int             level,

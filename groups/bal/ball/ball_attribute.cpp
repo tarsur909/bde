@@ -53,6 +53,8 @@ namespace ball {
                         // ---------------
 
 // CLASS METHODS
+// requires: 0 < size && attribute.d_name.data() != nullptr && attribute.d_value.isValid()
+// ensures: __out == attribute.d_hashValue ⋆ attribute.d_hashSize ↦ size
 int Attribute::hash(const Attribute& attribute, int size)
 {
     BSLS_ASSERT(0 < size);
@@ -71,6 +73,8 @@ int Attribute::hash(const Attribute& attribute, int size)
 }
 
 // ACCESSORS
+// requires: stream ↦ _
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& Attribute::print(bsl::ostream& stream,
                                int           level,
                                int           spacesPerLevel) const
@@ -107,6 +111,7 @@ bsl::ostream& Attribute::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// ensures: __out == output && attribute.print(output, 0, -1) == __out
 bsl::ostream& ball::operator<<(bsl::ostream&    output,
                                const Attribute& attribute)
 {

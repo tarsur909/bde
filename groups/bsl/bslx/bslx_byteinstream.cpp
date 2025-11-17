@@ -18,6 +18,8 @@ namespace bslx {
                         // ------------------
 
 // FREE OPERATORS
+// requires: object.length() >= 0 && object.data() != nullptr && stream.good()
+// ensures: (__out == stream) && (stream.flags() == old_flags)
 bsl::ostream& operator<<(bsl::ostream& stream, const ByteInStream& object)
 {
     const bsl::size_t   len   = object.length();

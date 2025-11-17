@@ -52,6 +52,7 @@ CalendarCache_Entry::~CalendarCache_Entry()
 }
 
 // MANIPULATORS
+// ensures: (d_ptr ↦ rhs.d_ptr) ⋆ (d_loadTime ↦ rhs.d_loadTime)
 CalendarCache_Entry& CalendarCache_Entry::operator=(
                                                 const CalendarCache_Entry& rhs)
 {
@@ -62,6 +63,7 @@ CalendarCache_Entry& CalendarCache_Entry::operator=(
 }
 
 // ACCESSORS
+// ensures: __out ↦ d_ptr
 bsl::shared_ptr<const Calendar> CalendarCache_Entry::get() const
 {
     return d_ptr;
@@ -109,6 +111,8 @@ CalendarCache::~CalendarCache()
 }
 
 // MANIPULATORS
+// requires: calendarName != nullptr
+// ensures: (__out != nullptr) ==> (__out->get() != nullptr) ⋆ (__out == nullptr)
 bsl::shared_ptr<const Calendar>
 CalendarCache::getCalendar(const char *calendarName)
 {
@@ -197,6 +201,8 @@ int CalendarCache::invalidateAll()
 }
 
 // ACCESSORS
+// requires: calendarName != NULL
+// ensures: (__out.use_count() > 0) || (__out == bsl::shared_ptr<const Calendar>())
 bsl::shared_ptr<const Calendar>
 CalendarCache::lookupCalendar(const char *calendarName) const
 {

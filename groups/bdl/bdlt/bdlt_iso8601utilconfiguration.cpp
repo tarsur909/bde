@@ -84,6 +84,8 @@ Iso8601UtilConfiguration::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream.good()
+// ensures: __out == stream && (__out << object.fractionalSecondPrecision() && __out << object.omitColonInZoneDesignator() && __out << object.useCommaForDecimalSign() && __out << object.useZAbbreviationForUtc())
 bsl::ostream& bdlt::operator<<(bsl::ostream&                   stream,
                                const Iso8601UtilConfiguration& object)
 {

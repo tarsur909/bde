@@ -22,6 +22,8 @@ namespace BloombergLP {
 
 /// Return `true` if the specified `transitions` contain a transition with
 /// the specified `descriptor`, and `false` otherwise.
+// requires: SEPFORALL(0, transitions.size(), i, transitions[i]->descriptor() ↦ _)
+// ensures: (__out == true ==> SEPEXISTS(0, transitions.size(), i, transitions[i].descriptor() == descriptor)) && (__out == false ==> SEPFORALL(0, transitions.size(), i, transitions[i].descriptor() != descriptor))
 static
 bool containsDescriptor(
                     const bsl::vector<baltzo::ZoneinfoTransition>& transitions,
@@ -44,6 +46,8 @@ namespace baltzo {
                           // ------------------------
 
 // ACCESSORS
+// requires: stream.good()
+// ensures: __out == stream && !stream.bad() && (stream ↦ _)
 bsl::ostream&
 ZoneinfoTransition::print(bsl::ostream& stream,
                           int           level,
@@ -98,6 +102,8 @@ ZoneinfoTransition::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream && object
+// ensures: __out == stream && (__out << "[ " && (rc == 0 ? (__out << utcDatetime << " ") : (__out << object.utcTime() << " ")) && __out << object.descriptor() << " ]")
 bsl::ostream& baltzo::operator<<(bsl::ostream&             stream,
                                  const ZoneinfoTransition& object)
 {
@@ -125,6 +131,7 @@ namespace baltzo {
                        // ------------------------------
 
 // ACCESSORS
+// ensures: (__out == true ==> (lhs.utcOffsetInSeconds() < rhs.utcOffsetInSeconds() || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() < rhs.description()) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() == rhs.description() && lhs.dstInEffectFlag() < rhs.dstInEffectFlag()))) && (__out == false ==> (lhs.utcOffsetInSeconds() >= rhs.utcOffsetInSeconds() || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() >= rhs.description()) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() == rhs.description() && lhs.dstInEffectFlag() >= rhs.dstInEffectFlag())))
 bool Zoneinfo::DescriptorLess::operator()(const LocalTimeDescriptor& lhs,
                                           const LocalTimeDescriptor& rhs) const
 {
@@ -346,6 +353,8 @@ bsl::ostream& Zoneinfo::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream && object.identifier().size() >= 0 && object.posixExtendedRangeDescription().size() >= 0
+// ensures: __out == &stream
 bsl::ostream& baltzo::operator<<(bsl::ostream& stream, const Zoneinfo& object)
 {
     stream << "[ \"" << object.identifier() << "\" "

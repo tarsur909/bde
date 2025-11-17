@@ -152,6 +152,7 @@ TokenizerIterator::TokenizerIterator(const TokenizerIterator& origin)
 }
 
 // MANIPULATORS
+// ensures: (this != &rhs ==> (__out.d_sharedData_p == rhs.d_sharedData_p && __out.d_cursor_p == rhs.d_cursor_p && __out.d_token_p == rhs.d_token_p && __out.d_postDelim_p == rhs.d_postDelim_p && __out.d_end_p == rhs.d_end_p && __out.d_endFlag == rhs.d_endFlag)) && (this == &rhs ==> &__out == &rhs)
 TokenizerIterator& TokenizerIterator::operator=(const TokenizerIterator& rhs)
 {
     if (this != &rhs)
@@ -314,6 +315,7 @@ Tokenizer::~Tokenizer()
 }
 
 // MANIPULATORS
+// ensures: &__out == this
 Tokenizer& Tokenizer::operator++()
 {
     // Operator++ called on invalid tokenizer

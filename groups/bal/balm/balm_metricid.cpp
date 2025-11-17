@@ -19,6 +19,7 @@ BSLMF_ASSERT(bslmf::IsTriviallyCopyableCheck<MetricId>::value);
                                // --------------
 
 // ACCESSORS
+// ensures: (d_description_p == 0 ==> SEPFORALL(0, sizeof("INVALID_ID"), i, stream + i ↦ "INVALID_ID"[i])) && (d_description_p != 0 ==> SEPFORALL(0, strlen(*d_description_p), i, stream + i ↦ (*d_description_p)[i])) && (__out == stream)
 bsl::ostream& MetricId::print(bsl::ostream& stream) const
 {
     if (0 == d_description_p) {

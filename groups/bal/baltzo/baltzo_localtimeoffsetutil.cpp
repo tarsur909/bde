@@ -30,6 +30,8 @@ namespace baltzo {
                          // --------------------------
 
 // PRIVATE CLASS METHODS
+// requires: timezone != NULL
+// ensures: (retval == 0 ==> __out == 0) && (retval != 0 ==> __out != 0)
 inline
 int LocalTimeOffsetUtil::configureImp(const char            *timezone,
                                       const bdlt::Datetime&  utcDatetime)

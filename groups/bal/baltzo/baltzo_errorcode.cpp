@@ -17,6 +17,8 @@ namespace baltzo {
                               // ----------------
 
 // CLASS METHODS
+// requires: stream.good() && (value >= ErrorCode::Enum::MIN_VALUE && value <= ErrorCode::Enum::MAX_VALUE) && (level >= 0) && (spacesPerLevel >= 0) && (stream ↦ _ ⋆ SEPFORALL(0, level + strlen(ErrorCode::toAscii(value)) + 1, i, stream + i ↦ _))
+// ensures: (__out == stream) && (stream ↦ _ ⋆ SEPFORALL(0, level, i, stream + i ↦ ' ') ⋆ (stream + level ↦ ErrorCode::toAscii(value)) ⋆ (spacesPerLevel >= 0 ==> (stream + level + strlen(ErrorCode::toAscii(value)) + 1 ↦ 10)))
 bsl::ostream& ErrorCode::print(bsl::ostream&   stream,
                                ErrorCode::Enum value,
                                int             level,

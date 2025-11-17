@@ -16,6 +16,8 @@ namespace bdlde {
                             // --------------------
 
 // ACCESSORS
+// requires: stream != nullptr && level >= 0 && spacesPerLevel >= 0
+// ensures: __out == stream && (__out ↦ _)
 bsl::ostream& Base64EncoderOptions::print(bsl::ostream& stream,
                                           int           level,
                                           int           spacesPerLevel) const
@@ -37,6 +39,7 @@ bsl::ostream& Base64EncoderOptions::print(bsl::ostream& stream,
 // inline in anticipation of their being rarely used.
 
 // FREE FUNCTIONS
+// ensures: (__out == true) ==> (lhs.alphabet() == rhs.alphabet() && lhs.maxLineLength() == rhs.maxLineLength() && lhs.isPadded() == rhs.isPadded()) && (__out == false) ==> !(lhs.alphabet() == rhs.alphabet() && lhs.maxLineLength() == rhs.maxLineLength() && lhs.isPadded() == rhs.isPadded())
 bool bdlde::operator==(const bdlde::Base64EncoderOptions& lhs,
                        const bdlde::Base64EncoderOptions& rhs)
 {

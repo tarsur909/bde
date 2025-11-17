@@ -16,6 +16,8 @@ namespace baltzo {
                           // ------------------------
 
 // CLASS METHODS
+// requires: stream && value == LocalTimeValidity::Enum(value)
+// ensures: (__out == &stream) && SEPFORALL(0, toAscii(value).size(), i, &stream + i ↦ toAscii(value)[i])
 bsl::ostream& LocalTimeValidity::print(bsl::ostream&           stream,
                                        LocalTimeValidity::Enum value,
                                        int                     level,

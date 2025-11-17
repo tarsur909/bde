@@ -27,6 +27,8 @@ namespace bdlb {
                          // --------------------
 
 // ACCESSORS
+// requires: stream.good() && (stream ↦ _)
+// ensures: __out == stream && !stream.bad() && (stream ↦ _)
 bsl::ostream& BigEndianInt16::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const
@@ -108,6 +110,8 @@ bsl::ostream& BigEndianInt32::print(bsl::ostream& stream,
                          // ---------------------
 
 // ACCESSORS
+// requires: !stream.bad() && (level >= 0) && (spacesPerLevel >= 0)
+// ensures: (stream.bad() ==> __out == stream) && (!stream.bad() ==> __out == stream)
 bsl::ostream& BigEndianUint32::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const
@@ -133,6 +137,8 @@ bsl::ostream& BigEndianUint32::print(bsl::ostream& stream,
                          // --------------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: (__out == stream) && (!stream.bad())
 bsl::ostream& BigEndianInt64::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const
@@ -162,6 +168,8 @@ bsl::ostream& BigEndianInt64::print(bsl::ostream& stream,
                          // ---------------------
 
 // ACCESSORS
+// requires: !stream.bad() && (level >= 0) && (spacesPerLevel >= 0)
+// ensures: (__out == stream) && (!stream.bad())
 bsl::ostream& BigEndianUint64::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const
