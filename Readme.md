@@ -1,7 +1,7 @@
 BDE Libraries
 =============
 
-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
+
 
 This repository contains the BDE libraries, currently BSL (Basic Standard
 Library), BDL (Basic Development Library), BAL (Basic Application Library), and
