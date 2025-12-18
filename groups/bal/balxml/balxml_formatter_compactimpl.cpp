@@ -46,6 +46,7 @@ void Formatter_CompactImplUtil::addCommentImpl(
 
 
 // CLASS METHODS
+// ensures: (__out == stream) && (state->column() == 0) && ((old_state->id() == StateId::e_IN_TAG) ==> (state->id() == StateId::e_FIRST_DATA_BETWEEN_TAGS))
 bsl::ostream& Formatter_CompactImplUtil::addBlankLine(bsl::ostream&  stream,
                                                       State         *state)
 {

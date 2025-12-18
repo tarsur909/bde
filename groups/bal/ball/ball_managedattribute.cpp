@@ -16,6 +16,7 @@ namespace ball {
                         // ----------------------
 
 // ACCESSORS
+// ensures: __out == stream ⋆ d_attribute.print(stream, level, spacesPerLevel)
 bsl::ostream& ManagedAttribute::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const
@@ -27,6 +28,7 @@ bsl::ostream& ManagedAttribute::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// ensures: __out == output
 bsl::ostream& ball::operator<<(bsl::ostream&                 output,
                                const ball::ManagedAttribute& attribute)
 {

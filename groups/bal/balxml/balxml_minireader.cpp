@@ -104,6 +104,7 @@ namespace {
 
 /// Return the specified `s` if `s` != 0, or "" otherwise.  Never returns a
 /// null pointer.
+// ensures: (s != 0 ==> __out == s) && (s == 0 ==> __out == "")
 inline
 const char* nonNullStr(const char *s)
 {
@@ -112,6 +113,7 @@ const char* nonNullStr(const char *s)
 
 /// Return the specified `val` cast to a `char`.  Bits of `val` that are
 /// too high-order to fit in a `char` will be discarded.
+// ensures: __out == static_cast<char>(val)
 inline
 char toChar(unsigned val)
 {
@@ -122,6 +124,7 @@ char toChar(unsigned val)
 /// and write the characters to the character array at the specified
 /// `output` address.  Return the number of characters output or 0 if `val`
 /// is not in the legal range.
+// ensures: (val >= 0x110000U ==> __out == 0) && (val < 0x110000U ==> __out > 0)
 int unicodeToUtf8(char *output, unsigned val)
 {
     /*
@@ -465,6 +468,7 @@ MiniReader::~MiniReader()
 }
 
 // MANIPULATORS
+// ensures: (__out == -1 || __out == 0)
 int MiniReader::setError(ErrorInfo::Severity error, const bsl::string &msg)
 {
     Node&  node = currentNode();
@@ -641,6 +645,7 @@ int MiniReader::open(bsl::streambuf *stream,
 }
 
 // ACCESSORS
+// ensures: __out == d_errorInfo
 const ErrorInfo&
 MiniReader::errorInfo () const
 {
@@ -1220,6 +1225,7 @@ MiniReader::advanceToNextNode()
 // ----------------------------------------------------------------------------
 //                              PRIVATE methods
 // ----------------------------------------------------------------------------
+// ensures: (__out == 0 ==> d_scanPtr == d_endPtr) && (__out != 0 ==> ((*d_scanPtr != 32) && (*d_scanPtr != 9) && (*d_scanPtr != 13) && (*d_scanPtr != 10)))
 int
 MiniReader::skipSpaces()
 {

@@ -100,6 +100,7 @@ ReadRestFunctor::ReadRestFunctor(bsl::streambuf *streamBuf, int oldSize)
 }
 
 // MODIFIERS
+// ensures: __out == (d_oldSize + static_cast<size_t>(nRead))
 size_t ReadRestFunctor::operator()(char *buf, size_t newSize)
 {
     bsl::streamsize nRead = d_streamBuf->sgetn(
@@ -134,6 +135,7 @@ namespace balber {
                                // --------------
 
 // CLASS METHODS
+// ensures: (tagClass != 0) && (tagType != 0) && (tagNumber != 0) && (accumNumBytesConsumed != 0)
 int BerUtil::getIdentifierOctets(bsl::streambuf         *streamBuf,
                                  BerConstants::TagClass *tagClass,
                                  BerConstants::TagType  *tagType,
@@ -158,6 +160,7 @@ int BerUtil::putIdentifierOctets(bsl::streambuf         *streamBuf,
                       // --------------------------------
 
 // CLASS METHODS
+// ensures: __out == 0 || __out == -1
 int BerUtil_IdentifierImpUtil::getIdentifierOctets(
                                  BerConstants::TagClass *tagClass,
                                  BerConstants::TagType  *tagType,
@@ -209,6 +212,7 @@ int BerUtil_IdentifierImpUtil::getIdentifierOctets(
 }
 
 /// Write the specified `tag*` to the specified `streamBuf`.
+// ensures: (__out == SUCCESS) || (__out == FAILURE)
 int BerUtil_IdentifierImpUtil::putIdentifierOctets(
                                              bsl::streambuf         *streamBuf,
                                              BerConstants::TagClass  tagClass,
@@ -432,6 +436,7 @@ int BerUtil_LengthImpUtil::putEndOfContentOctets(bsl::streambuf *streamBuf)
                        // -----------------------------
 
 // CLASS METHODS
+// ensures: (value == 0 ==> __out == 1) && (value != 0 ==> (__out == 1 || __out == 2))
 int BerUtil_IntegerImpUtil::getNumOctetsToStream(short value)
 {
     // This overload of 'numBytesToStream' is optimized for a 16-bit 'value'.
@@ -1238,6 +1243,7 @@ int BerUtil_Iso8601ImpUtil::putTimeTzValue(bsl::streambuf          *streamBuf,
                     // ------------------------------------
 
 // CLASS METHODS
+// ensures: (__out == true ==> (k_MIN_OFFSET <= value && k_MAX_OFFSET >= value)) && (__out == false ==> !(k_MIN_OFFSET <= value && k_MAX_OFFSET >= value))
 bool BerUtil_TimezoneOffsetImpUtil::isValidTimezoneOffsetInMinutes(int value)
 {
     return (k_MIN_OFFSET <= value) && (k_MAX_OFFSET >= value);

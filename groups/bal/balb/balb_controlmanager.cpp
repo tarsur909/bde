@@ -55,6 +55,7 @@ ControlManager::~ControlManager()
 }
 
 // ACCESSORS
+// ensures: (__out == true ==> d_defaultHandler.has_value()) && (__out == false ==> !d_defaultHandler.has_value())
 bool ControlManager::hasDefaultHandler() const
 {
     bslmt::ReadLockGuard<bslmt::RWMutex> registryGuard(&d_registryMutex);
@@ -62,6 +63,7 @@ bool ControlManager::hasDefaultHandler() const
 }
 
 // MANIPULATORS
+// ensures: __out == 0 || __out == 1
 int ControlManager::registerHandler(const bsl::string_view& prefix,
                                     const bsl::string_view& arguments,
                                     const bsl::string_view& description,

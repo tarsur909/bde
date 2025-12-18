@@ -132,6 +132,7 @@ TestInStream::~TestInStream()
 }
 
 // MANIPULATORS
+// ensures: &__out == this && ((variable >= 0 && variable <= 127) || (variable > 127 && (variable & 0x800000) == 0)) && (isValid() ==> (variable >= 0))
 TestInStream& TestInStream::getLength(int& variable)
 {
     if (length() - cursor() < k_SIZEOF_CODE + Util::k_SIZEOF_INT8) {
@@ -843,6 +844,7 @@ TestInStream& TestInStream::getArrayFloat32(float *variables, int numVariables)
 }
 
 // FREE OPERATORS
+// ensures: (__out == &stream) && (stream.flags() == old_stream.flags())
 bsl::ostream& operator<<(bsl::ostream& stream, const TestInStream& object)
 {
     const bsl::size_t   len   = object.length();
