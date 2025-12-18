@@ -95,6 +95,8 @@ BufferScopedGuard::~BufferScopedGuard()
 }
 
 // MANIPULATORS
+// requires: numBytes >= 0
+// ensures: (__out != 0) && (__out ↦ _ ⋆ SEPFORALL(0, numBytes, i, __out + i ↦ _))
 char* BufferScopedGuard::allocate(size_t numBytes) {
 
     // Note that we don't want to use realloc, because it guarantees that the
@@ -125,6 +127,8 @@ char* BufferScopedGuard::allocate(size_t numBytes) {
 /// undefined unless `buffer` contains sufficient space to store `size`
 /// bytes and `format` is a valid `printf`-style format string with all
 /// expected substitutions present in `substitutions`.
+// requires: (size > 0) ==> (buffer != nullptr && format != nullptr)
+// ensures: (size > 0 && buffer != nullptr && format != nullptr) ==> (__out >= 0)
 int vsnprintf_alwaysCount(char       *buffer,
                           size_t      size,
                           const char *format,
@@ -196,6 +200,8 @@ int vsnprintf_alwaysCount(char       *buffer,
 /// `originalBuffer` contains at least `originalBufferSize` bytes, and
 /// `format` is a valid `printf`-style format string with all expected
 /// substitutions present in `substitutions`.
+// requires: originalBuffer != 0 && originalBufferSize > 0 && outputBuffer != 0 && outputBufferSize != 0 && format != 0 && SEPFORALL(0, originalBufferSize, i, originalBuffer + i ↦ _)
+// ensures: (__out >= 0 ==> ((*outputBuffer != 0) && (*outputBufferSize == static_cast<size_t>(__out) + 1) && SEPFORALL(0, *outputBufferSize, i, (*outputBuffer + i) ↦ _))) && (__out < 0 ==> ((*outputBuffer == 0) || (*outputBuffer == originalBuffer)) && (*outputBufferSize == originalBufferSize))
 int vsnprintf_allocate(char                 *originalBuffer,
                        size_t                originalBufferSize,
                        BufferScopedGuard&    guard,

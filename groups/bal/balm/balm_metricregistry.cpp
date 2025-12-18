@@ -46,6 +46,8 @@ void combineUserData(bsl::vector<const void *>        *result,
 
 /// Return `true` if the specified `candidatePrefix` is a prefix of the
 /// specified `string`, and `false` otherwise.
+// requires: SEPFORALL(0, strlen(candidatePrefix), i, (candidatePrefix + i ↦ _)) ⋆ SEPFORALL(0, strlen(string), i, (string + i ↦ _))
+// ensures: (__out == true ==> SEPFORALL(0, strlen(candidatePrefix), i, (candidatePrefix + i ↦ _ ⋆ string + i ↦ _ ⋆ (candidatePrefix[i] == string[i])))) && (__out == false ==> SEPEXISTS(0, strlen(candidatePrefix), i, (candidatePrefix + i ↦ _ ⋆ string + i ↦ _ ⋆ (candidatePrefix[i] != string[i]))))
 bool isPrefix(const char *candidatePrefix, const char *string)
 {
     while (*candidatePrefix == *string && *candidatePrefix) {
@@ -64,6 +66,7 @@ bool isPrefix(const char *candidatePrefix, const char *string)
 namespace balm {
 
 // PRIVATE MANIPULATORS
+// ensures: (__out.second == true ==> d_metrics.count(bsl::make_pair(category, name)) == 1) && (__out.second == false ==> d_metrics.count(bsl::make_pair(category, name)) == 1)
 bsl::pair<MetricId, bool>
 MetricRegistry::insertId(const char *category, const char *name)
 {
@@ -172,6 +175,8 @@ MetricRegistry::~MetricRegistry()
 }
 
 // MANIPULATORS
+// requires: category != NULL && name != NULL
+// ensures: (__out != MetricId() ==> ret.second) && (__out == MetricId() ==> !ret.second)
 MetricId MetricRegistry::addId(const char *category,
                                const char *name)
 {
@@ -393,6 +398,7 @@ MetricDescription::UserDataKey MetricRegistry::createUserDataKey()
 }
 
 // ACCESSORS
+// ensures: __out == d_metrics.size()
 bsl::size_t MetricRegistry::numMetrics() const
 {
     bslmt::ReadLockGuard<bslmt::RWMutex> guard(&d_lock);

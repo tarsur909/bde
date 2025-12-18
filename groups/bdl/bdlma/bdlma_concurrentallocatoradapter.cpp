@@ -19,6 +19,7 @@ ConcurrentAllocatorAdapter::~ConcurrentAllocatorAdapter()
 }
 
 // MANIPULATORS
+// requires: numBytes >= 0
 void *ConcurrentAllocatorAdapter::allocate(bsls::Types::size_type numBytes)
 {
     bslmt::LockGuard<bslmt::Mutex> guard(d_mutex_p);

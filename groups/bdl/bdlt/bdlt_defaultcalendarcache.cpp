@@ -41,6 +41,7 @@ bsls::ObjectBuffer<CalendarCache>            g_buffer;
 
 /// Return the address of the lock used to initialize and destroy the
 /// default calendar cache in a thread-safe manner.
+// ensures: __out != 0
 static
 bslmt::Mutex *getLock()
 {
@@ -68,6 +69,8 @@ bslmt::Mutex *getLock()
 /// `allocator` remain valid until a subsequent call to
 /// `bdlt::DefaultCalendarCache::destroy`, and
 /// `bsls::TimeInterval() <= timeout <= bsls::TimeInterval(INT_MAX, 0)`.
+// requires: loader != NULL && allocator != NULL && bsls::TimeInterval() <= timeout && timeout <= bsls::TimeInterval(INT_MAX, 0)
+// ensures: __out == 0 || __out == 1
 static
 int initializePrivate(CalendarLoader            *loader,
                       bool                       hasTimeOutFlag,

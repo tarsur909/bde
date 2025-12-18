@@ -65,6 +65,8 @@ const Ot::Enum Ot::TypeToEnum<Ot::DateArray>    ::value = Ot::e_DATE_ARRAY;
 const Ot::Enum Ot::TypeToEnum<Ot::TimeArray>    ::value = Ot::e_TIME_ARRAY;
 
 // CLASS METHODS
+// requires: stream ↦ _
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& OptionType::print(bsl::ostream&    stream,
                                 OptionType::Enum value,
                                 int              level,

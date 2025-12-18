@@ -49,6 +49,8 @@ BSLMF_ASSERT(!bslmf::IsTriviallyCopyableCheck<Time>::value);
 /// ```
 /// *number == *number % base + (*number / base) * base
 /// ```
+// requires: number != nullptr && base >= 1 && number ↦ _
+// ensures: (__out == old_initial / base) && (number ↦ old_initial % base) && (old_initial == *number + __out * base)
 static
 bsls::Types::Int64 fastMod(int *number, int base)
 {
@@ -75,6 +77,8 @@ bsls::Types::Int64 fastMod(int *number, int base)
 /// ```
 /// *number == *number % base + (*number / base) * base
 /// ```
+// requires: number ↦ _ && base >= 1
+// ensures: (__out == (old_number / base)) && (number ↦ (old_number % base)) && (old_number == (*number + __out * base))
 static
 bsls::Types::Int64 fastMod(bsls::Types::Int64 *number, bsls::Types::Int64 base)
 {
@@ -100,6 +104,8 @@ bsls::Types::Int64 fastMod(bsls::Types::Int64 *number, bsls::Types::Int64 base)
 /// *number == *number % base + (*number / base) * base
 /// ```
 /// The behavior is undefined unless `1 <= base`.
+// requires: number != nullptr && base >= 1
+// ensures: (__out == old_(*number) / base) && (0 <= *number) && (*number < base) && (*number ↦ *number)
 static
 bsls::Types::Int64 modulo(bsls::Types::Int64 *number, bsls::Types::Int64 base)
 {
@@ -217,6 +223,7 @@ bsls::Types::Int64 Time::invalidMicrosecondsFromMidnight() const
 }
 
 // MANIPULATORS
+// ensures: __out == static_cast<int>(wholeDays) && (this->microsecondsFromMidnight() == totalMicroseconds)
 int Time::addHours(int hours)
 {
     bsls::Types::Int64 totalMicroseconds =

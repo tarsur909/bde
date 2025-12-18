@@ -26,6 +26,8 @@ InfrequentDeleteBlockList::~InfrequentDeleteBlockList()
 }
 
 // MANIPULATORS
+// requires: numBytes >= 0
+// ensures: (numBytes == 0 ==> __out == 0) && (numBytes != 0 ==> __out != 0)
 void *InfrequentDeleteBlockList::allocate(int numBytes)
 {
     if (0 == numBytes) {

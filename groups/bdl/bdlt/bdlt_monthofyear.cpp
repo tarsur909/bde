@@ -16,6 +16,8 @@ namespace bdlt {
                      // ------------------
 
 // CLASS METHODS
+// requires: stream ↦ _ && value >= MonthOfYear::Enum::Jan && value <= MonthOfYear::Enum::Dec
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& MonthOfYear::print(bsl::ostream&     stream,
                                  MonthOfYear::Enum value,
                                  int               level,

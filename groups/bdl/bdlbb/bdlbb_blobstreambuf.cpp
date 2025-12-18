@@ -100,6 +100,8 @@ void InBlobStreamBuf::setGetPosition(bsl::size_t position)
 }
 
 // PRIVATE ACCESSORS
+// requires: (gptr() == 0) || (eback() != 0 && egptr() != 0 && gptr() - eback() <= egptr() - eback() && static_cast<unsigned>(d_getBufferIndex) < d_blob_p->numBuffers() && egptr() - eback() <= d_blob_p->buffer(d_getBufferIndex).size() && d_previousBuffersLength + egptr() - eback() <= d_blob_p->length()) && (gptr() == 0 ==> (eback() == 0 && egptr() == 0 && static_cast<unsigned>(d_getBufferIndex) <= d_blob_p->numBuffers()))
+// ensures: __out == 0
 int InBlobStreamBuf::checkInvariant() const
 {
     bsl::size_t numBuffers = d_blob_p->numBuffers();
@@ -125,6 +127,7 @@ int InBlobStreamBuf::checkInvariant() const
 }
 
 // PROTECTED MANIPULATORS
+// ensures: __out == traits_type::eof()
 InBlobStreamBuf::int_type InBlobStreamBuf::overflow(InBlobStreamBuf::int_type)
 {
     return traits_type::eof();
@@ -405,6 +408,7 @@ void OutBlobStreamBuf::setPutPosition(bsl::size_t position)
 }
 
 // PRIVATE ACCESSORS
+// ensures: __out == 0
 int OutBlobStreamBuf::checkInvariant() const
 {
     bsl::size_t numBuffers = d_blob_p->numBuffers();
@@ -431,6 +435,7 @@ int OutBlobStreamBuf::checkInvariant() const
 }
 
 // PROTECTED MANIPULATORS
+// ensures: (__out == c) || (__out == traits_type::not_eof(c) && c == EOF)
 OutBlobStreamBuf::int_type OutBlobStreamBuf::overflow(
                                                   OutBlobStreamBuf::int_type c)
 {

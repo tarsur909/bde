@@ -74,6 +74,8 @@ const bdlat_AttributeInfo balber::BerDecoderOptions::ATTRIBUTE_INFO_ARRAY[] = {
 namespace balber {
 
 // CLASS METHODS
+// requires: name != nullptr && nameLength >= 0 && SEPFORALL(0, nameLength, i, name + i ↦ _)
+// ensures: (__out == 0) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_MAX_DEPTH] && nameLength == 8 && bdlb::CharType::toUpper(name[0]) == 'M' && bdlb::CharType::toUpper(name[1]) == 'A' && bdlb::CharType::toUpper(name[2]) == 'X' && bdlb::CharType::toUpper(name[3]) == 'D' && bdlb::CharType::toUpper(name[4]) == 'E' && bdlb::CharType::toUpper(name[5]) == 'P' && bdlb::CharType::toUpper(name[6]) == 'T' && bdlb::CharType::toUpper(name[7]) == 'H') || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_TRACE_LEVEL] && nameLength == 10 && bdlb::CharType::toUpper(name[0]) == 'T' && bdlb::CharType::toUpper(name[1]) == 'R' && bdlb::CharType::toUpper(name[2]) == 'A' && bdlb::CharType::toUpper(name[3]) == 'C' && bdlb::CharType::toUpper(name[4]) == 'E' && bdlb::CharType::toUpper(name[5]) == 'L' && bdlb::CharType::toUpper(name[6]) == 'E' && bdlb::CharType::toUpper(name[7]) == 'V' && bdlb::CharType::toUpper(name[8]) == 'E' && bdlb::CharType::toUpper(name[9]) == 'L'
 const bdlat_AttributeInfo *BerDecoderOptions::lookupAttributeInfo(
                                                         const char *name,
                                                         int         nameLength)

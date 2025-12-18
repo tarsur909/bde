@@ -60,6 +60,8 @@ void copyFromPlace(char                *dstBuffer,
 /// `stream`.  The behavior is undefined unless `0 <= bufferIndex`,
 /// `0 <= numBytes`, and the incrementing `bufferIndex` does not reach the
 /// number of data buffers.
+// requires: 0 <= bufferIndex && 0 <= numBytes && bufferIndex < source.numDataBuffers() && SEPFORALL(bufferIndex, source.numDataBuffers(), i, EXISTS(0, source.buffer(i).size(), j, j < numBytes))
+// ensures: __out == stream
 bsl::ostream& asciiDumpFromBufferStart(bsl::ostream&      stream,
                                        const bdlbb::Blob& source,
                                        int                bufferIndex,

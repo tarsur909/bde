@@ -42,6 +42,8 @@ bool Context::isValid(Transmission::Cause transmissionCause,
 }
 
 // ACCESSORS
+// requires: stream != nullptr
+// ensures: __out == stream && SEPFORALL(0, sizeof(stream), i, __out + i ↦ _)
 bsl::ostream& Context::print(bsl::ostream& stream,
                              int           level,
                              int           spacesPerLevel) const

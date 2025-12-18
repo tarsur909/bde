@@ -100,6 +100,8 @@ ReadRestFunctor::ReadRestFunctor(bsl::streambuf *streamBuf, int oldSize)
 }
 
 // MODIFIERS
+// requires: newSize >= d_oldSize
+// ensures: __out == d_oldSize + nRead
 size_t ReadRestFunctor::operator()(char *buf, size_t newSize)
 {
     bsl::streamsize nRead = d_streamBuf->sgetn(
@@ -158,6 +160,8 @@ int BerUtil::putIdentifierOctets(bsl::streambuf         *streamBuf,
                       // --------------------------------
 
 // CLASS METHODS
+// requires: tagClass != 0 && tagType != 0 && tagNumber != 0 && accumNumBytesConsumed != 0 && streamBuf != 0
+// ensures: (__out == SUCCESS ==> (tagClass != 0 ⋆ tagType != 0 ⋆ tagNumber != 0 ⋆ accumNumBytesConsumed != 0)) && (__out == FAILURE ==> true)
 int BerUtil_IdentifierImpUtil::getIdentifierOctets(
                                  BerConstants::TagClass *tagClass,
                                  BerConstants::TagType  *tagType,
@@ -209,6 +213,8 @@ int BerUtil_IdentifierImpUtil::getIdentifierOctets(
 }
 
 /// Write the specified `tag*` to the specified `streamBuf`.
+// requires: tagNumber >= 0 && streamBuf != NULL
+// ensures: (__out == SUCCESS || __out == FAILURE)
 int BerUtil_IdentifierImpUtil::putIdentifierOctets(
                                              bsl::streambuf         *streamBuf,
                                              BerConstants::TagClass  tagClass,
@@ -432,6 +438,8 @@ int BerUtil_LengthImpUtil::putEndOfContentOctets(bsl::streambuf *streamBuf)
                        // -----------------------------
 
 // CLASS METHODS
+// requires: -32768 <= value && value <= 32767
+// ensures: (value == 0 ==> __out == 1) && (value != 0 && value > 0 ==> __out == ((31 - bdlb::BitUtil::numLeadingUnsetBits(static_cast<bsl::uint32_t>(value)) + 2 + Constants::k_NUM_BITS_PER_OCTET - 1) / Constants::k_NUM_BITS_PER_OCTET)) && (value != 0 && value < 0 ==> __out == ((31 - bdlb::BitUtil::numLeadingUnsetBits(~static_cast<bsl::uint32_t>(value)) + 2 + Constants::k_NUM_BITS_PER_OCTET - 1) / Constants::k_NUM_BITS_PER_OCTET))
 int BerUtil_IntegerImpUtil::getNumOctetsToStream(short value)
 {
     // This overload of 'numBytesToStream' is optimized for a 16-bit 'value'.
@@ -1238,6 +1246,7 @@ int BerUtil_Iso8601ImpUtil::putTimeTzValue(bsl::streambuf          *streamBuf,
                     // ------------------------------------
 
 // CLASS METHODS
+// ensures: (__out == true ==> (k_MIN_OFFSET <= value && k_MAX_OFFSET >= value)) && (__out == false ==> !(k_MIN_OFFSET <= value && k_MAX_OFFSET >= value))
 bool BerUtil_TimezoneOffsetImpUtil::isValidTimezoneOffsetInMinutes(int value)
 {
     return (k_MIN_OFFSET <= value) && (k_MAX_OFFSET >= value);

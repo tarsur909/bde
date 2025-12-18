@@ -53,6 +53,8 @@ void memrev(void *buffer, size_t count)
 /// Reverse the first specified `count` bytes from the specified `buffer`,
 /// if the host endian is different from network endian, and return the
 /// address computed from `static_cast<unsigned char *>(buffer) + count`.
+// requires: buffer != nullptr && count > 0
+// ensures: __out == static_cast<unsigned char*>(buffer) + count
 inline
 unsigned char *memReverseIfNeeded(void *buffer, size_t count)
 {
@@ -258,6 +260,8 @@ bool restoreSingularDecimalFromBinary(DECIMAL_TYPE *decimal,
 /// Return the specified `low` if the specified `value` is less than 1, the
 /// specified `high` if `value` is greater than `high`, and `value`
 /// otherwise.
+// requires: low <= high
+// ensures: (value < 1 ==> __out == low) && (value > high ==> __out == high) && ((value >= 1 && value <= high) ==> __out == value)
 inline
 int bound(int value, int low, int high)
 {

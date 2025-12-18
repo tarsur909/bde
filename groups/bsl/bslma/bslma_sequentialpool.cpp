@@ -191,6 +191,8 @@ SequentialPool::SequentialPool(
 }
 
 // MANIPULATORS
+// requires: 0 <= size
+// ensures: (size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)
 void *SequentialPool::allocate(int size)
 {
     BSLS_ASSERT(0 <= size);

@@ -103,6 +103,8 @@ namespace bdls {
                               // ---------------
 
 // CLASS METHODS
+// requires: pipeName ↦ _
+// ensures: __out == u_makeCanonicalName(pipeName, baseName) && (pipeName ↦ _)
 int PipeUtil::makeCanonicalName(bsl::string             *pipeName,
                                 const bsl::string_view&  baseName)
 {

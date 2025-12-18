@@ -33,6 +33,7 @@ bsl::ostream& Location::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// ensures: __out == stream && (__out << object)
 bsl::ostream& bdljsn::operator<<(bsl::ostream&           stream,
                                  const bdljsn::Location& object)
 {

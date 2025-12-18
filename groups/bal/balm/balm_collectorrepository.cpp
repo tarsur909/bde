@@ -371,6 +371,7 @@ CollectorRepository_MetricCollectors::
 }
 
 // MANIPULATORS
+// ensures: &__out == &d_collectors
 inline
 CollectorRepository_Collectors<Collector>&
 CollectorRepository_MetricCollectors::collectors()
@@ -403,6 +404,7 @@ void CollectorRepository_MetricCollectors::collect(MetricRecord *record)
 }
 
 // ACCESSORS
+// ensures: &__out == &d_collectors
 inline
 const CollectorRepository_Collectors<Collector>&
 CollectorRepository_MetricCollectors::collectors() const

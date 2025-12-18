@@ -71,6 +71,8 @@ static void accumulateLongerPrefixCategory(const Category **result,
                             // -------------------------
 
 // CLASS METHODS
+// requires: loggerManager != NULL \ && \ categoryName != NULL \ && \ loggerManager->lookupCategory(categoryName) == 0
+// ensures: (__out == 0) || (__out != 0 ==> loggerManager->lookupCategory(categoryName) == __out)
 Category *LoggerCategoryUtil::addCategoryHierarchically(
                                                   LoggerManager *loggerManager,
                                                   const char    *categoryName)

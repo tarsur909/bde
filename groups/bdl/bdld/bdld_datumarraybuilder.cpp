@@ -22,6 +22,8 @@ typedef DatumArrayBuilder::allocator_type allocator_type;
 
 /// Calculate the new capacity needed to accommodate data having the
 /// specified `length` for the datum array having the specified `capacity`.
+// requires: length < bsl::numeric_limits<DatumArrayBuilder::SizeType>::max() / 2 && capacity >= 0
+// ensures: (capacity == 0 ==> __out == 1) && (capacity != 0 ==> (__out >= length && EXISTS(0, 32, k, __out == capacity * (1 << k))))
 static DatumArrayBuilder::SizeType getNewCapacity(
                                           DatumArrayBuilder::SizeType capacity,
                                           DatumArrayBuilder::SizeType length)

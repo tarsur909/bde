@@ -147,6 +147,8 @@ void CategoryProctor::release()
                     // ---------------------
 
 // PRIVATE MANIPULATORS
+// requires: categoryName != NULL
+// ensures: __out != NULL
 Category *CategoryManager::addNewCategory(const char *categoryName,
                                           int         recordLevel,
                                           int         passLevel,
@@ -491,6 +493,8 @@ void CategoryManager::removeAllRules()
 // BDE_VERIFY pragma: pop
 
 // ACCESSORS
+// requires: categoryName != nullptr && EXISTS(0, strlen(categoryName) + 1, i, categoryName[i] == '\0')
+// ensures: (__out == 0 ==> d_registry.find(categoryName) == d_registry.end()) && (__out != 0 ==> (d_registry.find(categoryName) != d_registry.end() && __out == d_categories[iter->second]))
 const Category *CategoryManager::lookupCategory(const char *categoryName) const
 {
     bslmt::ReadLockGuard<bslmt::ReaderWriterLock> registryGuard(

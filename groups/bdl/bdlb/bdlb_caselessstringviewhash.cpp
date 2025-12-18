@@ -22,6 +22,8 @@ namespace bdlb {
                        // -----------------------------
 
 // ACCESSORS
+// requires: argument.data() != nullptr && argument.length() >= 0
+// ensures: __out == hash.computeHash()
 bsl::size_t CaselessStringViewHash::operator()(bsl::string_view argument) const
 {
     char buffer[1024];

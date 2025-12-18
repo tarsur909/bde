@@ -14,6 +14,8 @@ namespace bsltf {
                      // --------------------
 
 // CLASS METHODS
+// requires: value == CopyMoveState::e_ORIGINAL || value == CopyMoveState::e_COPIED_INTO || value == CopyMoveState::e_COPIED_CONST_INTO || value == CopyMoveState::e_COPIED_NONCONST_INTO || value == CopyMoveState::e_MOVED_INTO || value == CopyMoveState::e_MOVED_FROM || value == CopyMoveState::e_COPIED_INTO | CopyMoveState::e_MOVED_FROM || value == CopyMoveState::e_COPIED_CONST_INTO | CopyMoveState::e_MOVED_FROM || value == CopyMoveState::e_COPIED_NONCONST_INTO | CopyMoveState::e_MOVED_FROM || value == CopyMoveState::e_MOVED_INTO | CopyMoveState::e_MOVED_FROM || value == CopyMoveState::e_UNKNOWN
+// ensures: __out != 0
 const char *CopyMoveState::toAscii(CopyMoveState::Enum value)
 {
 #define CASE(X) case int(e_ ## X): return #X

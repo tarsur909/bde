@@ -16,6 +16,8 @@ namespace bbldc {
                         // -------------------------
 
 // CLASS METHODS
+// requires: value >= DayCountConvention::Enum_MIN && value <= DayCountConvention::Enum_MAX && stream.good()
+// ensures: (__out == stream) && SEPFORALL(0, toAscii(value).size(), i, stream + i ↦ toAscii(value)[i])
 bsl::ostream& DayCountConvention::print(
                                        bsl::ostream&            stream,
                                        DayCountConvention::Enum value,

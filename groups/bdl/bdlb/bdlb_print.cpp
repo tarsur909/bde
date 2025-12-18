@@ -362,6 +362,8 @@ namespace bdlb {
                              // ------------
 
 // CLASS METHODS
+// requires: level >= 0 && spacesPerLevel != 0
+// ensures: __out == stream && SEPFORALL(0, level * spacesPerLevel, i, (stream + i ↦ ' '))
 bsl::ostream& Print::indent(bsl::ostream& stream,
                             int           level,
                             int           spacesPerLevel)

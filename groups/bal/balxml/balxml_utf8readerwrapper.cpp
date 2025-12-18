@@ -49,6 +49,7 @@ namespace {
 namespace u {
 
 /// Return the specified `str` is `str != 0`, and "" otherwise.
+// ensures: (str != 0 ==> __out == str) && (str == 0 ==> __out == "")
 inline
 const char *nonNullStr(const char *str)
 {
@@ -66,6 +67,8 @@ namespace balxml {
                                 // ------------
 
 // PRIVATE MANIPULATORS
+// requires: url != nullptr && encoding != nullptr
+// ensures: (__out == 0) || (__out != 0 && (__out < 0 ==> d_utf8StreamBuf.errorStatus() < 0))
 inline
 int Utf8ReaderWrapper::doOpen(const char *url, const char *encoding)
 {
@@ -265,6 +268,7 @@ int Utf8ReaderWrapper::advanceToNextNode()
 }
 
 // ACCESSORS
+// ensures: __out == d_errorInfo.source().get_allocator().mechanism()
 bslma::Allocator *Utf8ReaderWrapper::allocator() const
 {
     return d_errorInfo.source().get_allocator().mechanism();

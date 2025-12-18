@@ -36,6 +36,8 @@ StackTracePrinter::StackTracePrinter(int  maxFrames,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream && !stream.fail()
+// ensures: __out == stream && (stream + 0 ↦ bsl::endl)
 bsl::ostream& balst::operator<<(bsl::ostream&            stream,
                                 const StackTracePrinter& object)
 {

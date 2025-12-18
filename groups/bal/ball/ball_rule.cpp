@@ -23,6 +23,8 @@ namespace ball {
                          // ----------
 
 // CLASS METHODS
+// requires: 0 < size
+// ensures: (__out == rule.d_hashValue) && (rule.d_hashSize ↦ size) && ((rule.d_hashValue < 0 || rule.d_hashSize != size) ==> (rule.d_hashValue == (ManagedAttributeSet::hash(rule.d_attributeSet, size) + ThresholdAggregate::hash(rule.d_thresholds, size) + bdlb::HashUtil::hash0(rule.d_pattern.c_str(), size)) % size))
 int Rule::hash(const Rule& rule, int size)
 {
     BSLS_ASSERT(0 < size);
@@ -42,6 +44,7 @@ int Rule::hash(const Rule& rule, int size)
 }
 
 // MANIPULATORS
+// ensures: __out == *this && (d_pattern ↦ rhs.d_pattern ⋆ d_thresholds ↦ rhs.d_thresholds ⋆ d_attributeSet ↦ rhs.d_attributeSet ⋆ d_hashValue ↦ rhs.d_hashValue ⋆ d_hashSize ↦ rhs.d_hashSize)
 Rule& Rule::operator=(const Rule& rhs)
 {
     d_pattern      = rhs.d_pattern,
@@ -53,6 +56,8 @@ Rule& Rule::operator=(const Rule& rhs)
 }
 
 // ACCESSORS
+// requires: stream != nullptr ⋆ d_pattern ↦ _ ⋆ d_thresholds ↦ _ ⋆ SEPFORALL(d_attributeSet.begin(), d_attributeSet.end(), it, *it ↦ _)
+// ensures: (__out == stream) && (d_pattern ↦ _ ⋆ d_thresholds ↦ _ ⋆ SEPFORALL(d_attributeSet.begin(), d_attributeSet.end(), it, *it ↦ _))
 bsl::ostream& Rule::print(bsl::ostream& stream,
                           int           level,
                           int           spacesPerLevel) const

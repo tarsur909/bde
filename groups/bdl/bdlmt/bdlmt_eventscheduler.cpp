@@ -140,6 +140,8 @@ EventSchedulerTestTimeSource_Data::EventSchedulerTestTimeSource_Data(
 }
 
 // MANIPULATORS
+// requires: amount > 0
+// ensures: __out == d_currentTime && d_currentTime == old_d_currentTime + amount
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -151,6 +153,7 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
 }
 
 // ACCESSORS
+// ensures: __out == d_currentTime
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_currentTimeMutex);
@@ -165,6 +168,7 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 const char EventScheduler::s_defaultThreadName[16] = { "bdl.EventSched" };
 
 // PRIVATE CLASS METHODS
+// ensures: __out == 0
 bsls::Types::Int64 EventScheduler::returnZero()
 {
     return 0;
@@ -176,6 +180,7 @@ bsls::Types::Int64 EventScheduler::returnZeroInt(int)
 }
 
 // PRIVATE MANIPULATORS
+// ensures: __out != 0
 bsls::Types::Int64 EventScheduler::chooseNextEvent(bsls::AtomicInt64 *now)
 {
     BSLS_ASSERT(0 != d_currentRecurringEvent || 0 != d_currentEvent);
@@ -881,6 +886,8 @@ EventScheduler::~EventScheduler()
 }
 
 // MANIPULATORS
+// requires: handle != 0 && ((*handle == 0) || ((const Event *) *handle != 0))
+// ensures: ((*handle == 0) ==> (__out == EventQueue::e_INVALID)) && ((*handle != 0) ==> true)
 int EventScheduler::cancelEvent(EventHandle *handle)
 {
     if (0 == (const Event *) *handle) {
@@ -1224,6 +1231,7 @@ void EventScheduler::stop()
 }
 
 // ACCESSORS
+// ensures: __out == d_running
 bool EventScheduler::isStarted() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_mutex);
@@ -1298,6 +1306,8 @@ EventSchedulerTestTimeSource::EventSchedulerTestTimeSource(
 }
 
 // MANIPULATORS
+// requires: amount > 0
+// ensures: __out > bsls::TimeInterval(0)
 bsls::TimeInterval EventSchedulerTestTimeSource::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -1343,6 +1353,8 @@ bsls::TimeInterval EventSchedulerTestTimeSource::advanceTime(
 }
 
 // ACCESSORS
+// requires: d_data_p != 0
+// ensures: __out == d_data_p->currentTime()
 bsls::TimeInterval EventSchedulerTestTimeSource::now() const
 {
     return d_data_p->currentTime();

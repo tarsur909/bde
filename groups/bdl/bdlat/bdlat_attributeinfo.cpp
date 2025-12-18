@@ -13,6 +13,7 @@ namespace BloombergLP {
                          // --------------------------
 
 // FREE OPERATORS
+// ensures: __out == stream && (__out << "( " << attributeInfo.formattingMode() << ", " << attributeInfo.id() << ", " && (attributeInfo.nameLength() ? __out.write(attributeInfo.name(), attributeInfo.nameLength()) : __out << "<null-name>") && __out << ", " << attributeInfo.nameLength() << ", " && (attributeInfo.annotation() ? __out << attributeInfo.annotation() : __out << "<null-annotation>") && __out << " )")
 bsl::ostream& operator<<(bsl::ostream&              stream,
                          const bdlat_AttributeInfo& attributeInfo)
 {

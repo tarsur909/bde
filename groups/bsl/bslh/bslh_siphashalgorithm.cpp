@@ -86,6 +86,8 @@ typedef unsigned char       u8;
 /// Return the bits of the specified `x` rotated to the left by the
 /// specified `b` number of bits.  Bits that are rotated off the end are
 /// wrapped around to the beginning.
+// requires: b >= 0 && b < 64
+// ensures: __out == ((x << b) | (x >> (64 - b)))
 inline
 static u64 rotl(u64 x, u64 b)
 {
@@ -116,6 +118,8 @@ static void sipround(u64& v0, u64& v1, u64& v2, u64& v3)
 /// Return the 64-bit integer representation of the specified `p` taking
 /// into account endianness.  Undefined unless `p` points to at least eight
 /// bytes of initialized memory.
+// requires: p ↦ _ ⋆ (p + 1) ↦ _ ⋆ (p + 2) ↦ _ ⋆ (p + 3) ↦ _ ⋆ (p + 4) ↦ _ ⋆ (p + 5) ↦ _ ⋆ (p + 6) ↦ _ ⋆ (p + 7) ↦ _
+// ensures: __out == BSLS_BYTEORDER_LE_U64_TO_HOST(*((u64*)p))
 inline
 static u64 u8to64_le(const u8* p)
 {

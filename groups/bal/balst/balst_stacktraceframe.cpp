@@ -16,6 +16,8 @@ namespace balst {
                            // ---------------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == stream && !stream.bad()
 bsl::ostream& StackTraceFrame::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const
@@ -57,6 +59,8 @@ void StackTraceFrame::swap(StackTraceFrame& other)
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream.bad() == false && (stream.bad() == false ==> SEPFORALL(0, 7, i, stream + i ↦ _))
+// ensures: (__out == stream) && (stream.bad() == false ==> (SEPFORALL(0, 7, i, stream + i ↦ _)))
 bsl::ostream& balst::operator<<(bsl::ostream&          stream,
                                 const StackTraceFrame& object)
 {
