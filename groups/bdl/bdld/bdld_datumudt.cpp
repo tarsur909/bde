@@ -16,6 +16,8 @@ namespace bdld {
                         // --------------
 
 // ACCESSORS
+// requires: !stream.bad() && stream.rdbuf()->in_sync()
+// ensures: __out == &stream && !stream.bad() && stream.rdbuf()->in_sync()
 bsl::ostream& DatumUdt::print(bsl::ostream& stream,
                               int           level,
                               int           spacesPerLevel) const

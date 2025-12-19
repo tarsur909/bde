@@ -37,6 +37,8 @@ class generic_category_impl : public error_category {
                         // ---------------------------
 
 // ACCESSORS
+// requires: true
+// ensures: __out == error_category::message(value)
 std::string generic_category_impl::message(int value) const
 {
     return error_category::message(value);
@@ -50,6 +52,8 @@ const char *generic_category_impl::name() const BSLS_KEYWORD_NOEXCEPT
 }  // close unnamed namespace
 
 // FREE FUNCTIONS
+// requires: true
+// ensures: true
 const error_category& generic_category()
 {
     static generic_category_impl generic_category_object;
@@ -74,6 +78,8 @@ class system_category_impl : public error_category {
 };
 
 // ACCESSORS
+// requires: true
+// ensures: __out == error_category::message(value)
 std::string system_category_impl::message(int value) const
 {
     return error_category::message(value);
@@ -87,6 +93,8 @@ const char *system_category_impl::name() const BSLS_KEYWORD_NOEXCEPT
 }  // close unnamed namespace
 
 // FREE FUNCTIONS
+// requires: true
+// ensures: true
 const error_category& system_category()
 {
     static system_category_impl system_category_object;

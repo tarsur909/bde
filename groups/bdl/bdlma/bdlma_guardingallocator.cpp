@@ -49,6 +49,8 @@ struct AfterUserBlockDeallocationData
 
 /// Utility function to compute the `AfterUserBlockDeallocationData*`
 /// corresponding to the specified `address`.
+// requires: true
+// ensures: __out == static_cast<AfterUserBlockDeallocationData*>(static_cast<void*>(static_cast<char*>(address) - OFFSET * 2))
 AfterUserBlockDeallocationData *getDataBlockAddress(void *address)
 {
     return static_cast<AfterUserBlockDeallocationData*>(
@@ -62,6 +64,8 @@ BSLMF_ASSERT(sizeof(AfterUserBlockDeallocationData) <= OFFSET * 2);
 // HELPER FUNCTIONS
 
 /// Return the size (in bytes) of a system memory page.
+// requires: true
+// ensures: __out == pageSize.loadRelaxed()
 int getSystemPageSize()
 {
     static bsls::AtomicInt pageSize(0);
@@ -88,6 +92,8 @@ int getSystemPageSize()
 /// Allocate a page-aligned block of memory of the specified `size` (in
 /// bytes), and return the address of the allocated block.  The behavior is
 /// undefined unless `size > 0`.
+// requires: size > 0
+// ensures: (__out == 0 ==> size <= 0) && (__out != 0 ==> SEPFORALL(0, size, i, (__out + i) ↦ _))
 void *systemAlloc(bsl::size_t size)
 {
     BSLS_ASSERT(size > 0);
@@ -141,6 +147,8 @@ void systemFree(void *address, size_t size)
 /// Protect from read/write access the page of memory at the specified
 /// `address` having the specified `pageSize` (in bytes).  The behavior is
 /// undefined unless `pageSize == getSystemPageSize()`.
+// requires: address != 0 && pageSize == getSystemPageSize()
+// ensures: (__out == 0 ==> (address ↦ _)) && (__out != 0 ==> (address ↦ _))
 int systemProtect(void *address, int pageSize)
 {
     BSLS_ASSERT(address);
@@ -164,6 +172,8 @@ int systemProtect(void *address, int pageSize)
 /// Unprotect from read/write access the page of memory at the specified
 /// `address` having the specified `pageSize` (in bytes).  The behavior is
 /// undefined unless `pageSize == getSystemPageSize()`.
+// requires: address != 0 && pageSize == getSystemPageSize()
+// ensures: true
 int systemUnprotect(void *address, int pageSize)
 {
     BSLS_ASSERT(address);
@@ -199,6 +209,8 @@ GuardingAllocator::~GuardingAllocator()
 }
 
 // MANIPULATORS
+// requires: size >= 0
+// ensures: (__out == 0 ==> size == 0) && (__out != 0 ==> (__out ↦ _ ⋆ (__out + size) ↦ _))
 void *GuardingAllocator::allocate(bsls::Types::size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_UNLIKELY(0 == size)) {

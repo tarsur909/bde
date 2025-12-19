@@ -48,6 +48,8 @@ BSLMF_ASSERT(bsl::is_trivially_copyable<MetricRecord>::value);
 BSLMF_ASSERT(bslmf::IsBitwiseCopyable<MetricRecord>::value);
 
 // ACCESSORS
+// requires: true
+// ensures: (__out == stream) && SEPFORALL(0, sizeof("[ " << d_metricId << ": " << d_count << " " << d_total << " " << d_min << " " << d_max << " ]"), i, stream + i ↦ "[ " << d_metricId << ": " << d_count << " " << d_total << " " << d_min << " " << d_max << " ]"[i])
 bsl::ostream& MetricRecord::print(bsl::ostream& stream) const
 {
     stream << "[ " << d_metricId << ": " << d_count

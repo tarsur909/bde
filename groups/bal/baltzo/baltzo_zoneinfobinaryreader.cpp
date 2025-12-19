@@ -130,6 +130,8 @@ const bsls::Types::Int64 MINIMUM_ZIC_TRANSITION = -576460752303423488LL;
 
 /// Return `true` if every character in the specified `buffer` of the
 /// specified `length` is printable, and `false` otherwise.
+// requires: buffer != 0 && 0 <= length && SEPFORALL(0, length, i, buffer + i ↦ _)
+// ensures: (__out == true ==> SEPFORALL(0, length, i, (buffer + i ↦ sep_v && bdlb::CharType::isPrint(sep_v)))) && (__out == false ==> SEPEXISTS(0, length, i, (buffer + i ↦ sep_v && !bdlb::CharType::isPrint(sep_v))))
 static
 bool areAllPrintable(const char *buffer, int length)
 {
@@ -229,6 +231,8 @@ bool validIndex(const bsl::vector<TYPE>& vector, int index)
 /// Read the 32-bit big-endian integer in the array of bytes located at the
 /// specified `address` and return that value.  The behavior is undefined
 /// unless `address` points to an accessible memory location.
+// requires: address != 0 && SEPFORALL(0, 4, i, address + i ↦ _)
+// ensures: __out == BSLS_BYTEORDER_BE_U32_TO_HOST(*reinterpret_cast<const int*>(address))
 static inline
 int decode32(const char *address)
 {
@@ -690,6 +694,8 @@ namespace baltzo {
                          // --------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == readImpl(zoneinfoResult, &description, k_READ_NORMALIZED, stream)
 int ZoneinfoBinaryReader::read(Zoneinfo *zoneinfoResult, bsl::istream& stream)
 {
     ZoneinfoBinaryHeader description;
