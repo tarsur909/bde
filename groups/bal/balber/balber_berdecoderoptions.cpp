@@ -74,6 +74,8 @@ const bdlat_AttributeInfo balber::BerDecoderOptions::ATTRIBUTE_INFO_ARRAY[] = {
 namespace balber {
 
 // CLASS METHODS
+// requires: nameLength >= 0 && SEPFORALL(0, nameLength, i, name[i] ↦ _)
+// ensures: (__out == 0) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_MAX_DEPTH] && nameLength == 8) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_TRACE_LEVEL] && nameLength == 10) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_MAX_SEQUENCE_SIZE] && nameLength == 15) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_SKIP_UNKNOWN_ELEMENTS] && nameLength == 19) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_DEFAULT_EMPTY_STRINGS] && nameLength == 19)
 const bdlat_AttributeInfo *BerDecoderOptions::lookupAttributeInfo(
                                                         const char *name,
                                                         int         nameLength)

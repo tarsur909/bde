@@ -49,6 +49,8 @@ void MemOutStreamBuf::grow(size_t newLength)
 }
 
 // PROTECTED MANIPULATORS
+// requires: true
+// ensures: (insertionChar == traits_type::eof() ==> __out == traits_type::not_eof(insertionChar)) && (insertionChar != traits_type::eof() ==> __out == sputc(static_cast<char_type>(insertionChar)))
 int MemOutStreamBuf::overflow(int_type insertionChar)
 {
     if (traits_type::eof() == insertionChar) {
