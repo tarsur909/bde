@@ -83,6 +83,8 @@ typedef bsls::Types::Uint64 Uint64;
 /// Return a string reference to the characters of the specified
 /// `positiveNum` that do not contain the optionally present first `+`
 /// ASCII character.  The behavior is undefined if `positiveNum.empty()`.
+// requires: !positiveNum.empty()
+// ensures: (positiveNum[0] == '+' ==> __out == positiveNum.substr(1)) && (positiveNum[0] != '+' ==> __out == positiveNum)
 static
 inline
 bsl::string_view stripOptionalPlus(const bsl::string_view& positiveNum)
@@ -135,6 +137,8 @@ double reparseOutOfRange(const char              **restPtr,
 #else   // end - using 'double' 'from_chars' / begin - using 'strtod'
 
                               // Portability
+// requires: true
+// ensures: (__out == true ==> bsl::isinf(number)) && (__out == false ==> !bsl::isinf(number))
 static
 bool isInf(double number)
     // Return 'true' if the specified 'number' is a positive or negative
@@ -161,6 +165,8 @@ bool isInf(double number)
 }
 
 #ifdef BDLB_NUMERICPARSEUTIL_STRTOD_PARSES_HEXFLOAT
+// requires: stdlibInput.size() >= 2
+// ensures: (__out == true ==> (stdlibInput.substr(0, 2) == "0x" || stdlibInput.substr(0, 2) == "0X")) && (__out == false ==> (stdlibInput.substr(0, 2) != "0x" && stdlibInput.substr(0, 2) != "0X"))
 static
 bool hasHexPrefix(const bsl::string_view& stdlibInput)
     // Return 'true' if the first two characters of the specified 'stdlibInput'
@@ -185,6 +191,8 @@ namespace bdlb {
                         // struct NumericParseUtil
                         // -----------------------
 // CLASS METHODS
+// requires: (2 <= base && base <= 36) && (Ct::isDigit(character) || (Ct::isAlpha(character) && (Ct::toLower(character) - aShift < base)))
+// ensures: (0 <= __out && __out < base) || __out == -1
 int NumericParseUtil::characterToDigit(char character, int base)
 {
     BSLS_ASSERT_SAFE(2 <= base);

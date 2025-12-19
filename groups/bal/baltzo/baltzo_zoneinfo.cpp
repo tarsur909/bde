@@ -22,6 +22,8 @@ namespace BloombergLP {
 
 /// Return `true` if the specified `transitions` contain a transition with
 /// the specified `descriptor`, and `false` otherwise.
+// requires: true
+// ensures: (__out == true ==> SEPEXISTS(0, transitions.size(), i, transitions[i].descriptor() == descriptor)) && (__out == false ==> SEPFORALL(0, transitions.size(), i, transitions[i].descriptor() != descriptor))
 static
 bool containsDescriptor(
                     const bsl::vector<baltzo::ZoneinfoTransition>& transitions,
@@ -44,6 +46,8 @@ namespace baltzo {
                           // ------------------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream&
 ZoneinfoTransition::print(bsl::ostream& stream,
                           int           level,
@@ -125,6 +129,8 @@ namespace baltzo {
                        // ------------------------------
 
 // ACCESSORS
+// requires: true
+// ensures: (__out == (lhs.utcOffsetInSeconds() < rhs.utcOffsetInSeconds())) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && __out == (lhs.description() < rhs.description())) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() == rhs.description() && __out == (lhs.dstInEffectFlag() < rhs.dstInEffectFlag()))
 bool Zoneinfo::DescriptorLess::operator()(const LocalTimeDescriptor& lhs,
                                           const LocalTimeDescriptor& rhs) const
 {
@@ -346,6 +352,8 @@ bsl::ostream& Zoneinfo::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: SEPFORALL(object.beginTransitions(), object.endTransitions(), it, *it ↦ _)
+// ensures: __out == stream && SEPFORALL(object.beginTransitions(), object.endTransitions(), it, *it ↦ _)
 bsl::ostream& baltzo::operator<<(bsl::ostream& stream, const Zoneinfo& object)
 {
     stream << "[ \"" << object.identifier() << "\" "

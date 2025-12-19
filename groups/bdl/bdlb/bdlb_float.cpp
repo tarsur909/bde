@@ -58,6 +58,8 @@ namespace {
 /// Using `bsl::memcpy` is the only portable way to copy the contents of
 /// `number` into an integral type without aliasing and/or alignment
 /// problems.
+// requires: true
+// ensures: __out == *reinterpret_cast<FloatRep_t*>(&number)
 inline
 FloatRep_t toRep(float number)
 {
@@ -67,6 +69,8 @@ FloatRep_t toRep(float number)
 }
 
 /// Implementation of `bdlb::Float::classify(float number)`.
+// requires: true
+// ensures: (numberExp == 0 && (number & floatManMask) != 0 ==> __out == bdlb::Float::k_SUBNORMAL) && (numberExp == 0 && (number & floatManMask) == 0 ==> __out == bdlb::Float::k_ZERO) && (numberExp == floatExpMask && (number & floatManMask) != 0 ==> __out == bdlb::Float::k_NAN) && (numberExp == floatExpMask && (number & floatManMask) == 0 ==> __out == bdlb::Float::k_INFINITE) && (numberExp != 0 && numberExp != floatExpMask ==> __out == bdlb::Float::k_NORMAL)
 inline
 bdlb::Float::Classification classifyImp(FloatRep_t number)
 {
@@ -202,6 +206,8 @@ namespace {
 /// Using `bsl::memcpy` is the only portable way to copy the contents of
 /// `number` into an integral type without aliasing and/or alignment
 /// problems.
+// requires: true
+// ensures: __out == *reinterpret_cast<DoubleRep_t*>(&number)
 inline
 DoubleRep_t toRep(double number)
 {
@@ -212,6 +218,8 @@ DoubleRep_t toRep(double number)
 }
 
 /// Implementation of `bdlb::Float::classify(double number)`.
+// requires: true
+// ensures: (numberExp == 0 && (number & doubleManMask) != 0 ==> __out == bdlb::Float::k_SUBNORMAL) && (numberExp == 0 && (number & doubleManMask) == 0 ==> __out == bdlb::Float::k_ZERO) && (numberExp == doubleExpMask && (number & doubleManMask) != 0 ==> __out == bdlb::Float::k_NAN) && (numberExp == doubleExpMask && (number & doubleManMask) == 0 ==> __out == bdlb::Float::k_INFINITE) && (numberExp != 0 && numberExp != doubleExpMask ==> __out == bdlb::Float::k_NORMAL)
 inline
 bdlb::Float::Classification classifyImp(DoubleRep_t number)
 {

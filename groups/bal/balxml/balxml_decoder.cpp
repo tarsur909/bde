@@ -378,6 +378,8 @@ Decoder::checkForErrors(const ErrorInfo& errInfo)
 }
 
 // MANIPULATORS
+// requires: context != 0 && (context ↦ _ ⋆ d_reader ↦ _)
+// ensures: (__out == BAEXML_SUCCESS || __out == BAEXML_FAILURE) && (context ↦ _ ⋆ d_reader ↦ _)
 int
 Decoder::parse(Decoder_ElementContext *context)
 {

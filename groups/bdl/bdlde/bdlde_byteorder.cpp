@@ -15,6 +15,8 @@ namespace bdlde {
                               // ----------------
 
 // CLASS METHODS
+// requires: true
+// ensures: (stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == stream ⋆ SEPFORALL(0, sizeof(ByteOrder::toAscii(value)), i, stream + i ↦ ByteOrder::toAscii(value)[i])))
 bsl::ostream& ByteOrder::print(bsl::ostream&   stream,
                                ByteOrder::Enum value,
                                int             level,
