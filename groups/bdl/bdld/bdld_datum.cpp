@@ -855,6 +855,8 @@ BSLMF_ASSERT(sizeof(bdlt::Time) <= sizeof(long long));
 BSLMF_ASSERT(sizeof(Datum_MapHeader) <= sizeof(DatumMapEntry));
 
 // CLASS METHODS
+// requires: true
+// ensures: true
 Datum Datum::createDecimal64(bdldfp::Decimal64    value,
                              const AllocatorType& allocator)
 {
@@ -1371,6 +1373,8 @@ void Datum::destroy(const Datum& value, const AllocatorType& allocator)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: true
 Datum Datum::clone(const AllocatorType& allocator) const
 {
     Datum result;
@@ -1437,6 +1441,8 @@ bsl::ostream& Datum::print(bsl::ostream& stream,
                          // -------------------
 
 // ACCESSORS
+// requires: stream.good() && (stream ↦ _)
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1462,6 +1468,8 @@ bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                           // ----------------------
 
 // ACCESSORS
+// requires: true
+// ensures: (stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == stream && (__out << bsl::flush)))
 bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const
@@ -1487,6 +1495,8 @@ bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                             // -------------------
 
 // ACCESSORS
+// requires: stream.good()
+// ensures: (__out == stream) && (__out ↦ _)
 bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1508,6 +1518,8 @@ bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                           // class DatumMapRef
                           // -----------------
 // ACCESSORS
+// requires: true
+// ensures: (__out != 0 ==> findElementBinary(key, *this) == __out || findElementLinear(key, *this) == __out) && (__out == 0 ==> findElementBinary(key, *this) == nullptr && findElementLinear(key, *this) == nullptr)
 const Datum *DatumIntMapRef::find(int key) const
 {
     return d_sorted ? findElementBinary(key, *this) :
@@ -1563,6 +1575,25 @@ bsl::ostream& DatumIntMapRef::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: POST(
+    (__out == true) == 
+    (lhs.type() == rhs.type() && 
+     (
+         (lhs.type() == Datum::e_DOUBLE && lhs.theDouble() == rhs.theDouble()) ||
+         (lhs.type() == Datum::e_STRING && lhs.theString() == rhs.theString()) ||
+         (lhs.type() == Datum::e_INTEGER && lhs.theInteger() == rhs.theInteger()) ||
+         (lhs.type() == Datum::e_BOOLEAN && lhs.theBoolean() == rhs.theBoolean()) ||
+         (lhs.type() == Datum::e_NIL) ||
+         (lhs.type() == Datum::e_ERROR && lhs.theError() == rhs.theError()) ||
+         (lhs.type() == Datum::e_DATE && lhs.theDate() == rhs.theDate()) ||
+         (lhs.type() == Datum::e_TIME && lhs.theTime() == rhs.theTime()) ||
+         (lhs.type() == Datum::e_DATETIME && lhs.theDatetime() == rhs.theDatetime()) ||
+         (lhs.type() == Datum::e_DATETIME_INTERVAL && lhs.theDatetimeInterval() == rhs.theDatetimeInterval()) ||
+         (lhs.type() == Datum::e_INTEGER64 && lhs.theInteger64() == rhs.theInteger64()) ||
+         (lhs.type() == Datum::e_BINARY && lhs.theBinary() == rhs.theBinary()) ||
+         (lhs.type() == Datum::e_DECIMAL64 && lhs.theDecimal64() == rhs.theDecimal64()) ||
+         (lhs.type() == Datum::e_ARRAY && lhs.theArray() == rhs.theArray()) ||
 bool bdld::operator==(const Datum& lhs, const Datum& rhs)
 {
     const Datum::DataType type = lhs.type();

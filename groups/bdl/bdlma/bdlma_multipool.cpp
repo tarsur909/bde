@@ -178,6 +178,8 @@ void Multipool::initialize(
 }
 
 // PRIVATE ACCESSORS
+// requires: size <= d_maxBlockSize
+// ensures: __out == (31 - bdlb::BitUtil::numLeadingUnsetBits(static_cast<bsl::uint32_t>(((size + k_MIN_BLOCK_SIZE - 1) >> 3) * 2 - 1)))
 int Multipool::findPool(bsls::Types::size_type size) const
 {
     BSLS_ASSERT(size <= d_maxBlockSize);
@@ -314,6 +316,8 @@ Multipool::~Multipool()
 }
 
 // MANIPULATORS
+// requires: size >= 0
+// ensures: (size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)
 void *Multipool::allocate(bsls::Types::size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_LIKELY(size)) {

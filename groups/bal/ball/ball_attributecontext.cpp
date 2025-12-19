@@ -65,6 +65,8 @@ namespace ball {
                // ------------------------------------------
 
 // MANIPULATORS
+// requires: FORALL(0, RuleSet::e_MAX_NUM_RULES, i, (relevantRulesMask & (1 << i)) != 0 ==> rules.getRuleById(i) != nullptr)
+// ensures: __out == d_resultMask
 RuleSet::MaskType
 AttributeContext_RuleEvaluationCache::update(
                                bsls::Types::Int64            sequenceNumber,
@@ -106,6 +108,8 @@ AttributeContext_RuleEvaluationCache::update(
 }
 
 // ACCESSORS
+// requires: stream ↦ _
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream&
 AttributeContext_RuleEvaluationCache::print(bsl::ostream& stream,
                                             int           level,
@@ -183,6 +187,8 @@ AttributeContext::~AttributeContext()
 }
 
 // PRIVATE CLASS METHODS
+// requires: true
+// ensures: __out == &s_contextKey
 const bslmt::ThreadUtil::Key& AttributeContext::contextKey()
 {
     static bslmt::ThreadUtil::Key s_contextKey;
@@ -213,6 +219,8 @@ void AttributeContext::removeContext(void *arg)
 }
 
 // CLASS METHODS
+// requires: true
+// ensures: __out != 0
 AttributeContext *AttributeContext::getContext()
 {
 #ifdef BSLMT_THREAD_LOCAL_VARIABLE
@@ -308,6 +316,8 @@ void AttributeContext::visitAttributes(
 }
 
 // ACCESSORS
+// requires: category != nullptr
+// ensures: (__out == false ==> category->relevantRuleMask() == 0) && (__out == true ==> (category->relevantRuleMask() & d_ruleCache_p.knownActiveRules()) != 0 || (category->relevantRuleMask() & d_ruleCache_p.update(s_categoryManager_p->ruleSetSequenceNumber(), category->relevantRuleMask(), s_categoryManager_p->ruleSet(), d_containerList)) != 0)
 bool AttributeContext::hasRelevantActiveRules(const Category *category) const
 {
     BSLS_ASSERT(category);
@@ -422,6 +432,8 @@ AttributeContext::determineThresholdLevels(ThresholdAggregate *levels,
 }
 
 // ACCESSORS
+// requires: stream ↦ _
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& AttributeContext::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const

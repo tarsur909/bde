@@ -85,6 +85,8 @@ void ElementAttribute::reset(const PrefixStack *prefixStack,
 }
 
 // ACCESSORS
+// requires: (d_prefix || !d_qualifiedName) || (!d_prefixStack && d_qualifiedName) || (d_prefixStack && d_qualifiedName)
+// ensures: __out == d_prefix
 const char *ElementAttribute::prefix() const
 {
     if (d_prefix || ! d_qualifiedName) {

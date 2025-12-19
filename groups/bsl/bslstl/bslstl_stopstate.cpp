@@ -25,6 +25,8 @@ namespace {
 
 /// Return the thread ID of the calling thread.  We cannot depend on
 /// `bslmt_threadutil`, so we reimplement this functionality.
+// requires: true
+// ensures: __out != 0
 unsigned long long currentThreadId()
 {
 #if defined(BSLS_PLATFORM_OS_WINDOWS)
@@ -138,6 +140,8 @@ bool StopState::requestStop()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: true
 bool StopState::stopRequested() const
 {
     return d_stopRequested.loadAcquire();

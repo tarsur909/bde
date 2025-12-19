@@ -17,6 +17,8 @@ namespace bbldc {
                        // ----------------------------
 
 // CLASS METHODS
+// requires: beginDate <= endDate
+// ensures: __out == (yDiff * daysInBeginYear * daysInEndYear + beginYearDayDiff * daysInEndYear + endYearDayDiff * daysInBeginYear) / static_cast<double>(daysInBeginYear * daysInEndYear)
 double BasicIsdaActualActual::yearsDiff(const bdlt::Date& beginDate,
                                         const bdlt::Date& endDate)
 {

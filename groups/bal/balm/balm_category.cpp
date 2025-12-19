@@ -54,6 +54,8 @@ void Category::registerCategoryHolder(CategoryHolder *holder)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == stream && SEPFORALL(0, sizeof(d_name_p), i, stream + i ↦ d_name_p[i])
 bsl::ostream& Category::print(bsl::ostream& stream) const
 {
     stream << "[ " << d_name_p << (d_enabled ? " ENABLED ]" : " DISABLED ]");
