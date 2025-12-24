@@ -25,6 +25,7 @@ namespace u {
 /// `basicAllocator`, of a `balb::PipeControlChannel` object configured to
 /// invoke the `dispatchMethod` function of the specified `controlManager`
 /// and that uses `basicAllocator` to supply memory.
+// ensures: __out != 0
 static
 PipeControlChannel *makeControlChannel(ControlManager   *controlManager,
                                        bslma::Allocator *basicAllocator)

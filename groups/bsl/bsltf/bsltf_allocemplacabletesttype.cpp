@@ -446,6 +446,7 @@ AllocEmplacableTestType::~AllocEmplacableTestType()
 }
 
 // MANIPULATORS
+// ensures: __out == s_numDeletes
 int AllocEmplacableTestType::getNumDeletes()
 {
     return s_numDeletes;

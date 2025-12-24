@@ -64,6 +64,7 @@ NonOptionalAllocTestType::~NonOptionalAllocTestType()
 }
 
 // MANIPULATORS
+// ensures: &__out == this && (&rhs != this ==> *d_data_p == *rhs.d_data_p)
 NonOptionalAllocTestType& NonOptionalAllocTestType::operator=(
                                            const NonOptionalAllocTestType& rhs)
 {

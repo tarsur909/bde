@@ -145,6 +145,7 @@ namespace balxml {
                                 // -----------
 
 // CLASS METHODS
+// ensures: (__out == true ==> (targetNamespace != nullptr && (*targetNamespace).size() > 0)) && (__out == false ==> true)
 bool Util::extractNamespaceFromXsd(const bsl::string_view&  xsdSource,
                                    bsl::string             *targetNamespace)
 {

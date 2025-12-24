@@ -32,6 +32,7 @@ namespace balst {
                          // -------------------------
 
 // CLASS METHOD
+// ensures: __out == &stream
 bsl::ostream& StackTracePrintUtil::printStackTrace(
                                          bsl::ostream& stream,
                                          int           maxFrames,
