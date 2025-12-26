@@ -245,6 +245,7 @@ int DatetimeInterval::assignIfValid(bsls::Types::Int64 days,
 }
 
 // CLASS METHODS
+(__out == true ==> (u::k_HOURS_FLOOR <= hours && hours < u::k_HOURS_CEILING) && (u::k_MINUTES_FLOOR <= minutes && minutes < u::k_MINUTES_CEILING) && (u::k_SECONDS_FLOOR <= seconds && seconds < u::k_SECONDS_CEILING) && (u::k_MILLISECONDS_FLOOR <= milliseconds && milliseconds < u::k_MILLISECONDS_CEILING) && (u::k_MIN_INT <= d && d <= u::k_MAX_INT)) && (__out == false ==> (u::k_HOURS_FLOOR > hours || hours >= u::k_HOURS_CEILING) || (u::k_MINUTES_FLOOR > minutes || minutes >= u::k_MINUTES_CEILING) || (u::k_SECONDS_FLOOR > seconds || seconds >= u::k_SECONDS_CEILING) || (u::k_MILLISECONDS_FLOOR > milliseconds || milliseconds >= u::k_MILLISECONDS_CEILING) || (d < u::k_MIN_INT || d > u::k_MAX_INT))
 bool DatetimeInterval::isValid(int                days,
                                bsls::Types::Int64 hours,
                                bsls::Types::Int64 minutes,
@@ -632,6 +633,7 @@ bsl::ostream& DatetimeInterval::print(bsl::ostream& stream,
 #ifndef BDE_OMIT_INTERNAL_DEPRECATED  // BDE2.22
 
 // DEPRECATED METHODS
+__out == &stream && *__out == stream
 bsl::ostream& DatetimeInterval::streamOut(bsl::ostream& stream) const
 {
     return stream << *this;

@@ -159,6 +159,7 @@ Option::~Option()
 }
 
 // MANIPULATORS
+__out == *this ⋆ (__out.field1 ↦ rhs.field1 ⋆ __out.field2 ↦ rhs.field2)
 Option& Option::operator=(const Option& rhs)
 {
     const OptionInfo& optionInfo = rhs;
@@ -417,6 +418,7 @@ bsl::ostream& Option::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+__out == (static_cast<const OptionInfo&>(lhs) == static_cast<const OptionInfo&>(rhs))
 bool balcl::operator==(const Option& lhs, const Option& rhs)
 {
     return static_cast<const OptionInfo&>(lhs)

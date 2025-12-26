@@ -378,6 +378,7 @@ Decoder::checkForErrors(const ErrorInfo& errInfo)
 }
 
 // MANIPULATORS
+(__out == BAEXML_SUCCESS || __out == BAEXML_FAILURE)
 int
 Decoder::parse(Decoder_ElementContext *context)
 {

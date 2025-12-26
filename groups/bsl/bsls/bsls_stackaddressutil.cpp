@@ -99,6 +99,7 @@ int getProcessId()
 /// least `length` bytes.  Note that this has been adapted from
 /// `bdls_processutil` to work within the constraints of the level of this
 /// component.
+(__out == -1) ==> (output[0] == 0)
 int getProcessName(char *output, int length)
 {
 #if defined(BSLS_PLATFORM_OS_AIX)
@@ -290,6 +291,7 @@ namespace {
 /// undefined unless `tag` is a non-empty null-terminated string.  Return
 /// `0` if the `plink_timestamp___` global variable does not contain the
 /// `tag` or is not well formed.
+(__out == 0) || (__out != 0 ==> EXISTS(0, strlen(tag), i, tag[i] == __out[i]))
 const char *getPwhatVar(const char *const tag)
 {
     // This is a modified version of 'sysutil_pwhat_getvar', adjusted to not

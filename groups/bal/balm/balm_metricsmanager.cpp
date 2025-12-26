@@ -801,6 +801,7 @@ MetricsManager_PublisherRegistry::~MetricsManager_PublisherRegistry()
 }
 
 // MANIPULATORS
+(__out == -1 ==> (d_generalPublishers.find(publisher) != d_generalPublishers.end() || (d_registry.find(publisher) != d_registry.end() && !d_registry.find(publisher)->second.empty()))) && (__out == 0 ==> (d_generalPublishers.find(publisher) == d_generalPublishers.end() || (d_registry.find(publisher) == d_registry.end() || d_registry.find(publisher)->second.empty())) && d_generalPublishers.find(publisher) != d_generalPublishers.end())
 int MetricsManager_PublisherRegistry::addGeneralPublisher(
                               const bsl::shared_ptr<Publisher>& publisher)
 {
@@ -1007,6 +1008,7 @@ MetricsManager_CallbackRegistry::~MetricsManager_CallbackRegistry()
 }
 
 // MANIPULATORS
+__out >= 0
 MetricsManager_CallbackRegistry::CallbackHandle
 MetricsManager_CallbackRegistry::registerCollectionCallback(
                                     const Category                   *category,
