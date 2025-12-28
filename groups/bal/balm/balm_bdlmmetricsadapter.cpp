@@ -40,6 +40,7 @@ BdlmMetricsAdapter::~BdlmMetricsAdapter()
 }
 
 // MANIPULATORS
+__out != 0
 bdlm::MetricsAdapter::CallbackHandle
 BdlmMetricsAdapter::registerCollectionCallback(
                                 const bdlm::MetricDescriptor& metricDescriptor,

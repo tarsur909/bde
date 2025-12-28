@@ -13,6 +13,7 @@ namespace BloombergLP {
 namespace bdlsb {
 
 // PROTECTED MANIPULATORS
+(!(which & bsl::ios_base::in) ==> __out == pos_type(-1)) && (way != bsl::ios_base::beg && way != bsl::ios_base::cur && way != bsl::ios_base::end ==> __out == pos_type(-1)) && (__out < pos_type(0) || static_cast<bsl::size_t>(__out) > d_bufferSize ==> __out == pos_type(-1))
 FixedMemInStreamBuf::pos_type
 FixedMemInStreamBuf::seekoff(off_type                offset,
                              bsl::ios_base::seekdir  way,

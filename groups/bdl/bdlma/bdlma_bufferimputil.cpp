@@ -15,6 +15,7 @@ namespace bdlma {
                            // --------------------
 
 // CLASS METHODS
+(__out != 0) && (*cursor == old_cursor + size) && (*cursor <= bufferSize) && (SEPFORALL(0, size, i, (__out + i ↦ _)) ⋆ SEPFORALL(size, bufferSize - size, i, (buffer + old_cursor + size + i ↦ _)))
 void *BufferImpUtil::allocateFromBuffer(bsls::Types::IntPtr       *cursor,
                                         char                      *buffer,
                                         bsls::Types::size_type     bufferSize,

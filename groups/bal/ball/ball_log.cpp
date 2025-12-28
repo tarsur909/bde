@@ -37,6 +37,7 @@ namespace ball {
                          // ----------
 
 // CLASS METHODS
+(__out >= 0 && __out < numBytes ==> (SEPFORALL(0, __out, i, (buffer + i ↦ format[i])) && (buffer + __out ↦ 0))) && (__out >= 0 && __out >= numBytes ==> SEPFORALL(0, numBytes, i, (buffer + i ↦ format[i]))) && (__out == -1 ==> SEPFORALL(0, numBytes, i, (buffer + i ↦ _)))
 int Log::format(char *buffer, bsl::size_t numBytes, const char *format, ...)
 {
     bsl::va_list args;

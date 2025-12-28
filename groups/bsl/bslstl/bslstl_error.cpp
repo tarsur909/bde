@@ -50,6 +50,7 @@ const char *generic_category_impl::name() const BSLS_KEYWORD_NOEXCEPT
 }  // close unnamed namespace
 
 // FREE FUNCTIONS
+__out == &generic_category_object
 const error_category& generic_category()
 {
     static generic_category_impl generic_category_object;

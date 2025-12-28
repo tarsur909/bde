@@ -100,6 +100,7 @@ ReadRestFunctor::ReadRestFunctor(bsl::streambuf *streamBuf, int oldSize)
 }
 
 // MODIFIERS
+__out == (d_oldSize + nRead) && SEPFORALL(d_oldSize, (d_oldSize + nRead), i, (buf + i ↦ _))
 size_t ReadRestFunctor::operator()(char *buf, size_t newSize)
 {
     bsl::streamsize nRead = d_streamBuf->sgetn(
@@ -1238,6 +1239,7 @@ int BerUtil_Iso8601ImpUtil::putTimeTzValue(bsl::streambuf          *streamBuf,
                     // ------------------------------------
 
 // CLASS METHODS
+(__out == true ==> (k_MIN_OFFSET <= value && k_MAX_OFFSET >= value)) && (__out == false ==> (value < k_MIN_OFFSET || value > k_MAX_OFFSET))
 bool BerUtil_TimezoneOffsetImpUtil::isValidTimezoneOffsetInMinutes(int value)
 {
     return (k_MIN_OFFSET <= value) && (k_MAX_OFFSET >= value);

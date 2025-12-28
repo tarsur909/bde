@@ -217,6 +217,7 @@ bsl::ostream& encodeBase64(bsl::ostream&  stream,
 /// character and `dataLength` is not -1 (neither one being allowed for XML
 /// 1.0), then return the address of the first byte of the offending UTF-8
 /// character in `data`.
+(__out == 0) || (__out != 0 && (__out >= data && __out <= data + dataLength))
 const char *printTextReplacingXMLEscapes(
                                      bsl::ostream&                 stream,
                                      const char                   *data,
@@ -751,6 +752,7 @@ const char *printTextReplacingXMLEscapes(
 /// `stream` and do not write anything.
 ///
 /// Return a modifiable reference to `stream`.
+(__out == stream
 bsl::ostream& printDecimalWithDigitsOptions(bsl::ostream& stream,
                                             double        object,
                                             int           maxTotalDigits,
