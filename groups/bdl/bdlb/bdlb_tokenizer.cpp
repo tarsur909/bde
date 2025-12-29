@@ -152,6 +152,8 @@ TokenizerIterator::TokenizerIterator(const TokenizerIterator& origin)
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (this != &rhs ==> (d_sharedData_p == rhs.d_sharedData_p ⋆ d_cursor_p == rhs.d_cursor_p ⋆ d_token_p == rhs.d_token_p ⋆ d_postDelim_p == rhs.d_postDelim_p ⋆ d_end_p == rhs.d_end_p ⋆ d_endFlag == rhs.d_endFlag)) && (__out == *this)
 TokenizerIterator& TokenizerIterator::operator=(const TokenizerIterator& rhs)
 {
     if (this != &rhs)
@@ -314,6 +316,8 @@ Tokenizer::~Tokenizer()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: &__out == this
 Tokenizer& Tokenizer::operator++()
 {
     // Operator++ called on invalid tokenizer
@@ -408,6 +412,8 @@ void Tokenizer::reset(const bsl::string_view& input)
 }
 
 // ACCESSORS
+// requires: d_prevDelim_p != nullptr && d_token_p != nullptr && d_prevDelim_p <= d_token_p && SEPFORALL(0, d_token_p - d_prevDelim_p, i, (d_prevDelim_p + i) ↦ _)
+// ensures: (__out == true ==> SEPEXISTS(0, d_token_p - d_prevDelim_p, i, d_sharedData.inputType(*(d_prevDelim_p + i)) == SFT)) && (__out == false ==> SEPFORALL(0, d_token_p - d_prevDelim_p, i, d_sharedData.inputType(*(d_prevDelim_p + i)) != SFT))
 bool Tokenizer::hasPreviousSoft() const
 {
     const char *p = d_prevDelim_p;

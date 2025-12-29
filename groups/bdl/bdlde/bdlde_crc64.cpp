@@ -329,6 +329,8 @@ void Crc64::update(const void *data, bsl::size_t length)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: SEPFORALL(0, 18, i, (stream + i ↦ out[i]))
 bsl::ostream& Crc64::print(bsl::ostream& stream) const
 {
     static const char hex[] = "0123456789abcdef";

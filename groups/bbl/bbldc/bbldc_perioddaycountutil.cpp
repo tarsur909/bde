@@ -41,6 +41,18 @@ static bool isSortedAndUnique(const ITER& begin, const ITER& end)
                         // -------------------------
 
 // PRIVATE CLASS METHODS
+// requires: PRE(
+    (periodDateEnd - periodDateBegin >= 2) &&
+    (*periodDateBegin <= beginDate) &&
+    (beginDate <= *(periodDateEnd - 1)) &&
+    (*periodDateBegin <= endDate) &&
+    (endDate <= *(periodDateEnd - 1)) &&
+    FORALL(periodDateBegin, periodDateEnd, i, *i <= *(i + 1))
+)
+
+Explanation:
+The function `PeriodDayCountUtil::yearsDiffImp` relies on several conditions being true for the input parameters to ensure the postcondition holds. The conditions include the difference between `periodDateEnd` and `periodDateBegin` being at least 2, the dates being within the specified range, and the dates being sorted and unique. The `FORALL` quantifier is used to ensure that the dates are sorted, which replaces the disallowed `isSortedAndUnique` function call.
+// ensures: (convention == DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == bbldc::PeriodIcmaActualActual::yearsDiff(beginDate, endDate, periodDateBegin, periodDateEnd, periodYearDiff)) && (convention != DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == 0.0)
 double PeriodDayCountUtil::yearsDiffImp(
                                      const bdlt::Date&         beginDate,
                                      const bdlt::Date&         endDate,
@@ -77,6 +89,8 @@ double PeriodDayCountUtil::yearsDiffImp(
 }
 
 // CLASS METHODS
+// requires: true
+// ensures: (convention == DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == bbldc::PeriodIcmaActualActual::daysDiff(beginDate, endDate)) && (convention != DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == 0)
 int PeriodDayCountUtil::daysDiff(const bdlt::Date&        beginDate,
                                  const bdlt::Date&        endDate,
                                  DayCountConvention::Enum convention)

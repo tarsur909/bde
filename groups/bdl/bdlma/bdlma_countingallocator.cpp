@@ -65,6 +65,8 @@ CountingAllocator::~CountingAllocator()
 }
 
 // MANIPULATORS
+// requires: size >= 0
+// ensures: (size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)
 void *CountingAllocator::allocate(bsls::Types::size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_UNLIKELY(0 == size)) {
@@ -105,6 +107,8 @@ void CountingAllocator::deallocate(void *address)
 }
 
 // ACCESSORS
+// requires: SEPFORALL(0, sizeof(stream), i, (stream + i) ↦ _)
+// ensures: __out == stream && SEPFORALL(0, sizeof(stream), i, __out + i ↦ _)
 bsl::ostream& CountingAllocator::print(bsl::ostream& stream) const
 {
     stream << "----------------------------------------\n"

@@ -227,6 +227,8 @@ static const unsigned int k_NUM_REPRESENTABLE_COMBINED_INDICES =
 /// Return an encoded state value comprising the specified `generation` and
 /// the specified `indexState`.  Note that the resulting encoded value is
 /// appropriate for storage in the `d_states` array.
+// requires: true
+// ensures: __out == ((generation << k_GENERATION_COUNT_SHIFT) | indexState)
 inline
 static unsigned int encodeElementState(unsigned int generation,
                                        ElementState indexState)
@@ -238,6 +240,8 @@ static unsigned int encodeElementState(unsigned int generation,
 /// behavior is undefined unless `value` was encoded by
 /// `encodeElementState`.  Note that `encodedState` is typically obtained
 /// from the `d_states` array.
+// requires: true
+// ensures: __out == (encodedState >> k_GENERATION_COUNT_SHIFT)
 inline
 static unsigned int decodeGenerationFromElementState(unsigned int encodedState)
 {
@@ -248,6 +252,8 @@ static unsigned int decodeGenerationFromElementState(unsigned int encodedState)
 /// is undefined unless `encodedState` was encoded by `encodeElementState`.
 /// Note that `encodedState` is typically obtained from the `d_states`
 /// array.
+// requires: true
+// ensures: __out == ElementState(encodedState & k_ELEMENT_STATE_MASK)
 inline
 static ElementState decodeStateFromElementState(unsigned int encodedState)
 {
@@ -261,6 +267,8 @@ static ElementState decodeStateFromElementState(unsigned int encodedState)
 
 /// Return `true` if the specified `encodedPushIndex` has the disabled flag
 /// set, and 'false otherwise.
+// requires: true
+// ensures: __out == ((encodedPushIndex & k_DISABLED_STATE_MASK) != 0)
 inline
 static bool isDisabledFlagSet(unsigned int encodedPushIndex)
 {
@@ -269,6 +277,8 @@ static bool isDisabledFlagSet(unsigned int encodedPushIndex)
 
 /// Return the push-index of the specified `encodedPushIndex`, discarding
 /// the disabled flag.
+// requires: true
+// ensures: __out == (encodedPushIndex & ~k_DISABLED_STATE_MASK)
 inline
 static unsigned int discardDisabledFlag(unsigned int encodedPushIndex)
 {
@@ -780,6 +790,8 @@ void FixedQueueIndexManager::abortPushIndexReservation(unsigned int generation,
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == 0 || (__out > 0 && __out <= d_capacity) ==> true
 bsl::size_t FixedQueueIndexManager::length() const
 {
     // Note that 'FixedQueue::pushBack' and 'FixedQueue::popFront' rely on the

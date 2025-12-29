@@ -51,6 +51,8 @@ namespace {
 /// Convert the character in the specified `c` to it suitable hex
 /// equivalent if one exists, load the value into the specified `hex`.
 /// Return 0 if the conversion was successful, and non-zero otherwise.
+// requires: hex != 0 && (c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F')
+// ensures: (__out == 0 ==> ((c >= '0' && c <= '9' && hex ↦ (c - '0')) || (c >= 'a' && c <= 'f' && hex ↦ (c - 'a' + 10)) || (c >= 'A' && c <= 'F' && hex ↦ (c - 'A' + 10)))) && (__out == -1 ==> hex ↦ old_hex)
 int charToHex(unsigned char* hex, unsigned char c)
 {
     switch (c) {
@@ -196,6 +198,8 @@ void guidToStringImpl<bsl::string>(bsl::string *result, const Guid& guid)
 
 /// Return the process id.  Having this be separate from `Obj::getProcessId`
 /// allows us to call it inline within the component.
+// requires: true
+// ensures: true
 inline int getPid()
 {
 #ifdef BSLS_PLATFORM_OS_WINDOWS
