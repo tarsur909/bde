@@ -39,6 +39,8 @@ ZoneinfoCache::~ZoneinfoCache()
 }
 
 // MANIPULATORS
+// requires: rc != 0 && timeZoneId != 0
+// ensures: (__out == 0 ==> *rc != 0) && (__out != 0 ==> (__out->identifier() == timeZoneId ⋆ __out ↦ _))
 const Zoneinfo *ZoneinfoCache::getZoneinfo(int *rc, const char *timeZoneId)
 {
     BSLS_ASSERT(0 != rc);
@@ -124,6 +126,8 @@ const Zoneinfo *ZoneinfoCache::getZoneinfo(int *rc, const char *timeZoneId)
 }
 
 // ACCESSORS
+// requires: timeZoneId != 0
+// ensures: (__out == 0 ==> d_cache.find(timeZoneId) == d_cache.end()) && (__out != 0 ==> d_cache.find(timeZoneId) != d_cache.end() && __out == d_cache.find(timeZoneId)->second)
 const Zoneinfo *ZoneinfoCache::lookupZoneinfo(const char *timeZoneId) const
 {
     BSLS_ASSERT(0 != timeZoneId);

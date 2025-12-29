@@ -82,6 +82,8 @@ namespace bdlb {
                         // ------------------------
 
 // CLASS METHODS
+// requires: (numBytes == 0) || (buffer != 0 && SEPFORALL(0, numBytes, i, (buffer + i ↦ _)))
+// ensures: (numBytes == 0 ==> __out == 0) && (numBytes > 0 ==> SEPFORALL(0, numBytes, i, (buffer + i ↦ _)))
 int RandomDevice::getRandomBytes(unsigned char *buffer, size_t numBytes)
 {
     if (0 == numBytes) {

@@ -19,6 +19,8 @@ namespace ball {
                     // --------------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == LoggerManagerDefaults::isValidDefaultRecordBufferSize(numBytes)
 bool
 LoggerManagerConfiguration::isValidDefaultRecordBufferSize(int numBytes)
 {
@@ -84,6 +86,8 @@ LoggerManagerConfiguration::LoggerManagerConfiguration(
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == *this ⋆ d_defaults ↦ rhs.d_defaults ⋆ d_userPopulator ↦ rhs.d_userPopulator ⋆ d_categoryNameFilter ↦ rhs.d_categoryNameFilter ⋆ d_defaultThresholdsCb ↦ rhs.d_defaultThresholdsCb ⋆ d_logOrder ↦ rhs.d_logOrder ⋆ d_triggerMarkers ↦ rhs.d_triggerMarkers
 LoggerManagerConfiguration&
 LoggerManagerConfiguration::operator=(const LoggerManagerConfiguration& rhs)
 {
@@ -160,6 +164,8 @@ void LoggerManagerConfiguration::setTriggerMarkers(TriggerMarkers value)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_defaults
 const LoggerManagerDefaults& LoggerManagerConfiguration::defaults() const
 {
     return d_defaults;
@@ -281,6 +287,8 @@ LoggerManagerConfiguration::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == (lhs.d_defaults == rhs.d_defaults && (bool)lhs.d_userPopulator == (bool)rhs.d_userPopulator && (bool)lhs.d_categoryNameFilter == (bool)rhs.d_categoryNameFilter && (bool)lhs.d_defaultThresholdsCb == (bool)rhs.d_defaultThresholdsCb && lhs.d_logOrder == rhs.d_logOrder && lhs.d_triggerMarkers == rhs.d_triggerMarkers)
 bool ball::operator==(const ball::LoggerManagerConfiguration& lhs,
                       const ball::LoggerManagerConfiguration& rhs)
 {   // TBD: Note that we are casting the three 'bsl::function' data members to

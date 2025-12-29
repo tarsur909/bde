@@ -8,6 +8,8 @@ namespace BloombergLP {
 
 /// Interpreting `argument` as an `EntryPointFunctorAdapter_Base*`, invoke
 /// `argument->function(argument)`.  Do not use outside this component.
+// requires: argument != nullptr
+// ensures: __out == 0
 void *bslmt_EntryPointFunctorAdapter_invoker(void* argument)
 {
     bslmt::EntryPointFunctorAdapter_Base* threadArg =

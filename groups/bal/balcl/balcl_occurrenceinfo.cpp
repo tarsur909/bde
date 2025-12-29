@@ -197,6 +197,8 @@ OccurrenceInfo::~OccurrenceInfo()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (__out == *this) && ((&rhs != this) ==> (__out.d_defaultValue ↦ rhs.d_defaultValue ⋆ __out.d_isRequired ↦ rhs.d_isRequired ⋆ __out.d_isHidden ↦ rhs.d_isHidden))
 OccurrenceInfo& OccurrenceInfo::operator=(const OccurrenceInfo& rhs)
 {
     if (&rhs != this) {
@@ -225,6 +227,8 @@ void OccurrenceInfo::setHidden()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_defaultValue
 const OptionValue& OccurrenceInfo::defaultValue() const
 {
     return d_defaultValue;
@@ -309,6 +313,8 @@ bsl::ostream& OccurrenceInfo::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: (__out == true ==> (lhs.occurrenceType() == rhs.occurrenceType() && lhs.hasDefaultValue() == rhs.hasDefaultValue() && (!lhs.hasDefaultValue() || lhs.defaultValue() == rhs.defaultValue()))) && (__out == false ==> !(lhs.occurrenceType() == rhs.occurrenceType() && lhs.hasDefaultValue() == rhs.hasDefaultValue() && (!lhs.hasDefaultValue() || lhs.defaultValue() == rhs.defaultValue())))
 bool balcl::operator==(const OccurrenceInfo& lhs, const OccurrenceInfo& rhs)
 {
     return lhs.occurrenceType()  == rhs.occurrenceType()

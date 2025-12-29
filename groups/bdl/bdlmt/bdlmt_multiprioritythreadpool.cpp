@@ -202,6 +202,8 @@ MultipriorityThreadPool::~MultipriorityThreadPool()
 }
 
 // MANIPULATORS
+// requires: (unsigned) priority < (unsigned) d_queue.numPriorities()
+// ensures: __out == d_queue.pushBack(job, priority)
 int MultipriorityThreadPool::enqueueJob(const ThreadFunctor& job,
                                         int                  priority)
 {
@@ -457,6 +459,8 @@ void MultipriorityThreadPool::shutdown()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_queue.isEnabled()
 bool MultipriorityThreadPool::isEnabled() const
 {
     return d_queue.isEnabled();

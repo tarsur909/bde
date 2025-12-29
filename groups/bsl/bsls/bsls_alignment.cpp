@@ -16,6 +16,8 @@ namespace bsls {
                             // ----------------
 
 // CLASS METHODS
+// requires: true
+// ensures: (value == BSLS_MAXIMUM ==> __out == "MAXIMUM") && (value == BSLS_NATURAL ==> __out == "NATURAL") && (value == BSLS_BYTEALIGNED ==> __out == "BYTEALIGNED") && (value != BSLS_MAXIMUM && value != BSLS_NATURAL && value != BSLS_BYTEALIGNED ==> __out == "(* UNKNOWN *)")
 const char *Alignment::toAscii(Alignment::Strategy value)
 {
 #define CASE(X) case(BSLS_ ## X): return #X;

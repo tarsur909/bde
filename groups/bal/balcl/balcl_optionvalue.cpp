@@ -58,6 +58,8 @@ void OptionValue::init(OptionType::Enum type)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: true
 OptionType::Enum OptionValue::type() const
 {
     if (d_value.is<OptionValue_NullOf>()) {

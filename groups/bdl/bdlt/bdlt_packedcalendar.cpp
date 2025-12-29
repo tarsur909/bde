@@ -137,6 +137,8 @@ void appendHoliday(
 /// product of the specified `level` and `spacesPerLevel` to the specified
 /// output `stream` and return a reference to the modifiable `stream`.  If
 /// the `level` is negative, this function has no effect.
+// requires: level >= 0 && spacesPerLevel != 0
+// ensures: SEPFORALL(0, level * spacesPerLevel, i, (stream + i ↦ ' '))
 static
 bsl::ostream& indent(bsl::ostream& stream,
                      int           level,
@@ -166,6 +168,8 @@ bsl::ostream& indent(bsl::ostream& stream,
 /// `firstDate` to `lastDate` whose day-of-week are in the specified
 /// `weekendDays` set.  Note that this function returns 0 if
 /// `lastDate < firstDate`.
+// requires: true
+// ensures: (firstDate <= lastDate ==> __out >= 0 && __out <= (lastDate - firstDate + 1)) && (firstDate > lastDate ==> __out == 0)
 static
 int numWeekendDaysInRangeImp(const Date&         firstDate,
                              const Date&         lastDate,
@@ -499,6 +503,8 @@ void PackedCalendar::unionHolidays(
 }
 
 // PRIVATE MANIPULATORS
+// requires: offset >= 0
+// ensures: (__out >= 0 && __out <= d_holidayOffsets.length()) && (__out == d_holidayOffsets.length() - 1 ==> d_holidayOffsets[__out] == offset) && (__out < d_holidayOffsets.length() - 1 ==> d_holidayOffsets[__out] <= offset && d_holidayOffsets[__out + 1] > offset)
 int PackedCalendar::addHolidayImp(int offset)
 {
     BSLS_ASSERT(0 <= offset && d_lastDate - d_firstDate >= offset);
@@ -604,6 +610,8 @@ PackedCalendar::~PackedCalendar()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == *this && *this == rhs
 PackedCalendar& PackedCalendar::operator=(const PackedCalendar& rhs)
 {
     PackedCalendar(rhs, d_allocator_p).swap(*this);
@@ -1068,6 +1076,8 @@ void PackedCalendar::swap(PackedCalendar& other)
 }
 
 // ACCESSORS
+// requires: isHoliday(date)
+// ensures: (__out == d_holidayCodes.begin() + iterIndex) && (iterIndex == d_holidayCodes.length() || (iterIndex == d_holidayCodesIndex[i - offsetBegin] && i != offsetEnd && *i == offset))
 PackedCalendar::HolidayCodeConstIterator
                       PackedCalendar::beginHolidayCodes(const Date& date) const
 {
@@ -1360,6 +1370,8 @@ bsl::ostream& PackedCalendar::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: (__out == (lhs.d_firstDate == rhs.d_firstDate && lhs.d_lastDate == rhs.d_lastDate && lhs.d_weekendDaysTransitions == rhs.d_weekendDaysTransitions && lhs.d_holidayOffsets == rhs.d_holidayOffsets && lhs.d_holidayCodesIndex == rhs.d_holidayCodesIndex && lhs.d_holidayCodes == rhs.d_holidayCodes))
 bool bdlt::operator==(const PackedCalendar& lhs, const PackedCalendar& rhs)
 {
     return lhs.d_firstDate              == rhs.d_firstDate
@@ -1526,6 +1538,8 @@ void PackedCalendar_BusinessDayConstIterator::previousBusinessDay()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out.d_offsetIter ↦ rhs.d_offsetIter ⋆ __out.d_calendar_p ↦ rhs.d_calendar_p ⋆ __out.d_currentOffset ↦ rhs.d_currentOffset ⋆ __out.d_endFlag ↦ rhs.d_endFlag
 PackedCalendar_BusinessDayConstIterator&
 PackedCalendar_BusinessDayConstIterator::operator=(
                             const PackedCalendar_BusinessDayConstIterator& rhs)

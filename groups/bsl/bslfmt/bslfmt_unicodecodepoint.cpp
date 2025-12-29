@@ -90,6 +90,8 @@ struct EndCompare
 /// Determine whether the start of the specified array `bytes`, up to a maximum
 /// length of the specified `maxBytes` contains a UTF Byte Order Marker, and
 /// return the result.
+// requires: maxBytes >= 2
+// ensures: true
 inline
 static bool isByteOrderMarker(const void *bytes, size_t maxBytes)
 {
@@ -147,6 +149,8 @@ static bool isByteOrderMarker(const void *bytes, size_t maxBytes)
 /// 2-byte UTF-8 sequence referred to by the specified `pc`.  The behavior is
 /// undefined unless the 2 bytes starting at `pc` contain a UTF-8 sequence
 /// describing a single valid code point.
+// requires: (pc ↦ _ ⋆ (pc + 1) ↦ _)
+// ensures: __out == ((*pc & 0x1f) << 6) | ((pc[1] & k_UTF8_CONT_VALUE_MASK))
 inline
 static int get2ByteUtf8Value(const unsigned char *pc)
 {
@@ -157,6 +161,8 @@ static int get2ByteUtf8Value(const unsigned char *pc)
 /// 3-byte UTF-8 sequence referred to by the specified `pc`.  The behavior is
 /// undefined unless the 3 bytes starting at `pc` contain a UTF-8 sequence
 /// describing a single valid code point.
+// requires: (pc ↦ _ ⋆ (pc + 1 ↦ _ ⋆ (pc + 2 ↦ _)))
+// ensures: __out == ((*pc & 0xf) << 12) | ((pc[1] & k_UTF8_CONT_VALUE_MASK) << 6) | (pc[2] & k_UTF8_CONT_VALUE_MASK) && (pc ↦ _ ⋆ (pc + 1 ↦ _ ⋆ (pc + 2 ↦ _)))
 inline
 static int get3ByteUtf8Value(const unsigned char *pc)
 {
@@ -168,6 +174,8 @@ static int get3ByteUtf8Value(const unsigned char *pc)
 /// 4-byte UTF-8 sequence referred to by the specified `pc`.  The behavior is
 /// undefined unless the 4 bytes starting at `pc` contain a UTF-8 sequence
 /// describing a single valid code point.
+// requires: pc != NULL && pc[3] == pc[3]
+// ensures: true
 inline
 static int get4ByteUtf8Value(const unsigned char *pc)
 {
@@ -179,6 +187,8 @@ static int get4ByteUtf8Value(const unsigned char *pc)
 /// Determine the width of the specified `codepoint` per the rules in the C++
 /// standard in [format.string.std].  Note that this width may differ from that
 /// specified by the Unicode standard.
+// requires: true
+// ensures: __out == 1 || __out == 2
 inline
 static int getCodepointWidth(unsigned long int codepoint)
 {
@@ -211,6 +221,8 @@ static int getCodepointWidth(unsigned long int codepoint)
 
 /// Return `true` if the specified `value` is NOT a UTF-8 continuation byte,
 /// and `false` otherwise.
+// requires: true
+// ensures: (__out == true ==> (value & 0xc0) != 0x80) && (__out == false ==> (value & 0xc0) == 0x80)
 inline
 static bool isNotUtf8Continuation(unsigned char value)
 {
@@ -219,6 +231,8 @@ static bool isNotUtf8Continuation(unsigned char value)
 
 /// Return `true` if the specified `value` is a surrogate value, and `false`
 /// otherwise.
+// requires: true
+// ensures: (__out == true ==> ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) == k_UTF16_HIGH_SURROGATE_START)) && (__out == false ==> ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) != k_UTF16_HIGH_SURROGATE_START))
 inline
 static bool isSurrogateValue(unsigned int value)
 {
@@ -230,6 +244,8 @@ static bool isSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+// requires: true
+// ensures: __out == ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_HIGH_SURROGATE_START)
 inline
 static bool isHighSurrogateValue(unsigned int value)
 {
@@ -241,6 +257,8 @@ static bool isHighSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+// requires: true
+// ensures: (__out == true ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_LOW_SURROGATE_START)) && (__out == false ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) != k_UTF16_LOW_SURROGATE_START))
 inline
 static bool isLowSurrogateValue(unsigned int value)
 {
