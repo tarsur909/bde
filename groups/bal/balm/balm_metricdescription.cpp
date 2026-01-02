@@ -17,6 +17,8 @@ namespace balm {
                           // -----------------------
 
 // ACCESSORS
+// requires: true
+// ensures: (__out == stream) && SEPFORALL(0, strlen(d_category_p->name() + "." + d_name_p), i, stream + i ↦ (d_category_p->name() + "." + d_name_p)[i])
 bsl::ostream& MetricDescription::print(bsl::ostream& stream) const
 {
     stream << d_category_p->name() << "." << d_name_p;

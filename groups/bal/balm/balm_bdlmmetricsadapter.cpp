@@ -40,6 +40,8 @@ BdlmMetricsAdapter::~BdlmMetricsAdapter()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: true
 bdlm::MetricsAdapter::CallbackHandle
 BdlmMetricsAdapter::registerCollectionCallback(
                                 const bdlm::MetricDescriptor& metricDescriptor,

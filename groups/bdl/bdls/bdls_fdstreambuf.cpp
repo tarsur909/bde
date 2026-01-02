@@ -68,6 +68,8 @@ typedef bdls::FilesystemUtil FileUtil;
 /// Return `true` if the specified file descriptor `fd` refers to a regular
 /// file and `false` otherwise.  Note that a regular file is a file and not
 /// a directory, pipe, printer, keyboard or other device.
+// requires: true
+// ensures: true
 static
 bool getRegularFileInfo(bdls::FilesystemUtil::FileDescriptor fd)
 {
@@ -463,6 +465,8 @@ void FdStreamBuf_FileHandler::unmap(void *mappedMemory, bsl::streamoff length)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: true
 bsl::streamoff
 FdStreamBuf_FileHandler::fileSize() const
 {
@@ -524,6 +528,7 @@ FdStreamBuf::~FdStreamBuf()
 }
 
 // PRIVATE MANIPULATORS
+// ensures: (__out == 0 ==> d_mode == e_INPUT_MODE) && (__out == -1 ==> d_mode != e_INPUT_MODE)
 int FdStreamBuf::switchToInputMode()
 {
     switch (d_mode) {
@@ -812,6 +817,8 @@ int FdStreamBuf::flush()
 }
 
 // PROTECTED MANIPULATORS
+// requires: true
+// ensures: (__out != traits_type::eof() ==> (__out == traits_type::to_int_type(*gptr()))) || (__out == traits_type::eof())
 bsl::streambuf::int_type
 FdStreamBuf::underflow()
 {
@@ -997,6 +1004,8 @@ FdStreamBuf::overflow(int_type c)
     return ret;
 }
 
+// requires: (buffer == 0 && numBytes == 0) || (buffer != 0 && numBytes > 0)
+// ensures: __out == this && (buffer == 0 && numBytes == 0 ==> d_mode == e_NULL_MODE && d_buf_p == 0) && (buffer != 0 && numBytes > 0 ==> d_buf_p != 0)
 FdStreamBuf *FdStreamBuf::setbuf(char *buffer, bsl::streamsize numBytes)
     // 'buffer == 0 && n == 0' means to make this object have a 1 byte buffer.
     // 'buffer != 0 && n > 0' means to use 'buffer' as this object's internal

@@ -106,6 +106,8 @@ const std::size_t k_MAX_ALIGNMENT = bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT;
 
 /// Return `true` if the specified `address` is aligned on the specified
 /// `alignment` or `false` otherwise.
+// requires: true
+// ensures: (__out == true ==> bsls::AlignmentUtil::calculateAlignmentOffset(address, int(alignment)) == 0) && (__out == false ==> bsls::AlignmentUtil::calculateAlignmentOffset(address, int(alignment)) != 0)
 inline bool isAligned(const void *address, std::size_t alignment)
 {
     return 0 == bsls::AlignmentUtil::calculateAlignmentOffset(address,
@@ -412,6 +414,8 @@ TestAllocator::~TestAllocator()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ (__out ↦ _)))
 void *TestAllocator::allocate(size_type size)
 {
     // All updates are protected by a mutex lock, so as to not interleave the
@@ -704,6 +708,8 @@ void TestAllocator::deallocate(void *address)
 }
 
 // PRIVATE ACCESSORS
+// requires: output != NULL && (k_BLOCKID_LINE_SZ - 1) >= 8 * (k_PRINTED_STATS_SZ + 1)
+// ensures: 0 < __out && __out < k_BLOCKID_LINE_SZ
 std::size_t
 TestAllocator::formatEightBlockIds(const TestAllocator_BlockHeader** blockList,
                                    char*                             output)

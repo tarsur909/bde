@@ -16,6 +16,8 @@ namespace bdld {
                         // --------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == &stream && !stream.bad() && (spacesPerLevel < 0 ==> SEPFORALL(0, sizeof("user-defined(") + sizeof(d_data_p) + sizeof(",") + sizeof(d_type) + sizeof(")"), i, stream + i ↦ _)) && (spacesPerLevel >= 0 ==> SEPFORALL(0, sizeof("user-defined(\n") + sizeof(d_data_p) + sizeof("\n") + sizeof(d_type) + sizeof("\n)"), i, stream + i ↦ _))
 bsl::ostream& DatumUdt::print(bsl::ostream& stream,
                               int           level,
                               int           spacesPerLevel) const

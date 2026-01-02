@@ -801,6 +801,8 @@ MetricsManager_PublisherRegistry::~MetricsManager_PublisherRegistry()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (__out == -1 ==> old_publisher == publisher) && (__out == 0 ==> old_publisher == publisher)
 int MetricsManager_PublisherRegistry::addGeneralPublisher(
                               const bsl::shared_ptr<Publisher>& publisher)
 {
@@ -1007,6 +1009,8 @@ MetricsManager_CallbackRegistry::~MetricsManager_CallbackRegistry()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out >= 0
 MetricsManager_CallbackRegistry::CallbackHandle
 MetricsManager_CallbackRegistry::registerCollectionCallback(
                                     const Category                   *category,

@@ -33,6 +33,8 @@ static const char *const months[] = {
                                   // ----------
 
 // MANIPULATORS
+// requires: bsl::numeric_limits<int>::max() - d_serialDate >= numDays && Date::isValidSerial(d_serialDate + numDays)
+// ensures: __out == 0 || __out == -1
 int Date::addDaysIfValid(int numDays)
 {
     enum { k_SUCCESS = 0, k_FAILURE = -1 };
@@ -53,6 +55,8 @@ int Date::addDaysIfValid(int numDays)
 }
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == stream && SEPFORALL(0, 128, i, (buffer + i ↦ sep_v) && (sep_v == buffer[i]))
 bsl::ostream& Date::print(bsl::ostream& stream,
                           int           level,
                           int           spacesPerLevel) const
