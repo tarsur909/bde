@@ -14,6 +14,8 @@ namespace bsltf {
                      // --------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out != nullptr
 const char *CopyMoveState::toAscii(CopyMoveState::Enum value)
 {
 #define CASE(X) case int(e_ ## X): return #X

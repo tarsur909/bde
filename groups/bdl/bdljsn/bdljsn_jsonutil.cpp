@@ -51,6 +51,8 @@ int read(Json *result, Error *error, Tokenizer *tokenizer, int maxNestedDepth);
     // exceeding the specified 'maxNestedDepth'.  Return 0 on success, and a
     // non-0 value populating the specified 'error' accordingly on failure.
 
+// requires: maxNestedDepth >= 0 && tokenizer != nullptr && error != nullptr && result != nullptr
+// ensures: (__out == 0) || (__out != 0 && error != nullptr)
 int readObject(JsonObject *result,
                Error      *error,
                Tokenizer  *tokenizer,
@@ -112,6 +114,8 @@ int readObject(JsonObject *result,
     return 0;
 }
 
+// requires: result != 0 && error != 0 && maxNestedDepth >= 0 && tokenizer->tokenType() == Tokenizer::e_START_ARRAY
+// ensures: (__out == 0 ==> (result != 0 && tokenizer->tokenType() == Tokenizer::e_END_ARRAY)) && (__out != 0 ==> (error != 0))
 int readArray(JsonArray *result,
               Error     *error,
               Tokenizer *tokenizer,
@@ -152,6 +156,8 @@ int readArray(JsonArray *result,
 
 // BDE_VERIFY pragma: push
 // BDE_VERIFY pragma: -FABC01
+// requires: true
+// ensures: __out == 0 || __out != 0
 int readScalar(Json *result, Error *error, Tokenizer *tokenizer)
     // Read into the specified 'result' from the specified 'tokenizer', not
     // exceeding the specified 'maxNestedDepth'.  Return 0 on success, and a
@@ -313,7 +319,9 @@ class JsonObjectUnsortedMemberIterator {
     }
 
     // MANIPULATORS
-    bool next()
+    // requires: d_it != d_end
+// ensures: (__out == true ==> d_it != d_end) && (__out == false ==> d_it == d_end)
+bool next()
         // Advance to the next member in the object.  Return 'true' if the new
         // position is valid.
     {
@@ -322,19 +330,25 @@ class JsonObjectUnsortedMemberIterator {
     }
 
     // ACCESSORS
-    bool isFirst() const
+    // requires: true
+// ensures: __out == (d_it == d_begin)
+bool isFirst() const
         // Return 'true' if this object is in its initial state.
     {
         return d_it == d_begin;
     }
 
-    bool isValid() const
+    // requires: true
+// ensures: __out == (d_it != d_end)
+bool isValid() const
         // Return 'true' if the current position of this iterator is valid.
     {
         return d_it != d_end;
     }
 
-    const bsl::pair<const bsl::string, Json>& member() const
+    // requires: d_it != nullptr && *d_it != nullptr
+// ensures: __out == *d_it
+const bsl::pair<const bsl::string, Json>& member() const
         // Return the current member.
     {
         return *d_it;
@@ -344,7 +358,9 @@ class JsonObjectUnsortedMemberIterator {
 struct ObjectMemberLess {
     // This struct provides a comparator allowing object entries to be compared
     // lexicographically based on their 'bsl::string' keys.
-    bool operator()(const JsonObject::ConstIterator& lhs,
+    // requires: lhs->first ↦ _ ⋆ rhs->first ↦ _
+// ensures: (__out == true ==> lhs->first < rhs->first) && (__out == false ==> lhs->first >= rhs->first)
+bool operator()(const JsonObject::ConstIterator& lhs,
                     const JsonObject::ConstIterator& rhs)
         // Return true if the key of the specified 'lhs' is lexicographically
         // less than the key of the specified 'rhs'.
@@ -393,7 +409,9 @@ class JsonObjectSortedMemberIterator {
     }
 
     // MANIPULATORS
-    bool next()
+    // requires: true
+// ensures: true
+bool next()
         // Advance to the next member in the object.  Return 'true' if the new
         // position is valid.
     {
@@ -402,19 +420,25 @@ class JsonObjectSortedMemberIterator {
     }
 
     // ACCESSORS
-    bool isFirst() const
+    // requires: true
+// ensures: (__out == true ==> d_it == d_sortedMembers.begin()) && (__out == false ==> d_it != d_sortedMembers.begin())
+bool isFirst() const
         // Return 'true' if this object is in its initial state.
     {
         return d_it == d_sortedMembers.begin();
     }
 
-    bool isValid() const
+    // requires: true
+// ensures: (__out == true ==> d_it != d_sortedMembers.end()) && (__out == false ==> d_it == d_sortedMembers.end())
+bool isValid() const
         // Return 'true' if the current position of this iterator is valid.
     {
         return d_it != d_sortedMembers.end();
     }
 
-    const bsl::pair<const bsl::string, Json>& member() const
+    // requires: d_it != nullptr && *d_it != nullptr
+// ensures: __out == **d_it
+const bsl::pair<const bsl::string, Json>& member() const
         // Return the current member.
     {
         return **d_it;

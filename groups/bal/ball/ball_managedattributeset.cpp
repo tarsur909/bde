@@ -27,6 +27,8 @@ int ManagedAttributeSet::AttributeHash::s_hashtableSize = INT_MAX;
 int ManagedAttributeSet::s_initialSize = 8;
 
 // CLASS METHODS
+// requires: 0 < size
+// ensures: __out == (hashValue % size)
 int ManagedAttributeSet::hash(const ManagedAttributeSet& set, int size)
 {
     BSLS_ASSERT(0 < size);
@@ -40,6 +42,8 @@ int ManagedAttributeSet::hash(const ManagedAttributeSet& set, int size)
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (this != &rhs ==> d_attributeSet == rhs.d_attributeSet) && (__out == *this)
 ManagedAttributeSet&
 ManagedAttributeSet::operator=(const ManagedAttributeSet& rhs)
 {
@@ -50,6 +54,8 @@ ManagedAttributeSet::operator=(const ManagedAttributeSet& rhs)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: (__out == true) || (__out == false)
 bool
 ManagedAttributeSet::evaluate(const AttributeContainerList& containerList)
                                                                           const
@@ -79,6 +85,8 @@ ManagedAttributeSet::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: true
 bool ball::operator==(const ManagedAttributeSet& lhs,
                       const ManagedAttributeSet& rhs)
 {

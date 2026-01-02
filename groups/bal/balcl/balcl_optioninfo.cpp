@@ -13,6 +13,8 @@ namespace BloombergLP {
                      // -----------------
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == stream
 bsl::ostream& balcl::operator<<(bsl::ostream& stream, const OptionInfo& rhs)
 {
     static const char NL = '\n';

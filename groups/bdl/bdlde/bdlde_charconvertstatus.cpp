@@ -16,6 +16,8 @@ namespace bdlde {
                           // ------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: (stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == stream && SEPFORALL(0, strlen(CharConvertStatus::toAscii(value)), i, stream + i ↦ CharConvertStatus::toAscii(value)[i])))
 bsl::ostream& CharConvertStatus::print(bsl::ostream&           stream,
                                        CharConvertStatus::Enum value,
                                        int                     level,

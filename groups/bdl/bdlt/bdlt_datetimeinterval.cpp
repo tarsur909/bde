@@ -56,6 +56,8 @@ const double maxInt64AsDouble = static_cast<double>(k_MAX_INT64);
 const double minInt64AsDouble = static_cast<double>(k_MIN_INT64);
 
 // HELPER FUNCTIONS
+// requires: result != NULL && numBytes > 0
+// ensures: __out >= 0
 int printToBufferFormatted(char       *result,
                            int         numBytes,
                            const char *spec,
@@ -245,6 +247,8 @@ int DatetimeInterval::assignIfValid(bsls::Types::Int64 days,
 }
 
 // CLASS METHODS
+// requires: (days >= 0) && (hours >= 0) && (minutes >= 0) && (seconds >= 0) && (milliseconds >= 0) && (microseconds >= 0)
+// ensures: (__out == true) || (__out == false)
 bool DatetimeInterval::isValid(int                days,
                                bsls::Types::Int64 hours,
                                bsls::Types::Int64 minutes,
@@ -632,6 +636,8 @@ bsl::ostream& DatetimeInterval::print(bsl::ostream& stream,
 #ifndef BDE_OMIT_INTERNAL_DEPRECATED  // BDE2.22
 
 // DEPRECATED METHODS
+// requires: true
+// ensures: __out == stream
 bsl::ostream& DatetimeInterval::streamOut(bsl::ostream& stream) const
 {
     return stream << *this;

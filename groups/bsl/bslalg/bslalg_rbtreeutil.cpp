@@ -17,6 +17,8 @@ namespace BloombergLP {
 namespace bslalg {
 
 /// Return `true` if `node` is 0 or colored black, and `false` otherwise.
+// requires: true
+// ensures: (__out == true ==> (node == 0 || node->isBlack() == true)) && (__out == false ==> (node != 0 && node->isBlack() == false))
 static inline bool isBlackOrNull(const RbTreeNode *node)
 {
     return !node || node->isBlack();
@@ -157,6 +159,8 @@ static void recolorTreeAfterRemoval(RbTreeAnchor *tree,
                         // class RbTreeUtil
                         // ----------------
 // CLASS METHODS
+// requires: subtree != 0 && SEPEXISTS(0, n, i, (subtree + i)->leftChild() == 0)
+// ensures: __out != 0 && __out->leftChild() == 0
 const RbTreeNode *RbTreeUtil::leftmost(const RbTreeNode *subtree)
 {
     BSLS_ASSERT(subtree);

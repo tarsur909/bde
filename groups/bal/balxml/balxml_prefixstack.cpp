@@ -34,6 +34,8 @@ const PredefinedPrefix nullPrefix = { "", -1 };
 /// Return the namespace ID for the specified predefined `prefix` or -1 if
 /// `prefix` is not predefined.  The behavior is undefined unless
 /// `prefix.data()` is non-null.
+// requires: true
+// ensures: (__out == nullPrefix) || EXISTS(0, ARRAY_LEN(predefinedPrefixes), i, (predefinedPrefixes[i].d_prefix == prefix && __out == predefinedPrefixes[i]))
 const PredefinedPrefix& lookupPredefinedPrefix(const bsl::string_view& prefix)
 {
     for (int i = 0; i < ARRAY_LEN(predefinedPrefixes); ++i) {
@@ -71,6 +73,8 @@ PrefixStack::PrefixStack(const PrefixStack&  original,
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == d_namespaceRegistry->lookupOrRegister(namespaceUri) && (__out == -1 ==> namespaceUri.empty())
 int PrefixStack::pushPrefix(const bsl::string_view& prefix,
                             const bsl::string_view& namespaceUri)
 {
@@ -106,6 +110,8 @@ int PrefixStack::popPrefixes(int count)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: (EXISTS(0, d_numPrefixes, i, (d_prefixes[i].first == prefix) && (__out == d_prefixes[i].second))) || (FORALL(0, d_numPrefixes, i, (d_prefixes[i].first != prefix)) ==> (__out == lookupPredefinedPrefix(prefix).d_nsid))
 int
 PrefixStack::lookupNamespaceId(const bsl::string_view& prefix) const
 {
