@@ -21,6 +21,7 @@ namespace bslstl {
                              // -------------------
 
 // MANIPULATORS
+__out != nullptr && (__out.get() ↦ _ ⋆ SFORALL(0, bufferSize, i, (__out.get() + i) ↦ _))
 bsl::shared_ptr<char>
 SharedPtrUtil::createInplaceUninitializedBuffer(
                                               size_t            bufferSize,

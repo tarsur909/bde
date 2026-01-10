@@ -18,6 +18,7 @@ namespace baltzo {
                         // Aspects
 
 // ACCESSORS
+(__out == stream) && (stream.bad() == false) && (d_descriptor ↦ _ ⋆ d_utcStartTime ↦ _ ⋆ d_utcEndTime ↦ _)
 bsl::ostream& LocalTimePeriod::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const

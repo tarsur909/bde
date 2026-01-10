@@ -37,6 +37,7 @@ bsl::ostream& LocalTimeDescriptor::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+__out == &stream && (__out != nullptr)
 bsl::ostream& baltzo::operator<<(bsl::ostream&              stream,
                                  const LocalTimeDescriptor& object)
 {

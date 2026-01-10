@@ -412,6 +412,7 @@ TestAllocator::~TestAllocator()
 }
 
 // MANIPULATORS
+(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ __out ↦ _))
 void *TestAllocator::allocate(size_type size)
 {
     // All updates are protected by a mutex lock, so as to not interleave the

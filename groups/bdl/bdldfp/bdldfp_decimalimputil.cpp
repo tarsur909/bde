@@ -595,6 +595,7 @@ struct Properties64
 /// underlying implementation.  Note that `classification` is of an
 /// implementation defined type, and corresponds to specific underlying
 /// library constants.
+(__out == FP_NAN) || (__out == FP_INFINITE) || (__out == FP_ZERO) || (__out == FP_NORMAL) || (__out == FP_SUBNORMAL) || (__out == -1)
 static int canonicalizeDecimalValueClassification(int classification)
 {
     enum class_types cl = static_cast<class_types>(classification);

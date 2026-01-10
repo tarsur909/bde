@@ -79,6 +79,7 @@ bool RateLimiter::supportsRateLimitsExactly(
 }
 
 // MANIPULATORS
+__out == bsl::max(timeToSubmitPeak, timeToSubmitSustained)
 bsls::TimeInterval RateLimiter::calculateTimeToSubmit(
                                          const bsls::TimeInterval& currentTime)
 {

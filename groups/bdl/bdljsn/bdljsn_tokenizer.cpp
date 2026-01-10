@@ -331,6 +331,7 @@ int Tokenizer::skipWhitespace()
 }
 
 // MANIPULATORS
+(__out == 0) || (__out == -1 ==> d_tokenType == e_ERROR)
 int Tokenizer::advanceToNextToken()
 {
     BSLS_ASSERT(d_streambuf_p);
@@ -719,6 +720,7 @@ int Tokenizer::resetStreamBufGetPointer()
 }
 
 // ACCESSORS
+(__out == 0 ==> ((*data ↦ bsl::string_view(d_stringBuffer).substr(d_valueBegin, d_valueEnd - d_valueBegin)) ⋆ (e_ELEMENT_NAME == d_tokenType || e_ELEMENT_VALUE == d_tokenType) ⋆ (d_valueBegin != d_valueEnd))) && (__out == -1 ==> (e_ELEMENT_NAME != d_tokenType && e_ELEMENT_VALUE != d_tokenType) || (d_valueBegin == d_valueEnd))
 int Tokenizer::value(bsl::string_view *data) const
 {
     if ((e_ELEMENT_NAME == d_tokenType || e_ELEMENT_VALUE == d_tokenType) &&

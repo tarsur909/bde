@@ -140,6 +140,7 @@ EventSchedulerTestTimeSource_Data::EventSchedulerTestTimeSource_Data(
 }
 
 // MANIPULATORS
+__out == d_currentTime && d_currentTime == __out
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -151,6 +152,7 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
 }
 
 // ACCESSORS
+__out == d_currentTime
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_currentTimeMutex);
@@ -165,6 +167,7 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 const char EventScheduler::s_defaultThreadName[16] = { "bdl.EventSched" };
 
 // PRIVATE CLASS METHODS
+__out == 0
 bsls::Types::Int64 EventScheduler::returnZero()
 {
     return 0;
@@ -1224,6 +1227,7 @@ void EventScheduler::stop()
 }
 
 // ACCESSORS
+__out == d_running
 bool EventScheduler::isStarted() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_mutex);
@@ -1298,6 +1302,7 @@ EventSchedulerTestTimeSource::EventSchedulerTestTimeSource(
 }
 
 // MANIPULATORS
+__out == d_data_p->advanceTime(amount)
 bsls::TimeInterval EventSchedulerTestTimeSource::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -1343,6 +1348,7 @@ bsls::TimeInterval EventSchedulerTestTimeSource::advanceTime(
 }
 
 // ACCESSORS
+__out == d_data_p->currentTime()
 bsls::TimeInterval EventSchedulerTestTimeSource::now() const
 {
     return d_data_p->currentTime();

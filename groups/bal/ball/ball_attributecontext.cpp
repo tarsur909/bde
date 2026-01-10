@@ -106,6 +106,7 @@ AttributeContext_RuleEvaluationCache::update(
 }
 
 // ACCESSORS
+(__out == stream) && (__out ↦ _)
 bsl::ostream&
 AttributeContext_RuleEvaluationCache::print(bsl::ostream& stream,
                                             int           level,
@@ -183,6 +184,7 @@ AttributeContext::~AttributeContext()
 }
 
 // PRIVATE CLASS METHODS
+__out == &s_contextKey
 const bslmt::ThreadUtil::Key& AttributeContext::contextKey()
 {
     static bslmt::ThreadUtil::Key s_contextKey;
@@ -213,6 +215,7 @@ void AttributeContext::removeContext(void *arg)
 }
 
 // CLASS METHODS
+__out != 0 && (g_threadLocalContext != 0 ==> __out == g_threadLocalContext) && (g_threadLocalContext == 0 ==> (__out->d_allocator_p ↦ _))
 AttributeContext *AttributeContext::getContext()
 {
 #ifdef BSLMT_THREAD_LOCAL_VARIABLE
@@ -308,6 +311,7 @@ void AttributeContext::visitAttributes(
 }
 
 // ACCESSORS
+(__out == true ==> (relevantRulesMask & d_ruleCache_p.knownActiveRules() != 0)) && (__out == false ==> (relevantRulesMask & d_ruleCache_p.knownActiveRules() == 0))
 bool AttributeContext::hasRelevantActiveRules(const Category *category) const
 {
     BSLS_ASSERT(category);
@@ -422,6 +426,7 @@ AttributeContext::determineThresholdLevels(ThresholdAggregate *levels,
 }
 
 // ACCESSORS
+__out == &stream && (__out ↦ _)
 bsl::ostream& AttributeContext::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const

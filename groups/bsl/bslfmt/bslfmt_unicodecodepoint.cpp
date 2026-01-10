@@ -211,6 +211,7 @@ static int getCodepointWidth(unsigned long int codepoint)
 
 /// Return `true` if the specified `value` is NOT a UTF-8 continuation byte,
 /// and `false` otherwise.
+(__out == true ==> (value & 0xc0) != 0x80) && (__out == false ==> (value & 0xc0) == 0x80)
 inline
 static bool isNotUtf8Continuation(unsigned char value)
 {
@@ -219,6 +220,7 @@ static bool isNotUtf8Continuation(unsigned char value)
 
 /// Return `true` if the specified `value` is a surrogate value, and `false`
 /// otherwise.
+(__out == true ==> ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) == k_UTF16_HIGH_SURROGATE_START)) && (__out == false ==> ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) != k_UTF16_HIGH_SURROGATE_START))
 inline
 static bool isSurrogateValue(unsigned int value)
 {
@@ -230,6 +232,7 @@ static bool isSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+(__out == true ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_HIGH_SURROGATE_START)) && (__out == false ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) != k_UTF16_HIGH_SURROGATE_START))
 inline
 static bool isHighSurrogateValue(unsigned int value)
 {
@@ -241,6 +244,7 @@ static bool isHighSurrogateValue(unsigned int value)
 
 /// Return `true` if the specified `value` is a high surrogate value, and
 /// `false` otherwise.
+(__out == true ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_LOW_SURROGATE_START)) && (__out == false ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) != k_UTF16_LOW_SURROGATE_START))
 inline
 static bool isLowSurrogateValue(unsigned int value)
 {

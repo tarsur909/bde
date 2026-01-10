@@ -1437,6 +1437,7 @@ bsl::ostream& Datum::print(bsl::ostream& stream,
                          // -------------------
 
 // ACCESSORS
+(__out == stream) && (stream.bad() ==> __out.bad()) && (stream.good() ==> __out.good())
 bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1462,6 +1463,7 @@ bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                           // ----------------------
 
 // ACCESSORS
+(__out == stream) && (__out.bad() ==> stream.bad()) && (__out.good() ==> stream.good()) && (stream ↦ _)
 bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const
@@ -1487,6 +1489,7 @@ bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                             // -------------------
 
 // ACCESSORS
+(__out == stream) && (__out.bad() ==> stream.bad()) && (__out.good() ==> stream.good()) && (__out.rdbuf() ↦ _ ⋆ stream.rdbuf() ↦ _)
 bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const

@@ -92,6 +92,7 @@ bsl::ostream& TimetableTransition::print(bsl::ostream& stream,
                            // -------------------
 
 // MANIPULATORS
+(__out == true ==> (previousFinalCode != finalTransitionCode())) && (__out == false ==> (previousFinalCode == finalTransitionCode()))
 bool Timetable_Day::addTransition(const Time& time, int code)
 {
     BSLS_ASSERT(24 > time.hour());
@@ -438,6 +439,7 @@ void Timetable::setValidRange(const Date& firstDate, const Date& lastDate)
 }
 
 // ACCESSORS
+(__out != end() ==> EXISTS(0, d_timetable.length(), dayIndex, (d_timetable[dayIndex].size() != 0 && __out.d_dayIndex() == dayIndex))) && (__out == end() ==> FORALL(0, d_timetable.length(), dayIndex, d_timetable[dayIndex].size() == 0))
 Timetable::const_iterator Timetable::begin() const
 {
     bsl::size_t dayIndex = 0;
@@ -479,6 +481,7 @@ bsl::ostream& Timetable::print(bsl::ostream& stream,
                       // -----------------------------
 
 // MANIPULATORS
+(d_dayIndex < d_timetable_p->d_timetable.length() ==> d_transitionIndex < d_timetable_p->d_timetable[d_dayIndex].size()) && (d_dayIndex == d_timetable_p->d_timetable.length() || d_transitionIndex < d_timetable_p->d_timetable[d_dayIndex].size())
 Timetable_ConstIterator& Timetable_ConstIterator::operator++()
 {
     BSLS_ASSERT(d_dayIndex < d_timetable_p->d_timetable.length());

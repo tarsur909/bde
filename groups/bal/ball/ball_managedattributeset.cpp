@@ -27,6 +27,7 @@ int ManagedAttributeSet::AttributeHash::s_hashtableSize = INT_MAX;
 int ManagedAttributeSet::s_initialSize = 8;
 
 // CLASS METHODS
+0 <= __out && __out < size
 int ManagedAttributeSet::hash(const ManagedAttributeSet& set, int size)
 {
     BSLS_ASSERT(0 < size);
@@ -40,6 +41,7 @@ int ManagedAttributeSet::hash(const ManagedAttributeSet& set, int size)
 }
 
 // MANIPULATORS
+(this != &rhs ==> d_attributeSet ↦ rhs.d_attributeSet) ⋆ (__out == *this)
 ManagedAttributeSet&
 ManagedAttributeSet::operator=(const ManagedAttributeSet& rhs)
 {
@@ -50,6 +52,7 @@ ManagedAttributeSet::operator=(const ManagedAttributeSet& rhs)
 }
 
 // ACCESSORS
+(__out == true ==> FORALL(begin(), end(), iter, containerList.hasValue(iter->attribute()))) && (__out == false ==> EXISTS(begin(), end(), iter, !containerList.hasValue(iter->attribute())))
 bool
 ManagedAttributeSet::evaluate(const AttributeContainerList& containerList)
                                                                           const

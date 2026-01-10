@@ -104,6 +104,7 @@ namespace {
 
 /// Return the specified `s` if `s` != 0, or "" otherwise.  Never returns a
 /// null pointer.
+(s != 0 ==> __out == s) && (s == 0 ==> __out == "")
 inline
 const char* nonNullStr(const char *s)
 {
@@ -112,6 +113,7 @@ const char* nonNullStr(const char *s)
 
 /// Return the specified `val` cast to a `char`.  Bits of `val` that are
 /// too high-order to fit in a `char` will be discarded.
+__out == static_cast<char>(val)
 inline
 char toChar(unsigned val)
 {
@@ -122,6 +124,7 @@ char toChar(unsigned val)
 /// and write the characters to the character array at the specified
 /// `output` address.  Return the number of characters output or 0 if `val`
 /// is not in the legal range.
+(__out == 0 ==> (val >= 0x110000U)) && (__out != 0 ==> (SFORALL(0, __out, i, (output + i) ↦ _)) && ((val < 0x80U) ==> (__out == 1)) && ((val >= 0x80U && val < 0x800U) ==> (__out == 2)) && ((val >= 0x800U && val < 0x10000U) ==> (__out == 3)) && ((val >= 0x10000U && val < 0x110000U) ==> (__out == 4)))
 int unicodeToUtf8(char *output, unsigned val)
 {
     /*
@@ -641,6 +644,7 @@ int MiniReader::open(bsl::streambuf *stream,
 }
 
 // ACCESSORS
+__out == d_errorInfo
 const ErrorInfo&
 MiniReader::errorInfo () const
 {

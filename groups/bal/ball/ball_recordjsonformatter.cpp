@@ -287,6 +287,7 @@ const char *const k_VALUE_FILE           = "file";
 const char *const k_VALUE_FULL           = "full";
 
 /// Return the default record JSON format specification.
+__out.data() == buffer && __out.size() == strlen(buffer)
 bsl::string_view getDefaultFormat()
 {
     const  int  k_BUFFER_SIZE = 256;
@@ -1151,6 +1152,7 @@ int FixedFieldFormatter::parse(bdld::DatumMapRef v)
 }
 
 // ACCESSORS
+__out ↦ d_name
 inline
 const bsl::string& FixedFieldFormatter::name() const
 {
@@ -1354,6 +1356,7 @@ int AttributeFormatter::parse(bdld::DatumMapRef v)
 }
 
 // ACCESSORS
+__out ↦ d_key
 const bsl::string& AttributeFormatter::key() const
 {
     return d_key;
@@ -1422,6 +1425,7 @@ int AttributesFormatter::parse(bdld::DatumMapRef v)
                        // -----------------
 
 // CLASS METHODS
+(__out == 0 ==> (v != k_KEY_TIMESTAMP && v != k_KEY_PROCESS_ID && v != k_KEY_THREAD_ID && v != k_KEY_SEVERITY && v != k_KEY_FILE && v != k_KEY_LINE && v != k_KEY_CATEGORY && v != k_KEY_MESSAGE && v != k_KEY_ATTRIBUTES)) && (__out != 0 ==> (__out ↦ _))
 RecordJsonFormatter_FieldFormatter *
 DatumParser::make(const bslstl::StringRef& v)
 {
