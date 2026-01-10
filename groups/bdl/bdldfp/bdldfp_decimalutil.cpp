@@ -38,6 +38,7 @@ namespace {
 /// otherwise.  Note that the IEEE 754 standard specifies sequence of
 /// characters equivalent to "NaN" or "sNaN" except for case is a valid
 /// representation of NaN.
+(__out == true ==> (((str[0] | ' ') == 'n' && (str[1] | ' ') == 'a' && (str[2] | ' ') == 'n' && (str[3] == 0)) || ((str[0] | ' ') == 's' && (str[1] | ' ') == 'n' && (str[2] | ' ') == 'a' && (str[3] | ' ') == 'n' && (str[4] == 0)))) && (__out == false ==> !(((str[0] | ' ') == 'n' && (str[1] | ' ') == 'a' && (str[2] | ' ') == 'n' && (str[3] == 0)) || ((str[0] | ' ') == 's' && (str[1] | ' ') == 'n' && (str[2] | ' ') == 'a' && (str[3] | ' ') == 'n' && (str[4] == 0))))
 bool isNanString(const char *str) {
 
     // For the sake of efficiency, we rely on the trick that any alphabetic

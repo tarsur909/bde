@@ -36,6 +36,7 @@ namespace BloombergLP {
 /// `cache`.  Return 0 on success, and a non-zero value otherwise.  A return
 /// status of `baltzo::ErrorCode::k_UNSUPPORTED_ID` indicates that
 /// `timeZoneId` is not recognized.
+(__out == 0 ==> (*timeZone != 0)) && (__out != 0 ==> (*timeZone == 0))
 static
 int lookupTimeZone(const baltzo::Zoneinfo **timeZone,
                    const char              *timeZoneId,
@@ -206,6 +207,7 @@ namespace baltzo {
                            // ---------------------
 
 // CLASS METHODS
+(__out == 0 ==> (result != 0)) && (__out != 0 ==> true)
 int TimeZoneUtilImp::convertUtcToLocalTime(
                                        bdlt::DatetimeTz      *result,
                                        const char            *resultTimeZoneId,

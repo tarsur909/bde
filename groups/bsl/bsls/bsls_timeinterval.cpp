@@ -81,6 +81,7 @@ TimeInterval::TimeInterval(double seconds)
 }
 
 // MANIPULATORS
+(__out.d_seconds == old_d_seconds + seconds + (d_nanoseconds + nanoseconds) / k_NANOSECS_PER_SEC
 TimeInterval& TimeInterval::addInterval(bsls::Types::Int64 seconds,
                                         int                nanoseconds)
 {

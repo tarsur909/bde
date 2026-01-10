@@ -18,6 +18,7 @@ enum { k_MICROSECS_PER_SECOND = 1000 * 1000 };
 /// Increase the value stored at the specified `timestamp` to the current time.
 /// If another thread has updated `timestamp`, this method might not modify the
 /// stored value.  Return the current value of the `timestamp`.
+(__out == *timestamp) && (*timestamp ↦ __out)
 static bsls::Types::Int64 updateTimestamp(bsls::AtomicInt64 *timestamp)
 {
     bsls::Types::Int64 nowUSec =
@@ -98,6 +99,7 @@ bsls::Types::Int64 bslmt::Turnstile::waitTurn(bool sleep)
 }
 
 // ACCESSORS
+__out >= 0 && (__out == (nowUSecs - d_nextTurn) || __out == 0)
 bsls::Types::Int64 bslmt::Turnstile::lagTime() const
 {
     Int64 nowUSecs = updateTimestamp(&d_timestamp);

@@ -105,6 +105,7 @@ void Category::updateThresholdForHolders()
 }
 
 // MANIPULATORS
+(__out == 0 ==> (d_thresholdLevels ↦ _ ⋆ d_threshold ↦ _)) && (__out == -1 ==> (d_thresholdLevels ↦ old_d_thresholdLevels ⋆ d_threshold ↦ old_d_threshold))
 int Category::setLevels(int recordLevel,
                         int passLevel,
                         int triggerLevel,

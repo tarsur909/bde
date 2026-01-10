@@ -266,6 +266,7 @@ FixedThreadPool::~FixedThreadPool()
 }
 
 // MANIPULATORS
+(__out == 0 ==> !d_queue.isPopFrontDisabled()) && (__out == -1 ==> EXISTS(0, d_numThreads, i, startNewThread() != 0))
 int FixedThreadPool::start()
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_metaMutex);
