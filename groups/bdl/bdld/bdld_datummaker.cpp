@@ -29,6 +29,7 @@ namespace bdld {
                               // ----------------
 
 // ACCESSORS
+(__out.size() == size) && (__out.isSorted() == sorted) && SFORALL(0, size, i, (__out.data()[i] == elements[i]))
 bdld::Datum DatumMaker::operator()(const bdld::DatumMapEntry *elements,
                                    int                        size,
                                    bool                       sorted) const

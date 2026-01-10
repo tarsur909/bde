@@ -35,6 +35,7 @@ namespace u {
 /// specified length `inputLength` is "1" or "true" and false if `input` is
 /// "0" or "false".  Strings are case-insensitive.  Return 0 on success and
 /// non-zero if `input` is not "1", "0", "true", or "false".
+(__out == BAEXML_SUCCESS ==> ((*result == true && (inputLength == 1 && input[0] == '1' || inputLength == 4 && (input[0] == 't' || input[0] == 'T') && (input[1] == 'r' || input[1] == 'R') && (input[2] == 'u' || input[2] == 'U') && (input[3] == 'e' || input[3] == 'E'))) || (*result == false && (inputLength == 1 && input[0] == '0' || inputLength == 5 && (input[0] == 'f' || input[0] == 'F') && (input[1] == 'a' || input[1] == 'A') && (input[2] == 'l' || input[2] == 'L') && (input[3] == 's' || input[3] == 'S') && (input[4] == 'e' || input[4] == 'E'))))) && (__out == BAEXML_FAILURE ==> *result == old_result)
 int parseBoolean(bool *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -80,6 +81,7 @@ int parseBoolean(bool *result, const char *input, int inputLength)
 /// digits, period and sign characters (i.e., INF/NaN, and exponential
 /// notation are not allowed); otherwise `input` can contain any floating-
 /// point representation form.  Return 0 on success and non-zero otherwise.
+(__out == BAEXML_SUCCESS ==> (result != 0 && result ↦ _)) && (__out == BAEXML_FAILURE ==> true)
 int parseDoubleImpl(double *result, const char *input, bool formatDecimal)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -155,6 +157,7 @@ int parseDoubleImpl(double *result, const char *input, bool formatDecimal)
 /// specified length `inputLength` should contain only decimal digits,
 /// period and sign characters; otherwise `input` can contain any floating-
 /// point representation form.  Return 0 on success and non-zero otherwise.
+(__out == BAEXML_SUCCESS ==> (*result ↦ _)) && (__out == BAEXML_FAILURE ==> true)
 int parseDouble(double     *result,
                 const char *input,
                 int         inputLength,
@@ -185,6 +188,7 @@ int parseDouble(double     *result,
 }
 
 /// Parse an unsigned long decimal string
+(__out == BAEXML_SUCCESS ==> (*result ↦ bsl::strtol(input, nullptr, 10))) && (__out == BAEXML_FAILURE ==> true)
 int parseInt(int *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -225,6 +229,7 @@ int parseInt(int *result, const char *input, int inputLength)
 }
 
 /// Parse an unsigned long decimal string
+(__out == BAEXML_SUCCESS ==> (*result ↦ bsl::strtoul(input, nullptr, 10) ⋆ SFORALL(0, inputLength, i, (input + i ↦ input[i])))) && (__out == BAEXML_FAILURE ==> SFORALL(0, inputLength, i, (input + i ↦ input[i])))
 int parseUnsignedInt(unsigned int *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };

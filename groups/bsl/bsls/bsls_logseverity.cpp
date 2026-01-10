@@ -14,6 +14,7 @@ namespace bsls {
                      // ------------------
 
 // CLASS METHODS
+(value == LogSeverity::e_FATAL ==> __out == "FATAL") && (value == LogSeverity::e_ERROR ==> __out == "ERROR") && (value == LogSeverity::e_WARN ==> __out == "WARN") && (value == LogSeverity::e_DEBUG ==> __out == "DEBUG") && (value == LogSeverity::e_INFO ==> __out == "INFO") && (value == LogSeverity::e_TRACE ==> __out == "TRACE") && (value != LogSeverity::e_FATAL && value != LogSeverity::e_ERROR && value != LogSeverity::e_WARN && value != LogSeverity::e_DEBUG && value != LogSeverity::e_INFO && value != LogSeverity::e_TRACE ==> __out == "(* UNKNOWN *)")
 const char *LogSeverity::toAscii(LogSeverity::Enum value)
 {
 #define CASE(X) case(e_ ## X): return #X;

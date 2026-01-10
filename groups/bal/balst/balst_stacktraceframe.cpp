@@ -16,6 +16,7 @@ namespace balst {
                            // ---------------------
 
 // ACCESSORS
+(stream.bad() ==> __out.bad()) && (!stream.bad() ==> __out.good() && (__out == stream))
 bsl::ostream& StackTraceFrame::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const
@@ -57,6 +58,7 @@ void StackTraceFrame::swap(StackTraceFrame& other)
 }  // close package namespace
 
 // FREE OPERATORS
+(stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == stream))
 bsl::ostream& balst::operator<<(bsl::ostream&          stream,
                                 const StackTraceFrame& object)
 {

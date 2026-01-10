@@ -44,6 +44,7 @@ AttributeContainerList::AttributeContainerList(
 }
 
 // MANIPULATORS
+(__out == *this) && (d_length == rhs.size()) && SFORALL(0, d_length, i, EXISTS(rhs.begin(), rhs.end(), it, (*it == *(d_head_p + i))))
 AttributeContainerList& AttributeContainerList::operator=(
                                              const AttributeContainerList& rhs)
 {
@@ -154,6 +155,7 @@ void AttributeContainerList::removeAllAndRelease()
 }
 
 // ACCESSORS
+(__out == true ==> SEXISTS(0, d_length, i, (d_head_p + i)->d_value_p->hasValue(value))) && (__out == false ==> SFORALL(0, d_length, i, ((d_head_p + i)->d_value_p->hasValue(value) == false ⋆ (d_head_p + i)->d_next_p ↦ _)))
 bool AttributeContainerList::hasValue(const Attribute& value) const
 {
     Node *node = d_head_p;
