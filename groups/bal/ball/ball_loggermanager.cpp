@@ -259,6 +259,7 @@ const char *filterName(
 /// specified `category`, and return `true` if the specified `severity` is
 /// more severe (i.e., is numerically less than) at least one of the
 /// threshold levels of `category`, and `false` otherwise.
+(category.relevantRuleMask() ==> (__out == (ball::ThresholdAggregate::maxLevel(*levels) >= severity))) && (!category.relevantRuleMask() ==> (__out == (category.maxLevel() >= severity) && (*levels == category.thresholdLevels())))
 bool isCategoryEnabled(ball::ThresholdAggregate *levels,
                        const ball::Category&     category,
                        int                       severity)
@@ -602,6 +603,7 @@ void Logger::publish(const bsl::shared_ptr<Record>& record,
 }
 
 // MANIPULATORS
+__out != 0
 Record *Logger::getRecord(const char *fileName, int lineNumber)
 {
    // The shared pointer returned by 'getRecordPtr' is reconstituted in the

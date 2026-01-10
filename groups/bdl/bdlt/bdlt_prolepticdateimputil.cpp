@@ -164,6 +164,7 @@ int numLeapYearsSoFar(int);
 /// `year` and including the days in the specified `month`.  The behavior is
 /// undefined unless `k_MIN_YEAR <= year <= k_MAX_YEAR` and
 /// `0 <= month <= k_MAX_MONTH`.
+__out >= 0
 static inline
 int calendarDaysThroughMonth(int year, int month)
 {
@@ -216,6 +217,7 @@ int numLeapYearsSoFar(int year)
                            // ---------------------------
 
 // CLASS METHODS
+(month == k_FEB && isLeapYear(year)) ==> (__out == normDaysPerMonth[month] + 1) && (month != k_FEB || !isLeapYear(year)) ==> (__out == normDaysPerMonth[month])
 int ProlepticDateImpUtil::lastDayOfMonth(int year, int month)
 {
     BSLS_ASSERT(k_MIN_YEAR  <= year);

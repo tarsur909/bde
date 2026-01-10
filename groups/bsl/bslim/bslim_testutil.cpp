@@ -14,6 +14,7 @@ namespace bslim {
                         // --------------
 
 // CLASS METHODS
+(__out == true ==> lhs.length() == rhs.length() && FORALL(0, lhs.length(), i, lhs[i] == rhs[i])) && (__out == false ==> EXISTS(0, std::max(lhs.length(), rhs.length()), i, lhs[i] != rhs[i] || i >= lhs.length() || i >= rhs.length()))
 bool TestUtil::compareText(bslstl::StringRef lhs,
                            bslstl::StringRef rhs,
                            bsl::ostream&     errorStream)

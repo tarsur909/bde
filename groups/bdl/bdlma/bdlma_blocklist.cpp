@@ -20,6 +20,7 @@ namespace bdlma {
 /// supplied allocator returning naturally-aligned memory, the size of the
 /// overall allocation will be rounded up to an integral multiple of
 /// `bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT`.
+__out == ((size + sizeOfBlock - 1) & ~(bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1))
 inline
 static bsls::Types::size_type alignedAllocationSize(
                                             bsls::Types::size_type size,

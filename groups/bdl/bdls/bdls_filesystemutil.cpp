@@ -512,6 +512,7 @@ struct NameRec {
 /// Return an identifier for the current running process.  Note that this
 /// duplicates functionality in `ProcessUtil`, and is reproduced here to
 /// avoid a cycle.
+__out > 0
 int getProcessId()
 {
 #ifdef BSLS_PLATFORM_OS_WINDOWS
@@ -525,6 +526,7 @@ int getProcessId()
 /// otherwise.  This is equivalent to `isDotOrDots`, except it is called in
 /// the case where we know there are no `/`s in the file name, making the
 /// check simpler and faster.
+(__out == true ==> (*path == '.' && (!path[1] || ('.' == path[1] && !path[2])))) && (__out == false ==> !(*path == '.' && (!path[1] || ('.' == path[1] && !path[2]))))
 static inline
 bool shortIsDotOrDots(const char *path)
 {
@@ -869,6 +871,7 @@ bool isDotOrDots(const char *path)
 /// exist or is not a directory, `k_ERROR_ALREADY_EXISTS` if the file system
 /// entry (not necessarily a directory) with the name `path` already exists,
 /// and a negative value for any other kind of error.
+(__out == 0) || (__out == bdls::FilesystemUtil::k_ERROR_ALREADY_EXISTS) || (__out == bdls::FilesystemUtil::k_ERROR_PATH_NOT_FOUND) || (__out == -1)
 static inline
 int makeDirectory(const char *path, bool isPrivate)
 {
@@ -902,6 +905,7 @@ int makeDirectory(const char *path, bool isPrivate)
 /// specified open file descriptor `dirFD`, not including the root.  Close
 /// `dirFd`.  The behavior is undefined unless `dirFD` refers to a directory
 /// and not a symlink.  Return 0 on success and a non-zero value otherwise.
+(__out == 0) ==> (errno == 0)
 static
 int u_removeContentsOfTree(
                  const BloombergLP::bdls::FilesystemUtil::FileDescriptor dirFD)

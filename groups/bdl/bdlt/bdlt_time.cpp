@@ -49,6 +49,7 @@ BSLMF_ASSERT(!bslmf::IsTriviallyCopyableCheck<Time>::value);
 /// ```
 /// *number == *number % base + (*number / base) * base
 /// ```
+(__out == initial / base) && (*number == initial % base) && (initial == *number + __out * base)
 static
 bsls::Types::Int64 fastMod(int *number, int base)
 {
@@ -75,6 +76,7 @@ bsls::Types::Int64 fastMod(int *number, int base)
 /// ```
 /// *number == *number % base + (*number / base) * base
 /// ```
+(__out == initial / base) && (*number == initial % base)
 static
 bsls::Types::Int64 fastMod(bsls::Types::Int64 *number, bsls::Types::Int64 base)
 {
@@ -203,6 +205,7 @@ int printToBufferFormatted(char       *result,
 bsls::AtomicInt64 Time::s_invalidRepresentationCount(0);
 
 // PRIVATE ACCESSORS
+__out == (BSLS_PLATFORM_IS_LITTLE_ENDIAN ? d_value * TimeUnitRatio::k_US_PER_MS : (d_value >> 32) * TimeUnitRatio::k_US_PER_MS)
 bsls::Types::Int64 Time::invalidMicrosecondsFromMidnight() const
 {
     BSLS_ASSERT(k_REP_MASK > d_value);
@@ -217,6 +220,7 @@ bsls::Types::Int64 Time::invalidMicrosecondsFromMidnight() const
 }
 
 // MANIPULATORS
+__out == static_cast<int>(wholeDays)
 int Time::addHours(int hours)
 {
     bsls::Types::Int64 totalMicroseconds =

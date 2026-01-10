@@ -16,6 +16,7 @@ namespace bdlt {
                      // ------------------
 
 // CLASS METHODS
+__out == &stream && (__out ↦ _)
 bsl::ostream& MonthOfYear::print(bsl::ostream&     stream,
                                  MonthOfYear::Enum value,
                                  int               level,
