@@ -751,6 +751,7 @@ const char *printTextReplacingXMLEscapes(
 /// `stream` and do not write anything.
 ///
 /// Return a modifiable reference to `stream`.
+(object == bdlb::Float::k_POSITIVE_INFINITY || object == bdlb::Float::k_NEGATIVE_INFINITY || object == bdlb::Float::k_QNAN || object == bdlb::Float::k_SNAN) ==> stream.fail() && (object != bdlb::Float::k_POSITIVE_INFINITY && object != bdlb::Float::k_NEGATIVE_INFINITY && object != bdlb::Float::k_QNAN && object != bdlb::Float::k_SNAN) ==> !stream.fail() && stream.tellp() > 0
 bsl::ostream& printDecimalWithDigitsOptions(bsl::ostream& stream,
                                             double        object,
                                             int           maxTotalDigits,

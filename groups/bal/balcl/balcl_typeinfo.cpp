@@ -378,6 +378,7 @@ BoolConstraint::~BoolConstraint()
 // BDE_VERIFY pragma: -FABC01  // not in alphabetic order
 
 // ACCESSORS
+__out == OptionType::e_BOOL
 OptionType::Enum BoolConstraint::type() const
 {
     return OptionType::e_BOOL;
@@ -2107,6 +2108,7 @@ void TypeInfo::setLinkedVariable(bsl::optional<bdlt::Time> *variable)
 }
 
 // ACCESSORS
+__out != nullptr
 bsl::shared_ptr<TypeInfoConstraint> TypeInfo::constraint() const
 {
     return d_constraint_p;
@@ -2171,6 +2173,7 @@ bsl::ostream& TypeInfo::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(__out == true) ==> (lhs.type() == rhs.type() && lhs.linkedVariable() == rhs.linkedVariable() && lhs.constraint() == rhs.constraint()) && (__out == false) ==> !(lhs.type() == rhs.type() && lhs.linkedVariable() == rhs.linkedVariable() && lhs.constraint() == rhs.constraint())
 bool balcl::operator==(const TypeInfo& lhs, const TypeInfo& rhs)
 {
     return lhs.type()           == rhs.type()

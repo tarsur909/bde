@@ -18,6 +18,7 @@ namespace bbldc {
 /// convention.  If `beginDate <= endDate`, then the result is non-negative.
 /// Note that reversing the order of `beginDate` and `endDate` negates the
 /// result.
+(beginDate > endDate ==> __out == -(((y2 - y1) * 360 + (m2 - m1) * 30 + d2 - d1))) && (endDate >= beginDate ==> __out == ((y2 - y1) * 360 + (m2 - m1) * 30 + d2 - d1))
 inline
 static int computeDaysDiff(const bdlt::Date& beginDate,
                            const bdlt::Date& endDate)

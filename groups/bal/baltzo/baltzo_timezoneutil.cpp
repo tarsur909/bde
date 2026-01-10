@@ -26,6 +26,7 @@ namespace baltzo {
                              // ------------------
 
 // CLASS METHODS
+result != 0 && (__out == convertUtcToLocalTime(result, originalTime.timeZoneId().c_str(), utcTime))
 int TimeZoneUtil::addInterval(LocalDatetime             *result,
                               const LocalDatetime&       originalTime,
                               const bsls::TimeInterval&  interval)

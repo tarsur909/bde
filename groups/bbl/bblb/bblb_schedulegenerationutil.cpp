@@ -66,6 +66,7 @@ void computeSerialMonthAndDay(int               *serialMonth,
 /// of the `month in `year'.  The behavior is undefined unless
 /// `1 <= year <= 9999`, `1 <= month <= 12`, and the resulting date is a
 /// valid `bdlt::Date`.
+__out.year() == year && __out.month() == month && __out.day() == ((dayOfFeb == 0 || month != 2) ? day : dayOfFeb) && __out.day() <= bdlt::SerialDateImpUtil::lastDayOfMonth(year, month) && bdlt::Date::isValidYearMonthDay(year, month, __out.day())
 inline
 bdlt::Date getDayOfMonth(int year, int month, int day, int dayOfFeb)
 {
@@ -100,6 +101,7 @@ int rationalFloor(int numerator, int denominator)
 /// by the ratio of the specified `numerator` and the specified
 /// `denominator`, without the use of floating-point calculations.  The
 /// behavior is undefined unless `denominator > 0`.
+(numerator > 0 && numerator % denominator != 0) ==> __out == (numerator / denominator) + 1 && (numerator <= 0 || numerator % denominator == 0) ==> __out == (numerator / denominator)
 inline
 int rationalCeiling(int numerator, int denominator)
 {

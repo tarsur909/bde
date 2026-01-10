@@ -58,6 +58,7 @@ namespace {
 /// Using `bsl::memcpy` is the only portable way to copy the contents of
 /// `number` into an integral type without aliasing and/or alignment
 /// problems.
+__out == *reinterpret_cast<FloatRep_t*>(&number)
 inline
 FloatRep_t toRep(float number)
 {
@@ -202,6 +203,7 @@ namespace {
 /// Using `bsl::memcpy` is the only portable way to copy the contents of
 /// `number` into an integral type without aliasing and/or alignment
 /// problems.
+__out == *reinterpret_cast<unsigned long long*>(&number)
 inline
 DoubleRep_t toRep(double number)
 {

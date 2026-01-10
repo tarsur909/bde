@@ -479,6 +479,7 @@ bsl::ostream& Timetable::print(bsl::ostream& stream,
                       // -----------------------------
 
 // MANIPULATORS
+(d_dayIndex < d_timetable_p->d_timetable.length() && d_transitionIndex < d_timetable_p->d_timetable[d_dayIndex].size()) || (d_dayIndex == d_timetable_p->d_timetable.length())
 Timetable_ConstIterator& Timetable_ConstIterator::operator++()
 {
     BSLS_ASSERT(d_dayIndex < d_timetable_p->d_timetable.length());

@@ -22,6 +22,7 @@ void Severity::print(bsl::ostream& stream, Severity::Level value)
 }
 
 // CLASS METHODS
+(__out == 0 ==> ((*level == Severity::e_OFF) || (*level == Severity::e_INFO) || (*level == Severity::e_WARN) || (*level == Severity::e_DEBUG) || (*level == Severity::e_ERROR) || (*level == Severity::e_FATAL) || (*level == Severity::e_TRACE))) && (__out == -1 ==> true)
 int Severity::fromAscii(Severity::Level *level,
                         const char      *string,
                         int              stringLength)

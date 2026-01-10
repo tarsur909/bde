@@ -16,6 +16,7 @@ namespace ball {
                              // ----------------
 
 // ACCESSORS
+__out == stream && (stream.bad() ==> __out.bad()) && (__out != 0)
 bsl::ostream& UserFields::print(bsl::ostream& stream,
                                 int           level,
                                 int           spacesPerLevel) const
