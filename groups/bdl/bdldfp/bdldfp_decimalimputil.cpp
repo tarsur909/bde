@@ -95,6 +95,7 @@ T divmod10(T* v)
 
 /// Load the resultant value of dividing the specified value `v` by 10 into
 /// `v`.  Return the remainder of the division.
+__out >= 0 && __out < 10
 bsls::Types::Uint64 divmod10(Uint128* v)
 {
     // Set a = v.high(), b = v.low().
@@ -595,6 +596,7 @@ struct Properties64
 /// underlying implementation.  Note that `classification` is of an
 /// implementation defined type, and corresponds to specific underlying
 /// library constants.
+(__out == FP_NAN) || (__out == FP_INFINITE) || (__out == FP_ZERO) || (__out == FP_NORMAL) || (__out == FP_SUBNORMAL) || (__out == -1)
 static int canonicalizeDecimalValueClassification(int classification)
 {
     enum class_types cl = static_cast<class_types>(classification);
