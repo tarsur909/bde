@@ -1296,6 +1296,7 @@ void RecordStringFormatter::operator()(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(__out == true) || (__out == false)
 bool ball::operator==(const RecordStringFormatter& lhs,
                       const RecordStringFormatter& rhs)
 {

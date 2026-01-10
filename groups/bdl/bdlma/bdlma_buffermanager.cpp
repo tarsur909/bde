@@ -14,6 +14,7 @@ namespace bdlma {
                            // -------------------
 
 // MANIPULATORS
+__out >= 0
 bsls::Types::size_type BufferManager::expand(void                   *address,
                                              bsls::Types::size_type  size)
 {

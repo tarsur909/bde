@@ -16,6 +16,11 @@ namespace ball {
                         // -------------
 
 // CLASS METHODS
+POST(
+    (transmissionCause == Transmission::e_PASSTHROUGH && recordIndex == 0 && sequenceLength == 1 ==> __out == true) &&
+    (transmissionCause != Transmission::e_PASSTHROUGH && 0 <= recordIndex && 1 <= sequenceLength && recordIndex < sequenceLength ==> __out == true) &&
+    (!(transmissionCause == Transmission::e_PASSTHROUGH && recordIndex == 0 && sequenceLength == 1) && !(transmissionCause != Transmission::e_PASSTHROUGH && 0 <= recordIndex && 1 <= sequenceLength && recordIndex < sequenceLength) ==> __out == false)
+)
 bool Context::isValid(Transmission::Cause transmissionCause,
                       int                 recordIndex,
                       int                 sequenceLength)
@@ -42,6 +47,7 @@ bool Context::isValid(Transmission::Cause transmissionCause,
 }
 
 // ACCESSORS
+__out == stream
 bsl::ostream& Context::print(bsl::ostream& stream,
                              int           level,
                              int           spacesPerLevel) const

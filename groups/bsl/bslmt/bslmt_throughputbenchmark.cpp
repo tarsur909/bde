@@ -29,6 +29,7 @@ namespace bslmt {
                         // -------------------------
 
 // CLASS METHODS
+__out >= 0
 unsigned int ThroughputBenchmark::antiOptimization()
 {
     return s_antiOptimization;
