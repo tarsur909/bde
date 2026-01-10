@@ -39,6 +39,7 @@ TestOutStream::~TestOutStream()
 }
 
 // MANIPULATORS
+__out == *this && (length > 127 ==> d_imp.putInt8(TypeCode::e_INT32) && d_imp.putInt32(length | (1 << 31)) && length <= 127 ==> d_imp.putInt8(TypeCode::e_INT8) && d_imp.putInt8(length))
 TestOutStream& TestOutStream::putLength(int length)
 {
     BSLS_ASSERT(0 <= length);
@@ -833,6 +834,7 @@ TestOutStream& TestOutStream::putArrayFloat32(const float *values,
 }
 
 // FREE OPERATORS
+&__out == &stream
 bsl::ostream& operator<<(bsl::ostream& stream, const TestOutStream& object)
 {
     return stream << object.d_imp;

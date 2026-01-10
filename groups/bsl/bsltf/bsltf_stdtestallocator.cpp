@@ -29,6 +29,7 @@ namespace bsltf {
                         // -----------------------------------
 
 // CLASS METHODS
+__out != NULL && (s_StdTestAllocatorConfiguration_allocator_p != NULL ==> __out == s_StdTestAllocatorConfiguration_allocator_p) && (s_StdTestAllocatorConfiguration_allocator_p == NULL ==> __out == &bslma::NewDeleteAllocator::singleton())
 bslma::Allocator* StdTestAllocatorConfiguration::delegateAllocator()
 {
     return s_StdTestAllocatorConfiguration_allocator_p

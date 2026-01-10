@@ -14,6 +14,7 @@ namespace bdlt {
                               // ---------------
 
 // CLASS METHODS
+__out != DateTz()
 DateTz FuzzUtil::consumeDateTz(bslim::FuzzDataView *fuzzDataView)
 {
     return DateTz(consumeDate(fuzzDataView), consumeTz(fuzzDataView));

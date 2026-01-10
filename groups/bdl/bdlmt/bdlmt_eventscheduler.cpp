@@ -140,6 +140,7 @@ EventSchedulerTestTimeSource_Data::EventSchedulerTestTimeSource_Data(
 }
 
 // MANIPULATORS
+__out == d_currentTime && __out > d_currentTime - amount
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -151,6 +152,7 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
 }
 
 // ACCESSORS
+__out == d_currentTime
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_currentTimeMutex);
@@ -165,6 +167,7 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 const char EventScheduler::s_defaultThreadName[16] = { "bdl.EventSched" };
 
 // PRIVATE CLASS METHODS
+__out == 0
 bsls::Types::Int64 EventScheduler::returnZero()
 {
     return 0;
@@ -176,6 +179,7 @@ bsls::Types::Int64 EventScheduler::returnZeroInt(int)
 }
 
 // PRIVATE MANIPULATORS
+(0 == d_currentRecurringEvent && *now <= d_currentEvent->key() ==> __out == d_currentEvent->key()) && (0 == d_currentEvent && *now <= d_currentRecurringEvent->key() ==> __out == d_currentRecurringEvent->key()) && (0 != d_currentRecurringEvent && 0 != d_currentEvent ==> (d_currentEvent->key() < d_currentRecurringEvent->key() || d_currentEvent->key() < *now) ==> (__out == d_currentEvent->key() || __out == d_currentRecurringEvent->key()))
 bsls::Types::Int64 EventScheduler::chooseNextEvent(bsls::AtomicInt64 *now)
 {
     BSLS_ASSERT(0 != d_currentRecurringEvent || 0 != d_currentEvent);
@@ -1298,6 +1302,7 @@ EventSchedulerTestTimeSource::EventSchedulerTestTimeSource(
 }
 
 // MANIPULATORS
+__out > d_data_p->getTime() - amount
 bsls::TimeInterval EventSchedulerTestTimeSource::advanceTime(
                                                      bsls::TimeInterval amount)
 {

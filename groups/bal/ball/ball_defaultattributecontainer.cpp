@@ -21,6 +21,7 @@ int DefaultAttributeContainer::AttributeHash::s_hashtableSize = INT_MAX;
 int DefaultAttributeContainer::s_initialSize = 8;
 
 // MANIPULATORS
+__out == *this && FORALL(rhs.begin(), rhs.end(), iter, EXISTS(__out.begin(), __out.end(), iter2, *iter2 == *iter))
 DefaultAttributeContainer&
 DefaultAttributeContainer::operator=(const DefaultAttributeContainer& rhs)
 {
@@ -36,6 +37,7 @@ DefaultAttributeContainer::operator=(const DefaultAttributeContainer& rhs)
 }
 
 // ACCESSORS
+(d_attributeSet.find(value) != d_attributeSet.end() ==> __out == true) && (d_attributeSet.find(value) == d_attributeSet.end() ==> __out == false)
 bool DefaultAttributeContainer::hasValue(const Attribute& value) const
 {
     return d_attributeSet.find(value) != d_attributeSet.end();

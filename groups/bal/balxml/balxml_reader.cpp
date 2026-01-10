@@ -21,6 +21,7 @@ Reader::~Reader(void)
 }
 
 // CLASS METHODS
+__out != nullptr && (__out == "NODE_TYPE_NONE" || __out == "NODE_TYPE_ELEMENT" || __out == "NODE_TYPE_TEXT" || __out == "NODE_TYPE_CDATA" || __out == "NODE_TYPE_ENTITY_REFERENCE" || __out == "NODE_TYPE_ENTITY" || __out == "NODE_TYPE_PROCESSING_INSTRUCTION" || __out == "NODE_TYPE_COMMENT" || __out == "NODE_TYPE_DOCUMENT" || __out == "NODE_TYPE_DOCUMENT_TYPE" || __out == "NODE_TYPE_DOCUMENT_FRAGMENT" || __out == "NODE_TYPE_NOTATION" || __out == "NODE_TYPE_WHITESPACE" || __out == "NODE_TYPE_SIGNIFICANT_WHITESPACE" || __out == "NODE_TYPE_END_ELEMENT" || __out == "NODE_TYPE_END_ENTITY" || __out == "NODE_TYPE_XML_DECLARATION" || __out == "(* UNKNOWN NODE TYPE *)")
 const char *
 Reader::nodeTypeAsString(NodeType nodeType)
 {

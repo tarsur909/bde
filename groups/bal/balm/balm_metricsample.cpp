@@ -16,6 +16,7 @@ namespace balm {
                           // -----------------------
 
 // ACCESSORS
+__out == stream
 bsl::ostream&
 MetricSampleGroup::print(bsl::ostream& stream,
                          int           level,
@@ -56,6 +57,7 @@ MetricSample::MetricSample(const MetricSample&  original,
 }
 
 // MANIPULATORS
+(this != &rhs ==> (__out.d_records == rhs.d_records && __out.d_timeStamp == rhs.d_timeStamp && __out.d_numRecords == rhs.d_numRecords)) && (this == &rhs ==> &__out == this)
 MetricSample& MetricSample::operator=(const MetricSample& rhs)
 {
     if (this != &rhs) {

@@ -104,6 +104,7 @@ namespace {
 
 /// Return the specified `s` if `s` != 0, or "" otherwise.  Never returns a
 /// null pointer.
+(s != NULL ==> __out == s) && (s == NULL ==> __out == "")
 inline
 const char* nonNullStr(const char *s)
 {
@@ -122,6 +123,7 @@ char toChar(unsigned val)
 /// and write the characters to the character array at the specified
 /// `output` address.  Return the number of characters output or 0 if `val`
 /// is not in the legal range.
+(val >= 0x110000U ==> __out == 0) && (val < 0x110000U ==> __out > 0)
 int unicodeToUtf8(char *output, unsigned val)
 {
     /*
@@ -465,6 +467,7 @@ MiniReader::~MiniReader()
 }
 
 // MANIPULATORS
+((error >= ErrorInfo::e_ERROR) ==> (__out == -1)) && ((error < ErrorInfo::e_ERROR) ==> (__out == 0))
 int MiniReader::setError(ErrorInfo::Severity error, const bsl::string &msg)
 {
     Node&  node = currentNode();
@@ -1220,6 +1223,7 @@ MiniReader::advanceToNextNode()
 // ----------------------------------------------------------------------------
 //                              PRIVATE methods
 // ----------------------------------------------------------------------------
+(__out == 0) || (__out != 0 && __out != ' ' && __out != '\t' && __out != '\r' && __out != '\n')
 int
 MiniReader::skipSpaces()
 {
