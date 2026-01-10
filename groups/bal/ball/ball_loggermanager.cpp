@@ -234,6 +234,7 @@ void bufferPoolDeleter(void *buffer, void *pool)
 /// result in the specified `filteredNameBuffer`, and return the address of
 /// the non-modifiable data of `filteredNameBuffer`; return `originalName`
 /// otherwise (i.e., if `nameFilter` is null).
+(nameFilter ? __out == filteredNameBuffer->c_str() : __out == originalName)
 const char *filterName(
    bsl::string                                             *filteredNameBuffer,
    const char                                              *originalName,
@@ -259,6 +260,7 @@ const char *filterName(
 /// specified `category`, and return `true` if the specified `severity` is
 /// more severe (i.e., is numerically less than) at least one of the
 /// threshold levels of `category`, and `false` otherwise.
+(category.relevantRuleMask() && __out == (ball::ThresholdAggregate::maxLevel(*levels) >= severity)) || (!category.relevantRuleMask() && __out == (category.maxLevel() >= severity))
 bool isCategoryEnabled(ball::ThresholdAggregate *levels,
                        const ball::Category&     category,
                        int                       severity)
@@ -276,6 +278,7 @@ bool isCategoryEnabled(ball::ThresholdAggregate *levels,
 
 /// Return the `ball` log severity equivalent to the specified `bsls` log
 /// `severity`.
+(severity == bsls::LogSeverity::e_FATAL && __out == ball::Severity::e_FATAL
 inline static
 ball::Severity::Level convertBslsLogSeverity(bsls::LogSeverity::Enum severity)
 {
@@ -602,6 +605,7 @@ void Logger::publish(const bsl::shared_ptr<Record>& record,
 }
 
 // MANIPULATORS
+__out != NULL
 Record *Logger::getRecord(const char *fileName, int lineNumber)
 {
    // The shared pointer returned by 'getRecordPtr' is reconstituted in the
@@ -1605,6 +1609,7 @@ void LoggerManager::setDefaultThresholdLevelsCallback(
 }
 
 // ACCESSORS
+(category->relevantRuleMask() && __out == (ThresholdAggregate::maxLevel(levels) >= severity)) || (!category->relevantRuleMask() && __out == (category->maxLevel() >= severity))
 bool LoggerManager::isCategoryEnabled(const Category *category,
                                       int             severity) const
 {
