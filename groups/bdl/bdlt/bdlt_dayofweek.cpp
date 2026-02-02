@@ -19,6 +19,8 @@ namespace bdlt {
                             // ---------------
 
 // CLASS METHODS
+// requires: stream.good() && (value >= 0 && value <= 6)
+// ensures: __out == stream && (__out.good() && SEPFORALL(0, strlen(toAscii(value)), i, __out + i ↦ toAscii(value)[i]))
 bsl::ostream& DayOfWeek::print(bsl::ostream&   stream,
                                DayOfWeek::Enum value,
                                int             level,

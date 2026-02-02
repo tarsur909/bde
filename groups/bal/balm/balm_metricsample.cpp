@@ -56,6 +56,8 @@ MetricSample::MetricSample(const MetricSample&  original,
 }
 
 // MANIPULATORS
+// requires: this != &rhs ==> true
+// ensures: (__out == *this) && (this != &rhs ==> (d_records == rhs.d_records ⋆ d_timeStamp == rhs.d_timeStamp ⋆ d_numRecords == rhs.d_numRecords))
 MetricSample& MetricSample::operator=(const MetricSample& rhs)
 {
     if (this != &rhs) {
@@ -67,6 +69,8 @@ MetricSample& MetricSample::operator=(const MetricSample& rhs)
 }
 
 // ACCESSORS
+// requires: stream.good() && (spacesPerLevel >= 0)
+// ensures: __out == stream && (stream.bad() || (stream.good() && SEPFORALL(0, strlen(NL), i, stream + i ↦ NL[i])))
 bsl::ostream& MetricSample::print(bsl::ostream& stream,
                                   int           level,
                                   int           spacesPerLevel) const

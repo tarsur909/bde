@@ -58,6 +58,8 @@ void OptionValue::init(OptionType::Enum type)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == (d_value.is<OptionValue_NullOf>() ? d_value.the<OptionValue_NullOf>().type() : static_cast<OptionType::Enum>(d_value.typeIndex()))
 OptionType::Enum OptionValue::type() const
 {
     if (d_value.is<OptionValue_NullOf>()) {

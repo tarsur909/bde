@@ -55,6 +55,8 @@ namespace bdlma {
                         // -------------------------
 
 // PRIVATE MANIPULATORS
+// requires: true
+// ensures: __out != 0 || __out == 0
 void *ConcurrentFixedPool::allocateNew()
 {
     Node *node;
@@ -112,6 +114,8 @@ ConcurrentFixedPool::~ConcurrentFixedPool()
 }
 
 // MANIPULATORS
+// requires: d_freeList.loadRelaxed() != 0
+// ensures: __out != 0 ⋆ (__out ↦ sep_v)
 void *ConcurrentFixedPool::allocate()
 {
     int contentionCount = 0;

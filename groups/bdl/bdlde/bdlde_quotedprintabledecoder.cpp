@@ -210,6 +210,8 @@ QuotedPrintableDecoder::~QuotedPrintableDecoder()
 }
 
 // MANIPULATORS
+// requires: out != NULL && numOut != NULL && numIn != NULL && begin != NULL && end != NULL && begin <= end && maxNumOut >= 0
+// ensures: __out == -1 || __out == -2 || __out == 0
 int QuotedPrintableDecoder::convert(char       *out,
                                     int        *numOut,
                                     int        *numIn,

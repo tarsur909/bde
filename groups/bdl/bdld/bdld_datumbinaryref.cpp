@@ -16,6 +16,8 @@ namespace bdld {
                         // --------------------
 
 // ACCESSORS
+// requires: stream.good()
+// ensures: (stream.bad() ==> __out == stream) && (stream.good() ==> (__out == (stream << bsl::flush) && (SEPFORALL(0, d_data_p.size(), i, stream + i ↦ d_data_p[i]) ⋆ (stream + d_data_p.size() ↦ ' ') ⋆ SEPFORALL(0, d_size.size(), j, stream + d_data_p.size() + 1 + j ↦ d_size[j]))))
 bsl::ostream& DatumBinaryRef::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const

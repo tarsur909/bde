@@ -260,6 +260,8 @@ void Formatter_PrettyImplUtil::addListDataImpl(bsl::ostream&            stream,
 }
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == stream && (state->column() == 0
 bsl::ostream& Formatter_PrettyImplUtil::addBlankLine(bsl::ostream&  stream,
                                                      State         *state)
 {

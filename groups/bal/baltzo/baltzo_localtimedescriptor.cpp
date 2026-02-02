@@ -37,6 +37,8 @@ bsl::ostream& LocalTimeDescriptor::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, object.utcOffsetInSeconds().size(), i, stream + i ↦ object.utcOffsetInSeconds().data()[i]) ⋆ SEPFORALL(0, object.dstInEffectFlag().size(), j, stream + object.utcOffsetInSeconds().size() + j ↦ object.dstInEffectFlag().data()[j]) ⋆ SEPFORALL(0, object.description().size(), k, stream + object.utcOffsetInSeconds().size() + object.dstInEffectFlag().size() + k ↦ object.description().c_str()[k]))
 bsl::ostream& baltzo::operator<<(bsl::ostream&              stream,
                                  const LocalTimeDescriptor& object)
 {

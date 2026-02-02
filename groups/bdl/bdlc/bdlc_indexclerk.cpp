@@ -31,6 +31,8 @@ namespace bdlc {
                               // ----------------
 
 // PRIVATE ACCESSORS
+// requires: FORALL(0, unusedStack.size(), i, (unsigned int) unusedStack[i] < (unsigned int) nextNewIndex) && FORALL(0, unusedStack.size(), i, FORALL(i + 1, unusedStack.size(), j, unusedStack[i] != unusedStack[j]))
+// ensures: (__out == true) == (!(indicesInvalid) && !(indicesNotUnique & 0x2))
 bool
 IndexClerk::areInvariantsPreserved(const bsl::vector<int>& unusedStack,
                                    int                     nextNewIndex)
@@ -60,6 +62,8 @@ IndexClerk::areInvariantsPreserved(const bsl::vector<int>& unusedStack,
 }
 
 // ACCESSORS
+// requires: (unsigned int)index < (unsigned int)d_nextNewIndex
+// ensures: (__out == false ==> SEPEXISTS(0, d_unusedStack.size(), i, d_unusedStack[i] == index)) && (__out == true ==> SEPFORALL(0, d_unusedStack.size(), i, d_unusedStack[i] != index))
 bool IndexClerk::isInUse(int index) const
 {
     BSLS_ASSERT((unsigned int) index < (unsigned int)d_nextNewIndex);

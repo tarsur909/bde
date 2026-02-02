@@ -30,6 +30,8 @@ BSLMF_ASSERT(!bslmf::IsTriviallyCopyableCheck<TimeTz>::value);
                              // ------------
 
 // ACCESSORS
+// requires: true
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, oss.str().size(), i, stream + i ↦ oss.str().data()[i]))))
 bsl::ostream& TimeTz::print(bsl::ostream& stream,
                             int           level,
                             int           spacesPerLevel) const

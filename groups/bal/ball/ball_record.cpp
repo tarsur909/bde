@@ -23,6 +23,8 @@ namespace ball {
                            // ------------
 
 // ACCESSORS
+// requires: stream.good() && (stream ↦ _)
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& Record::print(bsl::ostream& stream,
                             int           level,
                             int           spacesPerLevel) const

@@ -36,6 +36,8 @@ Iso8601UtilParseConfiguration::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, object.basic().size(), i, stream + i ↦ object.basic().data()[i]) ⋆ SEPFORALL(0, object.relaxed().size(), j, stream + object.basic().size() + j ↦ object.relaxed().data()[j]))
 bsl::ostream& bdlt::operator<<(bsl::ostream&                        stream,
                                const Iso8601UtilParseConfiguration& object)
 {

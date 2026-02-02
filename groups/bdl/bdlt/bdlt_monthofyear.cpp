@@ -16,6 +16,8 @@ namespace bdlt {
                      // ------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, strlen(toAscii(value)), i, stream + i ↦ toAscii(value)[i]))
 bsl::ostream& MonthOfYear::print(bsl::ostream&     stream,
                                  MonthOfYear::Enum value,
                                  int               level,

@@ -18,6 +18,8 @@ namespace ball {
                       // ---------------------
 
 // CLASS METHODS
+// requires: categoryName != NULL && strlen(categoryName) > 0
+// ensures: __out == 0 || __out == 1
 int Administration::addCategory(const char *categoryName,
                                 int         recordLevel,
                                 int         passLevel,

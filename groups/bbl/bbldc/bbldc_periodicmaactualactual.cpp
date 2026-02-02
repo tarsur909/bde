@@ -48,6 +48,8 @@ namespace bbldc {
                       // -----------------------------
 
 // CLASS METHODS
+// requires: (periodDateEnd - periodDateBegin >= 2) && (*periodDateBegin <= beginDate && beginDate <= *(periodDateEnd - 1)) && (*periodDateBegin <= endDate && endDate <= *(periodDateEnd - 1)) && u::isSortedAndUnique(periodDateBegin, periodDateEnd)
+// ensures: (beginDate == endDate ==> __out == 0.0) && (beginDate != endDate ==> __out != 0.0)
 double PeriodIcmaActualActual::yearsDiff(const bdlt::Date&  beginDate,
                                          const bdlt::Date&  endDate,
                                          const bdlt::Date  *periodDateBegin,

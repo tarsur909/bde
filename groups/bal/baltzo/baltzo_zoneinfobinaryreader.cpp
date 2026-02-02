@@ -130,6 +130,8 @@ const bsls::Types::Int64 MINIMUM_ZIC_TRANSITION = -576460752303423488LL;
 
 /// Return `true` if every character in the specified `buffer` of the
 /// specified `length` is printable, and `false` otherwise.
+// requires: buffer != 0 && length >= 0 && SEPFORALL(0, length, i, (buffer + i ↦ _))
+// ensures: (__out == true ==> SEPFORALL(0, length, i, (buffer + i ↦ sep_v) && bdlb::CharType::isPrint(sep_v))) && (__out == false ==> SEPEXISTS(0, length, i, (buffer + i ↦ sep_v) && !bdlb::CharType::isPrint(sep_v)))
 static
 bool areAllPrintable(const char *buffer, int length)
 {
@@ -229,6 +231,8 @@ bool validIndex(const bsl::vector<TYPE>& vector, int index)
 /// Read the 32-bit big-endian integer in the array of bytes located at the
 /// specified `address` and return that value.  The behavior is undefined
 /// unless `address` points to an accessible memory location.
+// requires: address != nullptr && strlen(address) >= 4
+// ensures: __out == BSLS_BYTEORDER_BE_U32_TO_HOST(*reinterpret_cast<const int*>(address))
 static inline
 int decode32(const char *address)
 {
@@ -243,6 +247,8 @@ int decode32(const char *address)
 /// meets the requirements of the Zoneinfo binary file format, populate the
 /// specified `result` with the extracted information.  Return 0 if `result`
 /// is successfully read, and a non-zero value otherwise.
+// requires: result != 0 && stream.good() && stream.readable()
+// ensures: (__out == 0 ==> (result->version() == *rawHeader.d_version ⋆ result->numLocalTimeTypes() == decode32(rawHeader.d_numLocalTimeTypes) ⋆ result->numIsGmt() == decode32(rawHeader.d_numIsGmt) ⋆ result->numIsStd() == decode32(rawHeader.d_numIsStd) ⋆ result->numLeaps() == decode32(rawHeader.d_numLeaps) ⋆ result->numTransitions() == decode32(rawHeader.d_numTransitions) ⋆ result->abbrevDataSize() == decode32(rawHeader.d_abbrevDataSize))) && (__out < 0 ==> true)
 static inline
 int readHeader(baltzo::ZoneinfoBinaryHeader *result, bsl::istream& stream)
 {
@@ -406,6 +412,8 @@ int loadLocalTimeDescriptors(
 /// (which typically follows the version '\0' format data in a Zoneinfo binary
 /// file).  If an error occurs during the operation, the resulting value of
 /// `zoneinfoResult` is unspecified.
+// requires: zoneinfoResult != 0 && headerResult != 0 && stream.good()
+// ensures: (__out == 0 ==> (zoneinfoResult != 0 && headerResult != 0)) && (__out != 0 ==> true)
 static int readVersionTwoOrHigherFormatData(
                                   baltzo::Zoneinfo             *zoneinfoResult,
                                   baltzo::ZoneinfoBinaryHeader *headerResult,
@@ -690,6 +698,8 @@ namespace baltzo {
                          // --------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == readImpl(zoneinfoResult, &description, k_READ_NORMALIZED, stream)
 int ZoneinfoBinaryReader::read(Zoneinfo *zoneinfoResult, bsl::istream& stream)
 {
     ZoneinfoBinaryHeader description;

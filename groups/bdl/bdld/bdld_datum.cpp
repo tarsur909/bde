@@ -855,6 +855,7 @@ BSLMF_ASSERT(sizeof(bdlt::Time) <= sizeof(long long));
 BSLMF_ASSERT(sizeof(Datum_MapHeader) <= sizeof(DatumMapEntry));
 
 // CLASS METHODS
+// requires: true
 Datum Datum::createDecimal64(bdldfp::Decimal64    value,
                              const AllocatorType& allocator)
 {
@@ -1371,6 +1372,8 @@ void Datum::destroy(const Datum& value, const AllocatorType& allocator)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: true
 Datum Datum::clone(const AllocatorType& allocator) const
 {
     Datum result;
@@ -1437,6 +1440,8 @@ bsl::ostream& Datum::print(bsl::ostream& stream,
                          // -------------------
 
 // ACCESSORS
+// requires: stream.bad() || stream.good()
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, d_length, i, stream + i ↦ d_data_p[i])) && stream.flushed()))
 bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1487,6 +1492,8 @@ bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                             // -------------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, strlen(d_key_p), i, stream + i ↦ d_key_p[i]) ⋆ SEPFORALL(0, strlen(d_value), j, stream + strlen(d_key_p) + 1 + j ↦ d_value[j]))))
 bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1508,6 +1515,8 @@ bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                           // class DatumMapRef
                           // -----------------
 // ACCESSORS
+// requires: true
+// ensures: (__out == 0) || (__out != 0 && __out ↦ _)
 const Datum *DatumIntMapRef::find(int key) const
 {
     return d_sorted ? findElementBinary(key, *this) :

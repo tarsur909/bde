@@ -105,6 +105,8 @@ void Category::updateThresholdForHolders()
 }
 
 // MANIPULATORS
+// requires: Category::areValidThresholdLevels(recordLevel, passLevel, triggerLevel, triggerAllLevel)
+// ensures: (__out == 0 ==> (d_thresholdLevels == ThresholdAggregateUtil::pack(ThresholdAggregate(recordLevel, passLevel, triggerLevel, triggerAllLevel)) && d_threshold == ThresholdAggregate::maxLevel(recordLevel, passLevel, triggerLevel, triggerAllLevel))) && (__out == -1)
 int Category::setLevels(int recordLevel,
                         int passLevel,
                         int triggerLevel,

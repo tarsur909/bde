@@ -266,6 +266,8 @@ FixedThreadPool::~FixedThreadPool()
 }
 
 // MANIPULATORS
+// requires: d_numThreads >= 0 && d_barrier.isValid() && d_queue.isValid()
+// ensures: (__out == 0 ==> (d_queue.isPopFrontDisabled() == false)) && (__out == -1 ==> SEPEXISTS(0, d_numThreads, i, (0 != startNewThread())))
 int FixedThreadPool::start()
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_metaMutex);
