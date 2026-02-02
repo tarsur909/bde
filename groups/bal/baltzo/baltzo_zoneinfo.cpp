@@ -22,6 +22,8 @@ namespace BloombergLP {
 
 /// Return `true` if the specified `transitions` contain a transition with
 /// the specified `descriptor`, and `false` otherwise.
+// requires: (res_tmp == true ==> SEPEXISTS(0, transitions.size(), i, transitions[i].descriptor() == descriptor)) && (res_tmp == false ==> SEPFORALL(0, transitions.size(), i, transitions[i].descriptor() != descriptor))
+// ensures: (__out == true ==> SEPEXISTS(0, transitions.size(), i, transitions[i].descriptor() == descriptor)) && (__out == false ==> SEPFORALL(0, transitions.size(), i, transitions[i].descriptor() != descriptor))
 static
 bool containsDescriptor(
                     const bsl::vector<baltzo::ZoneinfoTransition>& transitions,
@@ -125,6 +127,8 @@ namespace baltzo {
                        // ------------------------------
 
 // ACCESSORS
+// requires: true
+// ensures: (__out == (lhs.utcOffsetInSeconds() < rhs.utcOffsetInSeconds())) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && __out == (lhs.description() < rhs.description())) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() == rhs.description() && __out == (lhs.dstInEffectFlag() < rhs.dstInEffectFlag()))
 bool Zoneinfo::DescriptorLess::operator()(const LocalTimeDescriptor& lhs,
                                           const LocalTimeDescriptor& rhs) const
 {

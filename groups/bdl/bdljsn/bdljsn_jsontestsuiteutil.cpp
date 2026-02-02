@@ -28,6 +28,8 @@ namespace u {
 
 /// Return the address of a null-terminated string containing the input of
 /// the `n_structure_100000_opening_arrays.json` test point.
+// requires: true
+// ensures: __out != 0 && SEPFORALL(0, 100000, i, __out + i ↦ '[')
 static const char *getLeftBrackets100000()
 {
     static bsl::string leftBrackets100000(bslma::Default::globalAllocator());
@@ -46,6 +48,8 @@ static const bsl::size_t lenLeftBrackets100000 = 100000;
 
 /// Return the address of a null-terminated string containing the input of
 /// the `n_structure_open_array_object.json` test point.
+// requires: true
+// ensures: __out != 0 && strlen(__out) == 250001
 static const char *getOpenArrayObject50000()
 {
     static char              openArrayObjectSubsequence[] = "[{\"\":";
@@ -1102,6 +1106,8 @@ const bsl::size_t JsonTestSuiteUtil::s_numData = sizeof  s_data
 #undef JSON
 
 // ACCESSORS
+// requires: index < s_numData
+// ensures: __out != 0 && (__out == &s_data[index] && (index == 68 ==> (__out->d_JSON_p ↦ u::leftBrackets100000 ⋆ __out->d_length ↦ u::lenLeftBrackets100000)))
 const JsonTestSuiteUtil::Datum *JsonTestSuiteUtil::data(bsl::size_t index)
 {
     BSLS_ASSERT(index < s_numData);

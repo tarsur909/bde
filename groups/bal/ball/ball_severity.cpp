@@ -22,6 +22,8 @@ void Severity::print(bsl::ostream& stream, Severity::Level value)
 }
 
 // CLASS METHODS
+// requires: string != NULL && stringLength > 0 && string[stringLength] == '\0'
+// ensures: __out == 0 || __out == -1
 int Severity::fromAscii(Severity::Level *level,
                         const char      *string,
                         int              stringLength)

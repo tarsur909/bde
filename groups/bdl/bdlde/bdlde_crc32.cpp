@@ -189,6 +189,8 @@ void Crc32::update(const void *data, bsl::size_t length)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, 10, i, stream + i ↦ array[i]))
 bsl::ostream& Crc32::print(bsl::ostream& stream) const
 {
     const char *hex = "0123456789abcdef";

@@ -37,6 +37,8 @@ BSLS_IDENT_RCSID(balst_stacktraceutil_cpp,"$Id$ $CSID$")
 /// address.  If there are no separator characters, return the address of
 /// the first character of `pathName`.  If the last character of `pathName`
 /// is a separator charactor, return the address of the terminating '\0'.
+// requires: pathName != nullptr && strlen(pathName) > 0
+// ensures: (__out >= pathName) && (__out == pathName || (*(__out - 1) == '/' || *(__out - 1) == '\\'))
 static
 const char *findBasename(const char *pathName)
 {
@@ -73,7 +75,9 @@ class ResolverImpl<ObjectFileFormat::Dummy>
     /// which is to be used for memory allocation.  The behavior is
     /// undefined unless all the `address` field in `stackFrames` are valid
     /// and other fields are invalid, and `basicAllocator != 0`.
-    static
+    // requires: true
+// ensures: __out == -1
+static
     int resolve(StackTrace *,    // 'stackTrace'
                 bool        )    // 'demangle'
     {

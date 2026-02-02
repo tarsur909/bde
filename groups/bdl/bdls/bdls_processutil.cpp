@@ -71,6 +71,8 @@ using namespace BloombergLP;
     } while (false)
 
 /// Return a ptr to a string describing whether "/proc" exists or not.
+// requires: true
+// ensures: (__out == "" || __out == "\"/proc\" exists." || __out == "\"/proc\" does not exist.")
 static
 const char *doesProcExist()
 {
@@ -85,6 +87,8 @@ const char *doesProcExist()
 
 /// Return the process id.  Having this be separate from `Obj::getProcessId`
 /// allows us to call it inline within the component.
+// requires: true
+// ensures: true
 static inline
 int getPid()
 {
@@ -99,6 +103,8 @@ int getPid()
 /// not a directory, and is executable (or is a symbolic link to such a
 /// file) and `false` otherwise.  On Windows, return `true` if the file
 /// exists and is not a directory.
+// requires: path != 0
+// ensures: (__out == true ==> (0 == rc && !(s.st_mode & S_IFDIR) && (s.st_mode & executableBits))) && (__out == false ==> !(0 == rc && !(s.st_mode & S_IFDIR) && (s.st_mode & executableBits)))
 static inline
 bool isExecutable(const char *path)
 {
@@ -179,6 +185,8 @@ namespace bdls {
                              // ------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: true
 int ProcessUtil::getProcessId()
 {
     return u::getPid();

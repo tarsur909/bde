@@ -81,6 +81,8 @@ TimeInterval::TimeInterval(double seconds)
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: &__out == this
 TimeInterval& TimeInterval::addInterval(bsls::Types::Int64 seconds,
                                         int                nanoseconds)
 {

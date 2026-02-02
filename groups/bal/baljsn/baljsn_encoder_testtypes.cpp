@@ -134,6 +134,8 @@ EncoderTestAddress::~EncoderTestAddress()
 
 // MANIPULATORS
 
+// requires: true
+// ensures: (this != &rhs ==> (d_street ↦ rhs.d_street ⋆ d_city ↦ rhs.d_city ⋆ d_state ↦ rhs.d_state)) && (__out == *this)
 EncoderTestAddress&
 EncoderTestAddress::operator=(const EncoderTestAddress& rhs)
 {
@@ -266,6 +268,8 @@ EncoderTestChoiceWithAllCategoriesChoice::EncoderTestChoiceWithAllCategoriesChoi
 
 // MANIPULATORS
 
+// requires: true
+// ensures: (this != &rhs) ==> ((rhs.d_selectionId == SELECTION_ID_SELECTION0) ==> (d_selectionId == SELECTION_ID_SELECTION0 ⋆ d_selection0.object() == rhs.d_selection0.object()) || (rhs.d_selectionId == SELECTION_ID_UNDEFINED) ==> (d_selectionId == SELECTION_ID_UNDEFINED))
 EncoderTestChoiceWithAllCategoriesChoice&
 EncoderTestChoiceWithAllCategoriesChoice::operator=(const EncoderTestChoiceWithAllCategoriesChoice& rhs)
 {
@@ -316,6 +320,8 @@ void EncoderTestChoiceWithAllCategoriesChoice::reset()
     d_selectionId = SELECTION_ID_UNDEFINED;
 }
 
+// requires: (selectionId == SELECTION_ID_SELECTION0 || selectionId == SELECTION_ID_UNDEFINED) ==> true && (selectionId != SELECTION_ID_SELECTION0 && selectionId != SELECTION_ID_UNDEFINED) ==> true
+// ensures: (selectionId == SELECTION_ID_SELECTION0 || selectionId == SELECTION_ID_UNDEFINED) ==> (__out == 0) && (selectionId != SELECTION_ID_SELECTION0 && selectionId != SELECTION_ID_UNDEFINED) ==> (__out == -1)
 int EncoderTestChoiceWithAllCategoriesChoice::makeSelection(int selectionId)
 {
     switch (selectionId) {
@@ -331,6 +337,8 @@ int EncoderTestChoiceWithAllCategoriesChoice::makeSelection(int selectionId)
     return 0;
 }
 
+// requires: nameLength >= 0
+// ensures: (lookupSelectionInfo(name, nameLength) == 0 ==> __out == -1) && (lookupSelectionInfo(name, nameLength) != 0 ==> __out == makeSelection(lookupSelectionInfo(name, nameLength)->d_id))
 int EncoderTestChoiceWithAllCategoriesChoice::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -357,6 +365,8 @@ int& EncoderTestChoiceWithAllCategoriesChoice::makeSelection0()
     return d_selection0.object();
 }
 
+// requires: true
+// ensures: (d_selectionId == SELECTION_ID_SELECTION0 ==> (d_selection0.object() ↦ value)) && (d_selectionId != SELECTION_ID_SELECTION0 ==> (d_selectionId == SELECTION_ID_SELECTION0 ⋆ (d_selection0.buffer() ↦ value)))
 int& EncoderTestChoiceWithAllCategoriesChoice::makeSelection0(int value)
 {
     if (SELECTION_ID_SELECTION0 == d_selectionId) {
@@ -393,6 +403,8 @@ bsl::ostream& EncoderTestChoiceWithAllCategoriesChoice::print(
 }
 
 
+// requires: true
+// ensures: (d_selectionId == SELECTION_ID_SELECTION0 ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SELECTION0].name()) && (d_selectionId != SELECTION_ID_SELECTION0 ==> __out == "(* UNDEFINED *)")
 const char *EncoderTestChoiceWithAllCategoriesChoice::selectionName() const
 {
     switch (d_selectionId) {
@@ -462,6 +474,8 @@ const bdlat_EnumeratorInfo EncoderTestChoiceWithAllCategoriesEnumeration::ENUMER
 
 // CLASS METHODS
 
+// requires: result != 0 && (number == EncoderTestChoiceWithAllCategoriesEnumeration::A || number == EncoderTestChoiceWithAllCategoriesEnumeration::B)
+// ensures: (__out == 0 ==> (*result ↦ static_cast<EncoderTestChoiceWithAllCategoriesEnumeration::Value>(number))) && (__out == -1 ==> true)
 int EncoderTestChoiceWithAllCategoriesEnumeration::fromInt(EncoderTestChoiceWithAllCategoriesEnumeration::Value *result, int number)
 {
     switch (number) {
@@ -474,6 +488,8 @@ int EncoderTestChoiceWithAllCategoriesEnumeration::fromInt(EncoderTestChoiceWith
     }
 }
 
+// requires: result != 0 && string != 0 && stringLength >= 0
+// ensures: (__out == 0 ==> SEPEXISTS(0, 2, i, (stringLength == EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_nameLength && 0 == bsl::memcmp(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_name_p, string, stringLength) && (*result == static_cast<EncoderTestChoiceWithAllCategoriesEnumeration::Value>(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_value))))) && (__out == -1 ==> SEPFORALL(0, 2, i, !(stringLength == EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_nameLength && 0 == bsl::memcmp(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_name_p, string, stringLength))))
 int EncoderTestChoiceWithAllCategoriesEnumeration::fromString(
         EncoderTestChoiceWithAllCategoriesEnumeration::Value *result,
         const char         *string,
@@ -494,6 +510,8 @@ int EncoderTestChoiceWithAllCategoriesEnumeration::fromString(
     return -1;
 }
 
+// requires: (value == EncoderTestChoiceWithAllCategoriesEnumeration::A) || (value == EncoderTestChoiceWithAllCategoriesEnumeration::B)
+// ensures: (value == EncoderTestChoiceWithAllCategoriesEnumeration::A ==> __out == "A") && (value == EncoderTestChoiceWithAllCategoriesEnumeration::B ==> __out == "B") && (value != EncoderTestChoiceWithAllCategoriesEnumeration::A && value != EncoderTestChoiceWithAllCategoriesEnumeration::B ==> __out == 0)
 const char *EncoderTestChoiceWithAllCategoriesEnumeration::toString(EncoderTestChoiceWithAllCategoriesEnumeration::Value value)
 {
     switch (value) {
@@ -717,6 +735,8 @@ EncoderTestSequenceWithAllCategoriesChoice::EncoderTestSequenceWithAllCategories
 
 // MANIPULATORS
 
+// requires: (rhs.d_selectionId == SELECTION_ID_SELECTION0 ==> rhs.d_selection0.object() != nullptr) || rhs.d_selectionId == SELECTION_ID_UNDEFINED
+// ensures: (__out == *this) && (this != &rhs ==> ((rhs.d_selectionId == SELECTION_ID_SELECTION0 && d_selectionId == SELECTION_ID_SELECTION0 && d_selection0.object() == rhs.d_selection0.object()) || (rhs.d_selectionId == SELECTION_ID_UNDEFINED && d_selectionId == SELECTION_ID_UNDEFINED)))
 EncoderTestSequenceWithAllCategoriesChoice&
 EncoderTestSequenceWithAllCategoriesChoice::operator=(const EncoderTestSequenceWithAllCategoriesChoice& rhs)
 {
@@ -767,6 +787,8 @@ void EncoderTestSequenceWithAllCategoriesChoice::reset()
     d_selectionId = SELECTION_ID_UNDEFINED;
 }
 
+// requires: true
+// ensures: (selectionId == SELECTION_ID_SELECTION0 || selectionId == SELECTION_ID_UNDEFINED) ==> __out == 0 && (selectionId != SELECTION_ID_SELECTION0 && selectionId != SELECTION_ID_UNDEFINED) ==> __out == -1
 int EncoderTestSequenceWithAllCategoriesChoice::makeSelection(int selectionId)
 {
     switch (selectionId) {
@@ -782,6 +804,8 @@ int EncoderTestSequenceWithAllCategoriesChoice::makeSelection(int selectionId)
     return 0;
 }
 
+// requires: nameLength >= 0 && strlen(name) == nameLength
+// ensures: (__out == -1 ==> lookupSelectionInfo(name, nameLength) == 0) && (__out != -1 ==> __out == makeSelection(selectionInfo->d_id))
 int EncoderTestSequenceWithAllCategoriesChoice::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -808,6 +832,8 @@ int& EncoderTestSequenceWithAllCategoriesChoice::makeSelection0()
     return d_selection0.object();
 }
 
+// requires: true
+// ensures: (d_selectionId == SELECTION_ID_SELECTION0 ==> (d_selection0.object() ↦ value)) && (d_selectionId != SELECTION_ID_SELECTION0 ==> (d_selectionId == SELECTION_ID_SELECTION0 ⋆ (d_selection0.buffer() ↦ value))) && (__out ↦ value)
 int& EncoderTestSequenceWithAllCategoriesChoice::makeSelection0(int value)
 {
     if (SELECTION_ID_SELECTION0 == d_selectionId) {
@@ -844,6 +870,8 @@ bsl::ostream& EncoderTestSequenceWithAllCategoriesChoice::print(
 }
 
 
+// requires: true
+// ensures: (d_selectionId == SELECTION_ID_SELECTION0 ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SELECTION0].name()) && (d_selectionId != SELECTION_ID_SELECTION0 ==> __out == "(* UNDEFINED *)")
 const char *EncoderTestSequenceWithAllCategoriesChoice::selectionName() const
 {
     switch (d_selectionId) {
@@ -913,6 +941,8 @@ const bdlat_EnumeratorInfo EncoderTestSequenceWithAllCategoriesEnumeration::ENUM
 
 // CLASS METHODS
 
+// requires: (number == EncoderTestSequenceWithAllCategoriesEnumeration::A || number == EncoderTestSequenceWithAllCategoriesEnumeration::B) && result != 0
+// ensures: (__out == 0 ==> ((*result ↦ static_cast<EncoderTestSequenceWithAllCategoriesEnumeration::Value>(number)) && (number == EncoderTestSequenceWithAllCategoriesEnumeration::A || number == EncoderTestSequenceWithAllCategoriesEnumeration::B))) && (__out == -1 ==> true)
 int EncoderTestSequenceWithAllCategoriesEnumeration::fromInt(EncoderTestSequenceWithAllCategoriesEnumeration::Value *result, int number)
 {
     switch (number) {
@@ -925,6 +955,8 @@ int EncoderTestSequenceWithAllCategoriesEnumeration::fromInt(EncoderTestSequence
     }
 }
 
+// requires: string != nullptr && result != nullptr && stringLength >= 0
+// ensures: (__out == 0 ==> SEPEXISTS(0, 2, i, (stringLength == EncoderTestSequenceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_nameLength && 0 == bsl::memcmp(EncoderTestSequenceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_name_p, string, stringLength) && (*result == static_cast<EncoderTestSequenceWithAllCategoriesEnumeration::Value>(EncoderTestSequenceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_value))))) && (__out == -1 ==> *result == old_result)
 int EncoderTestSequenceWithAllCategoriesEnumeration::fromString(
         EncoderTestSequenceWithAllCategoriesEnumeration::Value *result,
         const char         *string,
@@ -945,6 +977,8 @@ int EncoderTestSequenceWithAllCategoriesEnumeration::fromString(
     return -1;
 }
 
+// requires: (value == EncoderTestSequenceWithAllCategoriesEnumeration::A) || (value == EncoderTestSequenceWithAllCategoriesEnumeration::B)
+// ensures: (value == EncoderTestSequenceWithAllCategoriesEnumeration::A ==> __out == "A") && (value == EncoderTestSequenceWithAllCategoriesEnumeration::B ==> __out == "B") && (value != EncoderTestSequenceWithAllCategoriesEnumeration::A && value != EncoderTestSequenceWithAllCategoriesEnumeration::B ==> __out == 0)
 const char *EncoderTestSequenceWithAllCategoriesEnumeration::toString(EncoderTestSequenceWithAllCategoriesEnumeration::Value value)
 {
     switch (value) {
@@ -2385,6 +2419,8 @@ EncoderTestChoiceWithAllCategories::EncoderTestChoiceWithAllCategories(
 
 // MANIPULATORS
 
+// requires: true
+// ensures: __out == *this && (this->d_selectionId == rhs.d_selectionId && (this->d_selectionId == SELECTION_ID_UNDEFINED || (this->d_selectionId == SELECTION_ID_CHAR_ARRAY && this->d_charArray.object() == rhs.d_charArray.object()) || (this->d_selectionId == SELECTION_ID_CHOICE && this->d_choice.object() == rhs.d_choice.object()) || (this->d_selectionId == SELECTION_ID_CUSTOMIZED_TYPE && this->d_customizedType.object() == rhs.d_customizedType.object()) || (this->d_selectionId == SELECTION_ID_ENUMERATION && this->d_enumeration.object() == rhs.d_enumeration.object()) || (this->d_selectionId == SELECTION_ID_SEQUENCE && this->d_sequence.object() == rhs.d_sequence.object()) || (this->d_selectionId == SELECTION_ID_SIMPLE && this->d_simple.object() == rhs.d_simple.object())))
 EncoderTestChoiceWithAllCategories&
 EncoderTestChoiceWithAllCategories::operator=(const EncoderTestChoiceWithAllCategories& rhs)
 {
@@ -2512,6 +2548,8 @@ int EncoderTestChoiceWithAllCategories::makeSelection(int selectionId)
     return 0;
 }
 
+// requires: nameLength >= 0
+// ensures: (__out == -1 ==> lookupSelectionInfo(name, nameLength) == 0) && (__out != -1 ==> __out == makeSelection(old_selectionInfo->d_id))
 int EncoderTestChoiceWithAllCategories::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -2682,6 +2720,8 @@ EncoderTestChoiceWithAllCategoriesEnumeration::Value& EncoderTestChoiceWithAllCa
     return d_enumeration.object();
 }
 
+// requires: true
+// ensures: (d_selectionId == SELECTION_ID_ENUMERATION ==> (d_enumeration.object() == value)) && (d_selectionId != SELECTION_ID_ENUMERATION ==> (d_selectionId == SELECTION_ID_ENUMERATION ⋆ d_enumeration.object() == value))
 EncoderTestChoiceWithAllCategoriesEnumeration::Value& EncoderTestChoiceWithAllCategories::makeEnumeration(EncoderTestChoiceWithAllCategoriesEnumeration::Value value)
 {
     if (SELECTION_ID_ENUMERATION == d_selectionId) {
@@ -2760,6 +2800,8 @@ int& EncoderTestChoiceWithAllCategories::makeSimple()
     return d_simple.object();
 }
 
+// requires: true
+// ensures: (d_selectionId == SELECTION_ID_SIMPLE && __out == value) || (d_selectionId == SELECTION_ID_SIMPLE && (d_simple.buffer() ↦ value ⋆ __out == d_simple.object()))
 int& EncoderTestChoiceWithAllCategories::makeSimple(int value)
 {
     if (SELECTION_ID_SIMPLE == d_selectionId) {
@@ -2817,6 +2859,8 @@ bsl::ostream& EncoderTestChoiceWithAllCategories::print(
 }
 
 
+// requires: true
+// ensures: (__out == SELECTION_INFO_ARRAY[SELECTION_INDEX_CHAR_ARRAY].name(
 const char *EncoderTestChoiceWithAllCategories::selectionName() const
 {
     switch (d_selectionId) {
@@ -2920,6 +2964,8 @@ EncoderTestDegenerateChoice1::EncoderTestDegenerateChoice1(EncoderTestDegenerate
 
 // MANIPULATORS
 
+// requires: rhs.d_selectionId == SELECTION_ID_UNDEFINED || rhs.d_selectionId == SELECTION_ID_SEQUENCE
+// ensures: (this != &rhs ==> ((rhs.d_selectionId == SELECTION_ID_SEQUENCE ==> (d_selectionId == SELECTION_ID_SEQUENCE ⋆ d_sequence.object() == rhs.d_sequence.object())) ⋆ (rhs.d_selectionId == SELECTION_ID_UNDEFINED ==> (d_selectionId == SELECTION_ID_UNDEFINED)))) ⋆ (__out == *this)
 EncoderTestDegenerateChoice1&
 EncoderTestDegenerateChoice1::operator=(const EncoderTestDegenerateChoice1& rhs)
 {
@@ -2970,6 +3016,8 @@ void EncoderTestDegenerateChoice1::reset()
     d_selectionId = SELECTION_ID_UNDEFINED;
 }
 
+// requires: true
+// ensures: (selectionId == SELECTION_ID_SEQUENCE || selectionId == SELECTION_ID_UNDEFINED) ==> __out == 0 && (selectionId != SELECTION_ID_SEQUENCE && selectionId != SELECTION_ID_UNDEFINED) ==> __out == -1
 int EncoderTestDegenerateChoice1::makeSelection(int selectionId)
 {
     switch (selectionId) {
@@ -2985,6 +3033,8 @@ int EncoderTestDegenerateChoice1::makeSelection(int selectionId)
     return 0;
 }
 
+// requires: true
+// ensures: (lookupSelectionInfo(name, nameLength) == 0 ==> __out == -1) && (lookupSelectionInfo(name, nameLength) != 0 ==> __out == makeSelection(lookupSelectionInfo(name, nameLength)->d_id))
 int EncoderTestDegenerateChoice1::makeSelection(const char *name, int nameLength)
 {
     const bdlat_SelectionInfo *selectionInfo =
@@ -3065,6 +3115,8 @@ bsl::ostream& EncoderTestDegenerateChoice1::print(
 }
 
 
+// requires: true
+// ensures: (d_selectionId == SELECTION_ID_SEQUENCE ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SEQUENCE].name()) && (d_selectionId != SELECTION_ID_SEQUENCE ==> __out == "(* UNDEFINED *)")
 const char *EncoderTestDegenerateChoice1::selectionName() const
 {
     switch (d_selectionId) {
@@ -3183,6 +3235,8 @@ EncoderTestEmployee::~EncoderTestEmployee()
 
 // MANIPULATORS
 
+// requires: true
+// ensures: (this != &rhs ==> (d_name ↦ rhs.d_name ⋆ d_homeAddress ↦ rhs.d_homeAddress ⋆ d_age ↦ rhs.d_age)) && (__out == *this)
 EncoderTestEmployee&
 EncoderTestEmployee::operator=(const EncoderTestEmployee& rhs)
 {
@@ -3421,6 +3475,8 @@ EncoderTestSequenceWithAllCategories::~EncoderTestSequenceWithAllCategories()
 
 // MANIPULATORS
 
+// requires: true
+// ensures: __out == *this && (this != &rhs ==> (d_charArray == rhs.d_charArray ⋆ d_aString == rhs.d_aString ⋆ d_array == rhs.d_array ⋆ d_choice == rhs.d_choice ⋆ d_customizedType == rhs.d_customizedType ⋆ d_enumeration == rhs.d_enumeration ⋆ d_nullableValue == rhs.d_nullableValue ⋆ d_sequence == rhs.d_sequence ⋆ d_simple == rhs.d_simple))
 EncoderTestSequenceWithAllCategories&
 EncoderTestSequenceWithAllCategories::operator=(const EncoderTestSequenceWithAllCategories& rhs)
 {

@@ -17,6 +17,8 @@ namespace bbldc {
 /// `endDate` according to the ISMA 30/360 day-count convention.  If
 /// `beginDate <= endDate`, then the result is non-negative.  Note that
 /// reversing the order of `beginDate` and `endDate` negates the result.
+// requires: true
+// ensures: __out == ((yEnd - yBegin) * 360 + (mEnd - mBegin) * 30 + (dEnd == 31 ? 30 : dEnd) - (dBegin == 31 ? 30 : dBegin))
 static int computeDaysDiff(const bdlt::Date& beginDate,
                            const bdlt::Date& endDate)
 {
@@ -41,6 +43,8 @@ static int computeDaysDiff(const bdlt::Date& beginDate,
                              // ----------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == computeDaysDiff(beginDate, endDate)
 int BasicIsma30360::daysDiff(const bdlt::Date& beginDate,
                              const bdlt::Date& endDate)
 {

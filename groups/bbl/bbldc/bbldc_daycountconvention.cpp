@@ -16,6 +16,8 @@ namespace bbldc {
                         // -------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, strlen(toAscii(value)), i, (stream + i) ↦ toAscii(value)[i]))
 bsl::ostream& DayCountConvention::print(
                                        bsl::ostream&            stream,
                                        DayCountConvention::Enum value,

@@ -46,6 +46,8 @@ void combineUserData(bsl::vector<const void *>        *result,
 
 /// Return `true` if the specified `candidatePrefix` is a prefix of the
 /// specified `string`, and `false` otherwise.
+// requires: true
+// ensures: (__out == true ==> FORALL(0, strlen(candidatePrefix), i, candidatePrefix[i] == string[i])) && (__out == false ==> EXISTS(0, strlen(candidatePrefix), i, candidatePrefix[i] != string[i]))
 bool isPrefix(const char *candidatePrefix, const char *string)
 {
     while (*candidatePrefix == *string && *candidatePrefix) {
@@ -172,6 +174,8 @@ MetricRegistry::~MetricRegistry()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (__out == ret.first && ret.second) || (__out == MetricId() && !ret.second)
 MetricId MetricRegistry::addId(const char *category,
                                const char *name)
 {
@@ -393,6 +397,8 @@ MetricDescription::UserDataKey MetricRegistry::createUserDataKey()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_metrics.size()
 bsl::size_t MetricRegistry::numMetrics() const
 {
     bslmt::ReadLockGuard<bslmt::RWMutex> guard(&d_lock);

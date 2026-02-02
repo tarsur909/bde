@@ -33,6 +33,8 @@ bsl::ostream& Location::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: object.offset().size() >= 0 && SEPFORALL(0, object.offset().size(), i, object.offset().data() + i ↦ _)
+// ensures: __out == stream && (SEPFORALL(0, object.offset().size(), i, stream + i ↦ object.offset().data()[i]))
 bsl::ostream& bdljsn::operator<<(bsl::ostream&           stream,
                                  const bdljsn::Location& object)
 {

@@ -107,6 +107,8 @@ TimeInterval SystemTime::nowMonotonicClock()
                             //- - - - - - - - - - - -
 
 /// Return the current time for the specified `clockId`.
+// requires: true
+// ensures: __out.seconds() == tp.tv_sec && __out.nanoseconds() == static_cast<int>(tp.tv_nsec)
 static inline
 TimeInterval getNowTime(clockid_t clockId)
 {
@@ -121,6 +123,8 @@ TimeInterval getNowTime(clockid_t clockId)
 
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == getNowTime(CLOCK_MONOTONIC_RAW) || __out == getNowTime(CLOCK_MONOTONIC)
 TimeInterval SystemTime::nowMonotonicClock()
 {
     return getNowTime(

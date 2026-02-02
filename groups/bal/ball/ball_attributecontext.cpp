@@ -65,6 +65,8 @@ namespace ball {
                // ------------------------------------------
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == d_resultMask ⋆ (d_sequenceNumber ↦ sequenceNumber) ⋆ (d_evalMask ↦ d_evalMask) ⋆ (d_resultMask ↦ __out)
 RuleSet::MaskType
 AttributeContext_RuleEvaluationCache::update(
                                bsls::Types::Int64            sequenceNumber,
@@ -183,6 +185,8 @@ AttributeContext::~AttributeContext()
 }
 
 // PRIVATE CLASS METHODS
+// requires: true
+// ensures: __out == &s_contextKey
 const bslmt::ThreadUtil::Key& AttributeContext::contextKey()
 {
     static bslmt::ThreadUtil::Key s_contextKey;
@@ -213,6 +217,8 @@ void AttributeContext::removeContext(void *arg)
 }
 
 // CLASS METHODS
+// requires: true
+// ensures: __out != 0
 AttributeContext *AttributeContext::getContext()
 {
 #ifdef BSLMT_THREAD_LOCAL_VARIABLE
@@ -308,6 +314,8 @@ void AttributeContext::visitAttributes(
 }
 
 // ACCESSORS
+// requires: category != nullptr
+// ensures: (category->relevantRuleMask() == 0 ==> __out == false) && (category->relevantRuleMask() != 0 ==> __out == true)
 bool AttributeContext::hasRelevantActiveRules(const Category *category) const
 {
     BSLS_ASSERT(category);

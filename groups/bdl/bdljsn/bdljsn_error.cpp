@@ -43,6 +43,8 @@ bsl::ostream& Error::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, object.location().size(), i, stream + i ↦ object.location().data()[i]) ⋆ SEPFORALL(0, object.message().size(), j, stream + object.location().size() + j ↦ object.message().data()[j]))
 bsl::ostream& bdljsn::operator<<(bsl::ostream& stream,
                                  const Error&  object)
 {

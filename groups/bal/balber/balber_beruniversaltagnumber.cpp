@@ -14,6 +14,8 @@ namespace balber {
                         // ----------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: (value == e_BER_BOOL && __out == "BOOL"
 const char *BerUniversalTagNumber::toString(BerUniversalTagNumber::Value value)
 {
 #ifdef CASE

@@ -252,6 +252,7 @@ QuotedPrintableEncoder::~QuotedPrintableEncoder()
 }
 
 // MANIPULATORS
+// requires: out != 0 && numOut != 0 && numIn != 0 && begin != 0 && end != 0 && begin <= end && maxNumOut >= 0
 int QuotedPrintableEncoder::convert(char       *out,
                                     int        *numOut,
                                     int        *numIn,

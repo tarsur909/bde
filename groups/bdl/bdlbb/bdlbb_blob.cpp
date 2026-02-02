@@ -37,6 +37,8 @@ namespace bdlbb {
                               // ================
 
 // MANIPULATORS
+// requires: true
+// ensures: __out.d_buffer == rhs.d_buffer ⋆ __out.d_size == rhs.d_size
 BlobBuffer& BlobBuffer::operator=(const BlobBuffer& rhs)
 {
     d_buffer = rhs.d_buffer;
@@ -97,6 +99,8 @@ BlobBuffer BlobBuffer::trim(int toSize)
 }
 
 // ACCESSORS
+// requires: stream.good()
+// ensures: __out == stream && (SEPFORALL(0, d_size, i, stream + i ↦ d_buffer.get()[i]) ⋆ stream.flushed())
 bsl::ostream& BlobBuffer::print(bsl::ostream& stream, int, int) const
 {
     bdlb::Print::hexDump(stream, d_buffer.get(), d_size);
@@ -105,6 +109,8 @@ bsl::ostream& BlobBuffer::print(bsl::ostream& stream, int, int) const
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == stream
 bsl::ostream& bdlbb::operator<<(bsl::ostream& stream, const BlobBuffer& buffer)
 {
     return buffer.print(stream, 0, -1);
@@ -134,6 +140,8 @@ BlobBufferFactory::~BlobBufferFactory()
                                  // ==========
 
 // PRIVATE ACCESSORS
+// requires: true
+// ensures: __out == 0
 int Blob::assertInvariants() const
 {
     BSLS_ASSERT(0 <= d_totalSize);
@@ -761,6 +769,8 @@ void Blob::moveAndAppendDataBuffers(Blob *srcBlob)
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: (__out == true ==> (lhs.d_buffers == rhs.d_buffers && lhs.d_totalSize == rhs.d_totalSize && lhs.d_dataLength == rhs.d_dataLength && lhs.d_dataIndex == rhs.d_dataIndex && lhs.d_preDataIndexLength == rhs.d_preDataIndexLength)) && (__out == false ==> !(lhs.d_buffers == rhs.d_buffers && lhs.d_totalSize == rhs.d_totalSize && lhs.d_dataLength == rhs.d_dataLength && lhs.d_dataIndex == rhs.d_dataIndex && lhs.d_preDataIndexLength == rhs.d_preDataIndexLength))
 bool bdlbb::operator==(const Blob& lhs, const Blob& rhs)
 {
     return lhs.d_buffers == rhs.d_buffers &&

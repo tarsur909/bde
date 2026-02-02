@@ -110,6 +110,8 @@ enum {
 };
 
 /// Return the system-specific error code.
+// requires: true
+// ensures: __out >= 0
 static int getErrorCode(void)
 {
 #ifdef BSLS_PLATFORM_OS_WINDOWS
@@ -121,6 +123,8 @@ static int getErrorCode(void)
 }
 
 /// Return the specified `timestamp` in the `YYYYMMDD_hhmmss` format.
+// requires: true
+// ensures: __out == bsl::string(buffer)
 static bsl::string getTimestampSuffix(const bdlt::Datetime& timestamp)
 {
     char buffer[16];
@@ -219,6 +223,8 @@ static void getLogFileName(bsl::string    *logFileName,
 /// Return `true` if the specified `logFilePattern` contains a recognized
 /// `%`-escape sequence, and false otherwise.  The recognized escape
 /// sequence are "%Y", "%M", "%D", "%h", "%m", "%s", and "%%".
+// requires: logFilePattern != NULL && EXISTS(0, strlen(logFilePattern), i, logFilePattern[i] == '%') && EXISTS(0, strlen(logFilePattern), i, logFilePattern[i] == 'Y' || logFilePattern[i] == 'M' || logFilePattern[i] == 'D' || logFilePattern[i] == 'h' || logFilePattern[i] == 'm' || logFilePattern[i] == 's' || logFilePattern[i] == '%')
+// ensures: (__out == true ==> EXISTS(0, strlen(logFilePattern), i, logFilePattern[i] == '%')) && (__out == true ==> EXISTS(0, strlen(logFilePattern), i, logFilePattern[i] == 'Y' || logFilePattern[i] == 'M' || logFilePattern[i] == 'D' || logFilePattern[i] == 'h' || logFilePattern[i] == 'm' || logFilePattern[i] == 's' || logFilePattern[i] == '%'))
 static bool hasEscapePattern(const char *logFilePattern)
 
 {
@@ -248,6 +254,8 @@ static bool hasEscapePattern(const char *logFilePattern)
 /// Open a file stream referred to by the specified `stream` for the file
 /// with the specified `filename` in append mode.  Return 0 on success, and
 /// a non-zero value otherwise.
+// requires: stream != nullptr && filename != nullptr && stream->rdbuf() != nullptr
+// ensures: (__out == 0 ==> (stream->rdbuf() != nullptr && stream->rdstate() == 0)) && (__out == -1 ==> true)
 static int openLogFile(bsl::ostream *stream, const char *filename)
 {
     BSLS_ASSERT(stream);
@@ -312,6 +320,8 @@ static int openLogFile(bsl::ostream *stream, const char *filename)
 /// Return `true` if the specified `a` and `b` times are within 10% of the
 /// specified `interval` from each other, and `false` otherwise.  The
 /// behavior is undefined unless `0 <= interval.totalMilliseconds()`.
+// requires: 0 <= interval.totalMilliseconds()
+// ensures: (__out == true ==> (abs((a - b).totalMilliseconds()) < (interval.totalMilliseconds() / 10))) && (__out == false ==> (abs((a - b).totalMilliseconds()) >= (interval.totalMilliseconds() / 10)))
 bool fuzzyEqual(const bdlt::Datetime&         a,
                 const bdlt::Datetime&         b,
                 const bdlt::DatetimeInterval& interval)
@@ -337,6 +347,8 @@ bool fuzzyEqual(const bdlt::Datetime&         a,
 /// interpreted as local time value, and as UTC time value otherwise.
 /// `fileCreationTimeUtc` must be a UTC time value.  The behavior is
 /// undefined unless `0 <= interval.totalMilliseconds()`.
+// requires: 0 < interval.totalMilliseconds()
+// ensures: __out >= fileCreationTimeUtc && (fuzzyEqual(referenceStartTime, fileCreationTimeUtc, interval) ==> __out == fileCreationTimeUtc + interval)
 static bdlt::Datetime computeNextRotationTime(
                    const bdlt::Datetime&         referenceStartTime,
                    bool                          referenceStartTimeInLocalTime,
@@ -847,6 +859,8 @@ void FileObserver2::setOnFileRotationCallback(
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_logStreamBuf.isOpened()
 bool FileObserver2::isFileLoggingEnabled() const
 {
     bslmt::LockGuard<bslmt::Mutex> guard(&d_mutex);

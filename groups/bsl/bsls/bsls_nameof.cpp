@@ -85,6 +85,8 @@ namespace bsls {
 /// Initialize the specified `*buffer` with the type name contained in the
 /// specified `functionName`, where `functionName` is the function name of
 /// the `NameOf` constructor.
+// requires: functionName != nullptr && buffer != nullptr && strlen(functionName) >= k_USELESS
+// ensures: (__out == functionName ==> !std::strncmp(uselessPreamble, functionName, k_USELESS_PREAMBLE_LEN)) && (__out == buffer ==> std::strncmp(uselessPreamble, functionName, k_USELESS_PREAMBLE_LEN) == 0)
 const char *NameOf_Base::initBuffer(char       *buffer,
                                     const char *functionName)
 {

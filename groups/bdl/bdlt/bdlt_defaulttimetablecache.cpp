@@ -40,6 +40,8 @@ bsls::ObjectBuffer<TimetableCache>           g_buffer;
 
 /// Return the address of the lock used to initialize and destroy the
 /// default timetable cache in a thread-safe manner.
+// requires: true
+// ensures: __out != 0 && (__out == theLockPtr ==> true)
 static
 bslmt::Mutex *getLock()
 {
@@ -67,6 +69,8 @@ bslmt::Mutex *getLock()
 /// `allocator` remain valid until a subsequent call to
 /// `bdlt::DefaultTimetableCache::destroy`, and
 /// `bsls::TimeInterval() <= timeout <= bsls::TimeInterval(INT_MAX, 0)`.
+// requires: loader != NULL && allocator != NULL && bsls::TimeInterval() <= timeout && timeout <= bsls::TimeInterval(INT_MAX, 0)
+// ensures: (__out == 0 || __out == 1) && (__out == 0 ==> bsls::AtomicOperations::getPtrAcquire(&g_cachePtr) != NULL)
 static
 int initializePrivate(TimetableLoader           *loader,
                       bool                       hasTimeOutFlag,

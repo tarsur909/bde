@@ -35,6 +35,8 @@ namespace u {
 /// specified length `inputLength` is "1" or "true" and false if `input` is
 /// "0" or "false".  Strings are case-insensitive.  Return 0 on success and
 /// non-zero if `input` is not "1", "0", "true", or "false".
+// requires: input != NULL && (inputLength == 1 || inputLength == 4 || inputLength == 5)
+// ensures: (__out == BAEXML_SUCCESS ==> (*result == true || *result == false)) && (__out == BAEXML_SUCCESS || __out == BAEXML_FAILURE)
 int parseBoolean(bool *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -80,6 +82,8 @@ int parseBoolean(bool *result, const char *input, int inputLength)
 /// digits, period and sign characters (i.e., INF/NaN, and exponential
 /// notation are not allowed); otherwise `input` can contain any floating-
 /// point representation form.  Return 0 on success and non-zero otherwise.
+// requires: result != 0 && input != 0 && input[strlen(input)] == '\0'
+// ensures: (__out == BAEXML_SUCCESS ==> (result != 0 && (result ↦ _))) && (__out == BAEXML_FAILURE ==> true)
 int parseDoubleImpl(double *result, const char *input, bool formatDecimal)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -155,6 +159,8 @@ int parseDoubleImpl(double *result, const char *input, bool formatDecimal)
 /// specified length `inputLength` should contain only decimal digits,
 /// period and sign characters; otherwise `input` can contain any floating-
 /// point representation form.  Return 0 on success and non-zero otherwise.
+// requires: inputLength >= 0
+// ensures: (inputLength == 0 ==> __out == BAEXML_FAILURE) && (inputLength != 0 ==> (__out == BAEXML_SUCCESS || __out == BAEXML_FAILURE))
 int parseDouble(double     *result,
                 const char *input,
                 int         inputLength,
@@ -185,6 +191,8 @@ int parseDouble(double     *result,
 }
 
 /// Parse an unsigned long decimal string
+// requires: input != nullptr && inputLength >= 0 && inputLength <= (int)strlen(input) && result != nullptr
+// ensures: (__out == BAEXML_SUCCESS ==> (inputLength > 0)) && (__out == BAEXML_FAILURE ==> true)
 int parseInt(int *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -225,6 +233,8 @@ int parseInt(int *result, const char *input, int inputLength)
 }
 
 /// Parse an unsigned long decimal string
+// requires: inputLength > 0 && SEPFORALL(0, inputLength, i, (input + i ↦ _ && input[i] >= '0' && input[i] <= '9'))
+// ensures: (__out == BAEXML_SUCCESS) || (__out == BAEXML_FAILURE)
 int parseUnsignedInt(unsigned int *result, const char *input, int inputLength)
 {
     enum { BAEXML_SUCCESS = 0, BAEXML_FAILURE = -1 };
@@ -304,6 +314,8 @@ int parseUnsignedDecimal(INT_TYPE *result, const char *input, int inputLength)
 /// Load, into the specificed `result`, the `Decimal64` value represented by
 /// the specified `input` string.  Return 0 on success and non-zero
 /// otherwise.
+// requires: result != NULL && input != NULL
+// ensures: __out == BAEXML_SUCCESS || __out == BAEXML_FAILURE
 int parseDecimal64Impl(bdldfp::Decimal64  *result,
                        const char         *input,
                        bool                decimalMode)

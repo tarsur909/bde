@@ -103,6 +103,8 @@ namespace bdls {
                               // ---------------
 
 // CLASS METHODS
+// requires: pipeName != nullptr && baseName.size() <= std::string::max_size()
+// ensures: __out == u_makeCanonicalName(pipeName, baseName)
 int PipeUtil::makeCanonicalName(bsl::string             *pipeName,
                                 const bsl::string_view&  baseName)
 {

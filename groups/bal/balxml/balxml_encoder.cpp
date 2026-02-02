@@ -97,6 +97,8 @@ Encoder_Context::Encoder_Context(
                   // ---------------------------------------
 
 // PRIVATE CLASS METHODS
+// requires: options.encodingStyle() == balxml::EncodingStyle::COMPACT || options.encodingStyle() == balxml::EncodingStyle:
+// ensures: (options.encodingStyle() == balxml::EncodingStyle::COMPACT ==> __out == 0) && (options.encodingStyle() == balxml::EncodingStyle::PRETTY ==> __out == options.initialIndentLevel())
 int Encoder_OptionsCompatibilityUtil::getFormatterInitialIndentLevel(
                                          const balxml::EncoderOptions& options)
 {

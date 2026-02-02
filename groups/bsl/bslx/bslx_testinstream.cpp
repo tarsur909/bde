@@ -132,6 +132,8 @@ TestInStream::~TestInStream()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (__out == *this) && (isValid() ==> (variable >= 0))
 TestInStream& TestInStream::getLength(int& variable)
 {
     if (length() - cursor() < k_SIZEOF_CODE + Util::k_SIZEOF_INT8) {

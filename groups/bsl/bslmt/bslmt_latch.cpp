@@ -99,6 +99,8 @@ void Latch::wait()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_sigCount.loadAcquire()
 int Latch::currentCount() const
 {
     // Point 2: The following operation requires acquire semantics to ensure
