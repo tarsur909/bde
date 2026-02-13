@@ -557,6 +557,8 @@ MultiQueueThreadPool::~MultiQueueThreadPool()
 }
 
 // MANIPULATORS
+// requires: d_nextId >= 0 && EXISTS(0, d_queueRegistry.size(), id, d_queueRegistry[id] ↦ _)
+// ensures: __out == (d_nextId - 1) && d_queueRegistry[__out] ↦ _
 int MultiQueueThreadPool::createQueue()
 {
     bslmt::WriteLockGuard<bslmt::ReaderWriterMutex> guard(&d_lock);

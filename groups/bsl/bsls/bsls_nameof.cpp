@@ -85,6 +85,8 @@ namespace bsls {
 /// Initialize the specified `*buffer` with the type name contained in the
 /// specified `functionName`, where `functionName` is the function name of
 /// the `NameOf` constructor.
+// requires: buffer != 0 && functionName != 0 && strlen(functionName) > k_USELESS
+// ensures: (__out == functionName) || (__out == buffer && (SEPFORALL(0, strlen(__out), i, buffer + i ↦ __out[i])))
 const char *NameOf_Base::initBuffer(char       *buffer,
                                     const char *functionName)
 {

@@ -16,6 +16,8 @@ namespace balst {
                               // ----------------
 
 // ACCESSORS
+// requires: true
+// ensures: __out == stream && SEPFORALL(0, length(), i, (SEPFORALL(0, d_frames[i].size(), j, stream + d_frames[i].offset + j ↦ d_frames[i].data[j])))
 bsl::ostream& StackTrace::print(bsl::ostream& stream,
                                 int           level,
                                 int           spacesPerLevel) const

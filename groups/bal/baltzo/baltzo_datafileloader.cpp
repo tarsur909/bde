@@ -94,6 +94,8 @@ void concatenatePath(STRING             *result,
 
 /// Returns 0 if the specified `timeZoneId` contains only valid characters
 /// and does not start with `/`, and a non-zero value otherwise.
+// requires: timeZoneId != 0 && (timeZoneId[0] == '/' ==> res_tmp == -1) && (SEPEXISTS(0, strlen(timeZoneId), i, (timeZoneId + i ↦ sep_v) && !bsl::strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890/_+-", sep_v)) ==> res_tmp == -2) && (SEPFORALL(0, strlen(timeZoneId), i, (timeZoneId + i ↦ sep_v) && bsl::strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890/_+-", sep_v)) ==> res_tmp == 0)
+// ensures: (__out == -1 ==> timeZoneId[0] == '/') && (__out == -2 ==> SEPEXISTS(0, strlen(timeZoneId), i, (timeZoneId + i ↦ sep_v) && !bsl::strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890/_+-", sep_v))) && (__out == 0 ==> SEPFORALL(0, strlen(timeZoneId), i, (timeZoneId + i ↦ sep_v) && bsl::strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890/_+-", sep_v)))
 int validateTimeZoneId(const char *timeZoneId)
 {
     BSLS_ASSERT(timeZoneId);
@@ -151,6 +153,8 @@ int loadTimeZoneFilePath_Impl(STRING             *result,
 /// A return status of `ErrorCode::k_UNSUPPORTED_ID` indicates that
 /// `timeZoneId` is not recognized.  If an error occurs during this
 /// operation, `result` will be left in a valid, but unspecified state.
+// requires: result != 0 && strlen(timeZoneId) > 0
+// ensures: (__out == u::UNSUPPORTED_ID || __out == u::UNSPECIFIED_ERROR ==> result->identifier() == old_result->identifier()) && (__out != u::UNSUPPORTED_ID && __out != u::UNSPECIFIED_ERROR ==> result->identifier() == timeZoneId)
 int loadTimeZoneImpl(baltzo::Zoneinfo              *result,
                      const baltzo::DataFileLoader&  loader,
                      const char                    *timeZoneId,
@@ -206,6 +210,8 @@ namespace baltzo {
                             // --------------------
 
 // CLASS METHODS
+// requires: path != 0
+// ensures: (__out == true ==> bdls::FilesystemUtil::isDirectory(path, true) && bdls::FilesystemUtil::isRegularFile(std::string(path) + "/GMT", true)) && (__out == false ==> !(bdls::FilesystemUtil::isDirectory(path, true) && bdls::FilesystemUtil::isRegularFile(std::string(path) + "/GMT", true)))
 bool DataFileLoader::isPlausibleZoneinfoRootPath(const char *path)
 {
     BSLS_ASSERT(path);
@@ -274,6 +280,8 @@ int DataFileLoader::loadTimeZoneRaw(Zoneinfo *result, const char *timeZoneId)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == u::loadTimeZoneFilePath_Impl(result, timeZoneId, d_rootPath)
 int DataFileLoader::loadTimeZoneFilePath(bsl::string      *result,
                                          const char       *timeZoneId) const
 {

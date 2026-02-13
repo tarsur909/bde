@@ -15,6 +15,8 @@ namespace bdlb {
                                // -------------
 
 // CLASS METHODS
+// requires: lhsString != nullptr && rhsString != nullptr && SEPFORALL(0, strlen(lhsString), i, (lhsString + i ↦ _)) && SEPFORALL(0, strlen(rhsString), i, (rhsString + i ↦ _))
+// ensures: (__out == true ==> (strlen(lhsString) == strlen(rhsString) && SEPFORALL(0, strlen(lhsString), i, (bdlb::CharType::toLower(lhsString[i]) == bdlb::CharType::toLower(rhsString[i]))))) && (__out == false ==> (SEPEXISTS(0, strlen(lhsString), i, (bdlb::CharType::toLower(lhsString[i]) != bdlb::CharType::toLower(rhsString[i]))) || (strlen(lhsString) != strlen(rhsString))))
 bool String::areEqualCaseless(const char *lhsString,
                               const char *rhsString)
 {

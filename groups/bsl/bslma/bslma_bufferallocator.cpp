@@ -122,6 +122,8 @@ BufferAllocator::~BufferAllocator()
 }
 
 // MANIPULATORS
+// requires: size == 0 || d_allocCallback != nullptr
+// ensures: (size == 0 ==> __out == nullptr) && (size != 0 ==> __out != nullptr || d_allocCallback != nullptr)
 void *BufferAllocator::allocate(size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_UNLIKELY(0 == size)) {

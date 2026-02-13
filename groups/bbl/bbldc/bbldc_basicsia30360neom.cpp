@@ -18,6 +18,8 @@ namespace bbldc {
 /// convention.  If `beginDate <= endDate`, then the result is non-negative.
 /// Note that reversing the order of `beginDate` and `endDate` negates the
 /// result.
+// requires: true
+// ensures: (beginDate > endDate ==> __out <= 0) && (beginDate <= endDate ==> __out >= 0)
 inline
 static int computeDaysDiff(const bdlt::Date& beginDate,
                            const bdlt::Date& endDate)
@@ -54,6 +56,8 @@ static int computeDaysDiff(const bdlt::Date& beginDate,
                          // ------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == computeDaysDiff(beginDate, endDate)
 int BasicSia30360Neom::daysDiff(const bdlt::Date& beginDate,
                                 const bdlt::Date& endDate)
 {

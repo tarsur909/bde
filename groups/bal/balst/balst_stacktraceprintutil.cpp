@@ -32,6 +32,8 @@ namespace balst {
                          // -------------------------
 
 // CLASS METHOD
+// requires: (0 <= maxFrames || maxFrames == -1) && (0 <= additionalIgnoreFrames) && (stream.bad() || stream.good())
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, stream.str().size(), i, stream + i ↦ stream.str().data()[i]))))
 bsl::ostream& StackTracePrintUtil::printStackTrace(
                                          bsl::ostream& stream,
                                          int           maxFrames,

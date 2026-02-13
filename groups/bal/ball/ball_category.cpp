@@ -105,6 +105,8 @@ void Category::updateThresholdForHolders()
 }
 
 // MANIPULATORS
+// requires: Category::areValidThresholdLevels(recordLevel, passLevel, triggerLevel, triggerAllLevel)
+// ensures: (__out == 0 ==> Category::areValidThresholdLevels(recordLevel, passLevel, triggerLevel, triggerAllLevel)) && (__out == -1 ==> !Category::areValidThresholdLevels(recordLevel, passLevel, triggerLevel, triggerAllLevel))
 int Category::setLevels(int recordLevel,
                         int passLevel,
                         int triggerLevel,

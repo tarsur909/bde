@@ -64,6 +64,8 @@ extern "C"
 /// thread, using information in the specified `arg`, which points to a
 /// `u::NamedFuncPtrRecord` that must be freed by this function.  The
 /// behavior is undefined if the thread name is empty.
+// requires: true
+// ensures: true
 void *bslmt_threadutil_namedFuncPtrThunk(void *arg)
 {
     u::NamedFuncPtrRecord *nfpr_p = static_cast<u::NamedFuncPtrRecord *>(arg);
@@ -92,6 +94,8 @@ void *bslmt_threadutil_namedFuncPtrThunk(void *arg)
                             // -----------------
 
 // CLASS METHODS
+// requires: (int) policy >= ThreadAttributes::e_SCHED_MIN && (int) policy <= ThreadAttributes::e_SCHED_MAX && normalizedSchedulingPriority >= 0.0 && normalizedSchedulingPriority <= 1.0
+// ensures: (minPri == ThreadAttributes::e_UNSET_PRIORITY || maxPri == ThreadAttributes::e_UNSET_PRIORITY) ==> (__out == ThreadAttributes::e_UNSET_PRIORITY)
 int bslmt::ThreadUtil::convertToSchedulingPriority(
                ThreadAttributes::SchedulingPolicy policy,
                double                             normalizedSchedulingPriority)

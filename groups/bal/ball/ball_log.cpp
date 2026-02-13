@@ -37,6 +37,8 @@ namespace ball {
                          // ----------
 
 // CLASS METHODS
+// requires: buffer != nullptr && numBytes > 0
+// ensures: (__out == -1) || (__out >= 0 && __out < (signed)numBytes)
 int Log::format(char *buffer, bsl::size_t numBytes, const char *format, ...)
 {
     bsl::va_list args;

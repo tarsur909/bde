@@ -29,6 +29,8 @@ const char *balm::MetricFormatSpec::k_DEFAULT_FORMAT = "%f";
 namespace balm {
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, strlen(buffer), i, stream + i ↦ buffer[i]) || SEPFORALL(0, newBuffer.size(), i, stream + i ↦ newBuffer.data()[i]))
 bsl::ostream& MetricFormatSpec::formatValue(bsl::ostream&           stream,
                                             double                  value,
                                             const MetricFormatSpec& format)

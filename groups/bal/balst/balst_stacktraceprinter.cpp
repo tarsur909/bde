@@ -36,6 +36,8 @@ StackTracePrinter::StackTracePrinter(int  maxFrames,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream.good() && (SEPFORALL(0, strlen(bsl::endl), i, stream + i ↦ _))
+// ensures: __out == stream && (stream + 0 ↦ bsl::endl) ⋆ (SEPFORALL(0, strlen(bsl::endl), i, stream + i ↦ bsl::endl[i]) ⋆ balst::StackTracePrintUtil::printStackTrace(stream, object.d_maxFrames, object.d_demanglingPreferredFlag, object.d_additionalIgnoreFrames + 1))
 bsl::ostream& balst::operator<<(bsl::ostream&            stream,
                                 const StackTracePrinter& object)
 {

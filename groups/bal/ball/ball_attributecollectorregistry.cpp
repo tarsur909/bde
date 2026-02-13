@@ -15,6 +15,8 @@ namespace ball {
                          // --------------------------------
 
 // MANIPULATORS
+// requires: !FORALL(0, d_collectors.size(), i, d_collectors[i].first != name)
+// ensures: (__out == 0 ==> !FORALL(0, d_collectors.size(), i, d_collectors[i].first != name)) && (__out == 1 ==> EXISTS(0, d_collectors.size(), i, d_collectors[i].first == name))
 int AttributeCollectorRegistry::addCollector(const Collector&        collector,
                                              const bsl::string_view& name)
 {

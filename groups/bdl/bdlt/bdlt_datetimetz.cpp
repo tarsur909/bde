@@ -33,6 +33,8 @@ BSLMF_ASSERT(bslmf::IsBitwiseCopyable<DatetimeTz>::value);
                              // ----------------
 
 // ACCESSORS
+// requires: true
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, localDatetime().size(), j, stream + j ↦ localDatetime().data()[j]) ⋆ SEPFORALL(0, strlen(offsetBuffer), i, stream + localDatetime().size() + i ↦ offsetBuffer[i]))))
 bsl::ostream& DatetimeTz::print(bsl::ostream& stream,
                                 int           level,
                                 int           spacesPerLevel) const

@@ -187,6 +187,8 @@ bsl::ostream& u::operator<<(bsl::ostream& stream, Ordinal position)
 /// for values of the specified `type`.  Return `true` if the parse
 /// succeeds, and `false` otherwise.  Note that on success `value` can be
 /// legitimately cast to a pointer of the type associated with `type`.
+// requires: value != nullptr
+// ensures: true
 bool parseValue(void                    *value,
                 const bsl::string_view&  input,
                 OptionType::Enum         type)
@@ -271,6 +273,8 @@ bool parseValue(void                    *value,
 
 /// Return the address of a string literal that describes the specified
 /// `elemType` value.
+// requires: true
+// ensures: __out != 0 && ((elemType == OptionType::e_CHAR && __out == "A 'char'") || (elemType == OptionType::e_INT && __out == "An 'int'") || (elemType == OptionType::e_INT64 && __out == "A 64-bit integer") || (elemType == OptionType::e_DOUBLE && __out == "A 'double'") || (elemType == OptionType::e_STRING && __out == "A string") || (elemType == OptionType::e_DATETIME && __out == "A 'bdlt::Datetime'") || (elemType == OptionType::e_DATE && __out == "A 'bdlt::Date'") || (elemType == OptionType::e_TIME && __out == "A 'bdlt::Time'") || (elemType != OptionType::e_CHAR && elemType != OptionType::e_INT && elemType != OptionType::e_INT64 && elemType != OptionType::e_DOUBLE && elemType != OptionType::e_STRING && elemType != OptionType::e_DATETIME && elemType != OptionType::e_DATE && elemType != OptionType::e_TIME && __out == "An unknown type"))
 const char *elemTypeToString(OptionType::Enum elemType)
 {
     const char *typeString;
@@ -378,6 +382,8 @@ BoolConstraint::~BoolConstraint()
 // BDE_VERIFY pragma: -FABC01  // not in alphabetic order
 
 // ACCESSORS
+// requires: true
+// ensures: __out == OptionType::e_BOOL
 OptionType::Enum BoolConstraint::type() const
 {
     return OptionType::e_BOOL;
@@ -1594,6 +1600,8 @@ TypeInfo::~TypeInfo()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == *this && (this != &rhs ==> (d_elemType == rhs.d_elemType ⋆ d_linkedVariable_p == rhs.d_linkedVariable_p ⋆ d_isOptionalLinkedVariable == rhs.d_isOptionalLinkedVariable ⋆ d_constraint_p == rhs.d_constraint_p))
 TypeInfo& TypeInfo::operator=(const TypeInfo& rhs)
 {
     if (this != &rhs) {
@@ -2107,6 +2115,8 @@ void TypeInfo::setLinkedVariable(bsl::optional<bdlt::Time> *variable)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_constraint_p
 bsl::shared_ptr<TypeInfoConstraint> TypeInfo::constraint() const
 {
     return d_constraint_p;
@@ -2171,6 +2181,8 @@ bsl::ostream& TypeInfo::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == (lhs.type() == rhs.type() && lhs.linkedVariable() == rhs.linkedVariable() && lhs.constraint() == rhs.constraint())
 bool balcl::operator==(const TypeInfo& lhs, const TypeInfo& rhs)
 {
     return lhs.type()           == rhs.type()

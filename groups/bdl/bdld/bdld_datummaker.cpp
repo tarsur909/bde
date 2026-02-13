@@ -29,6 +29,8 @@ namespace bdld {
                               // ----------------
 
 // ACCESSORS
+// requires: size >= 0 && SEPFORALL(0, size, i, (elements + i ↦ _))
+// ensures: __out.isMap() && __out.theMap().size() == size && __out.theMap().isSorted() == sorted && SEPFORALL(0, size, i, __out.theMap().data()[i] ↦ elements[i])
 bdld::Datum DatumMaker::operator()(const bdld::DatumMapEntry *elements,
                                    int                        size,
                                    bool                       sorted) const

@@ -56,6 +56,8 @@ const double maxInt64AsDouble = static_cast<double>(k_MAX_INT64);
 const double minInt64AsDouble = static_cast<double>(k_MIN_INT64);
 
 // HELPER FUNCTIONS
+// requires: result != NULL && spec != NULL
+// ensures: __out >= 0
 int printToBufferFormatted(char       *result,
                            int         numBytes,
                            const char *spec,
@@ -632,6 +634,8 @@ bsl::ostream& DatetimeInterval::print(bsl::ostream& stream,
 #ifndef BDE_OMIT_INTERNAL_DEPRECATED  // BDE2.22
 
 // DEPRECATED METHODS
+// requires: true
+// ensures: __out == stream
 bsl::ostream& DatetimeInterval::streamOut(bsl::ostream& stream) const
 {
     return stream << *this;

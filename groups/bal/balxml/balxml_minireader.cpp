@@ -104,6 +104,8 @@ namespace {
 
 /// Return the specified `s` if `s` != 0, or "" otherwise.  Never returns a
 /// null pointer.
+// requires: true
+// ensures: (s != 0 ==> __out == s) && (s == 0 ==> __out == "")
 inline
 const char* nonNullStr(const char *s)
 {
@@ -112,6 +114,8 @@ const char* nonNullStr(const char *s)
 
 /// Return the specified `val` cast to a `char`.  Bits of `val` that are
 /// too high-order to fit in a `char` will be discarded.
+// requires: true
+// ensures: __out == static_cast<char>(val)
 inline
 char toChar(unsigned val)
 {
@@ -122,6 +126,8 @@ char toChar(unsigned val)
 /// and write the characters to the character array at the specified
 /// `output` address.  Return the number of characters output or 0 if `val`
 /// is not in the legal range.
+// requires: true
+// ensures: (val >= 0x110000U ==> __out == 0) && (val < 0x110000U ==> __out > 0)
 int unicodeToUtf8(char *output, unsigned val)
 {
     /*
@@ -465,6 +471,8 @@ MiniReader::~MiniReader()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (__out == 0 || __out == -1) && (node.d_startPos != -1) && (node.d_endPos != -1) && ((error >= ErrorInfo::e_ERROR) ==> (d_state == ST_ERROR))
 int MiniReader::setError(ErrorInfo::Severity error, const bsl::string &msg)
 {
     Node&  node = currentNode();
@@ -641,6 +649,8 @@ int MiniReader::open(bsl::streambuf *stream,
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_errorInfo
 const ErrorInfo&
 MiniReader::errorInfo () const
 {
@@ -1220,6 +1230,8 @@ MiniReader::advanceToNextNode()
 // ----------------------------------------------------------------------------
 //                              PRIVATE methods
 // ----------------------------------------------------------------------------
+// requires: true
+// ensures: (__out == 0) || (__out != 0 && __out != ' ' && __out != '\t' && __out != '\r' && __out != '\n')
 int
 MiniReader::skipSpaces()
 {

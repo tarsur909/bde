@@ -64,6 +64,8 @@ OverflowMemOutput::OverflowMemOutput(char             *buffer,
 }
 
 // MANIPULATORS
+// requires: (!(which & bsl::ios_base::out) || (offset >= -d_dataLength && offset <= (d_initialBufferSize + d_overflowBufferSize - d_dataLength)))
+// ensures: (__out == -1 ==> !(which & bsl::ios_base::out) || __out < 0) && (__out != -1 ==> 0 <= __out && __out <= d_initialBufferSize + d_overflowBufferSize)
 OverflowMemOutput::pos_type
 OverflowMemOutput::pubseekoff(off_type                offset,
                               bsl::ios_base::seekdir  way,

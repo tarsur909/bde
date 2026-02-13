@@ -61,6 +61,8 @@ FixUtilConfiguration::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: stream.good() && object.fractionalSecondPrecision() >= 0 && object.useZAbbreviationForUtc() >= 0
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, object.fractionalSecondPrecision().to_string().size(), i, stream + i ↦ object.fractionalSecondPrecision().to_string()[i]) ⋆ (stream + object.fractionalSecondPrecision().to_string().size() ↦ ' ') ⋆ SEPFORALL(0, object.useZAbbreviationForUtc().to_string().size(), j, stream + object.fractionalSecondPrecision().to_string().size() + 1 + j ↦ object.useZAbbreviationForUtc().to_string()[j]))))
 bsl::ostream& bdlt::operator<<(bsl::ostream&               stream,
                                const FixUtilConfiguration& object)
 {

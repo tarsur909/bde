@@ -36,6 +36,8 @@ namespace BloombergLP {
 /// `cache`.  Return 0 on success, and a non-zero value otherwise.  A return
 /// status of `baltzo::ErrorCode::k_UNSUPPORTED_ID` indicates that
 /// `timeZoneId` is not recognized.
+// requires: timeZone != 0 && timeZoneId != 0 && cache != 0
+// ensures: (__out == 0 ==> (*timeZone != 0)) && (__out != 0 ==> (*timeZone == 0))
 static
 int lookupTimeZone(const baltzo::Zoneinfo **timeZone,
                    const char              *timeZoneId,
@@ -65,6 +67,18 @@ int lookupTimeZone(const baltzo::Zoneinfo **timeZone,
 /// `timeZone.endTransition()` if `timeZone` does not contain any transition
 /// having a local-time descriptor with `dstFlag`.  The behavior is
 /// undefined unless `start` is a valid iterator in `timeZone`.
+// requires: PRE(
+    timeZone.beginTransitions() != timeZone.endTransitions() &&
+    start >= timeZone.beginTransitions() &&
+    start < timeZone.endTransitions()
+)
+
+This precondition ensures that:
+1. The `timeZone` has at least one transition.
+2. The `start` iterator is within the valid range of transitions in `timeZone`.
+
+This ensures that the function can correctly iterate over the transitions and find a valid transition with the specified `dstFlag`.
+// ensures: (__out != timeZone.endTransitions() ==> __out->descriptor().dstInEffectFlag() == dstFlag) && (__out == timeZone.endTransitions() ==> true)
 static
 baltzo::Zoneinfo::TransitionConstIterator findTransitionWithDstFlag(
                      const bool                                       dstFlag,
@@ -206,6 +220,8 @@ namespace baltzo {
                            // ---------------------
 
 // CLASS METHODS
+// requires: result != 0 && resultTimeZoneId != 0 && cache != 0
+// ensures: (__out == 0 ==> (result != 0)) && (__out != 0 ==> true)
 int TimeZoneUtilImp::convertUtcToLocalTime(
                                        bdlt::DatetimeTz      *result,
                                        const char            *resultTimeZoneId,

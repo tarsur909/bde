@@ -18,6 +18,8 @@ namespace ball {
                         // -------------------
 
 // CLASS METHODS
+// requires: level != 0 && name != 0 && (strlen(name) >= 3 || strlen(name) >= 4 || strlen(name) >= 5)
+// ensures: (__out == BALL_SUCCESS ==> ((*level == Severity::e_OFF) || (*level == Severity::e_FATAL) || (*level == Severity::e_ERROR) || (*level == Severity::e_WARN) || (*level == Severity::e_INFO) || (*level == Severity::e_DEBUG) || (*level == Severity::e_TRACE))) && (__out == BALL_FAILURE ==> true)
 int SeverityUtil::fromAsciiCaseless(Severity::Level *level, const char *name)
 {
     BSLS_ASSERT(level);

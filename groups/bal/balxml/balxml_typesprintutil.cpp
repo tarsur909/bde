@@ -751,6 +751,8 @@ const char *printTextReplacingXMLEscapes(
 /// `stream` and do not write anything.
 ///
 /// Return a modifiable reference to `stream`.
+// requires: maxTotalDigits >= 2 && maxTotalDigits <= 649 && maxFractionDigits >= 1 && maxFractionDigits <= 340 && maxFractionDigits <= maxTotalDigits - 1
+// ensures: __out == stream && (stream.bad() || (stream.good() && SEPFORALL(0, strlen(buffer), i, stream + i ↦ buffer[i])))
 bsl::ostream& printDecimalWithDigitsOptions(bsl::ostream& stream,
                                             double        object,
                                             int           maxTotalDigits,

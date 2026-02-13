@@ -29,6 +29,8 @@ BSLMF_ASSERT(!bslmf::IsTriviallyCopyableCheck<DateTz>::value);
                              // ------------
 
 // ACCESSORS
+// requires: stream.good()
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, localDate().size(), j, stream + j ↦ localDate().data()[j]) ⋆ SEPFORALL(0, strlen(offsetBuffer), i, stream + localDate().size() + i ↦ offsetBuffer[i]))))
 bsl::ostream& DateTz::print(bsl::ostream& stream,
                             int           level,
                             int           spacesPerLevel) const

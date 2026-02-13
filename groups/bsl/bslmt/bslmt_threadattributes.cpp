@@ -56,6 +56,8 @@ bslmt::ThreadAttributes::ThreadAttributes(
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == *this && (d_detachedState ↦ rhs.d_detachedState ⋆ d_guardSize ↦ rhs.d_guardSize ⋆ d_inheritScheduleFlag ↦ rhs.d_inheritScheduleFlag ⋆ d_schedulingPolicy ↦ rhs.d_schedulingPolicy ⋆ d_schedulingPriority ↦ rhs.d_schedulingPriority ⋆ d_stackSize ↦ rhs.d_stackSize ⋆ d_threadName ↦ rhs.d_threadName)
 bslmt::ThreadAttributes& bslmt::ThreadAttributes::operator=(
                                             const bslmt::ThreadAttributes& rhs)
 {
@@ -71,6 +73,8 @@ bslmt::ThreadAttributes& bslmt::ThreadAttributes::operator=(
 }
 
 // ACCESSORS
+// requires: stream.good()
+// ensures: __out == stream && (stream.good() && SEPFORALL(0, 7, i, stream + i ↦ sep_v[i]))
 bsl::ostream& bslmt::ThreadAttributes::print(
                                             bsl::ostream& stream,
                                             int           level,
@@ -92,6 +96,8 @@ bsl::ostream& bslmt::ThreadAttributes::print(
 }
 
 // FREE OPERATORS
+// requires: true
+// ensures: (__out == true ==> (lhs.detachedState() == rhs.detachedState() && lhs.guardSize() == rhs.guardSize() && lhs.inheritSchedule() == rhs.inheritSchedule() && lhs.schedulingPolicy() == rhs.schedulingPolicy() && lhs.schedulingPriority() == rhs.schedulingPriority() && lhs.stackSize() == rhs.stackSize() && lhs.threadName() == rhs.threadName())) && (__out == false ==> !(lhs.detachedState() == rhs.detachedState() && lhs.guardSize() == rhs.guardSize() && lhs.inheritSchedule() == rhs.inheritSchedule() && lhs.schedulingPolicy() == rhs.schedulingPolicy() && lhs.schedulingPriority() == rhs.schedulingPriority() && lhs.stackSize() == rhs.stackSize() && lhs.threadName() == rhs.threadName()))
 bool bslmt::operator==(const ThreadAttributes& lhs,
                        const ThreadAttributes& rhs)
 {
