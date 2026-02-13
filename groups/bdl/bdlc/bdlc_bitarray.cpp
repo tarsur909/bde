@@ -28,6 +28,8 @@ namespace bdlc {
 /// behavior is undefined unless `0 <= numBits < k_BITS_PER_UINT64`.  Note
 /// that this is a faster version of `bdlb::BitMaskUtil::lt64` with a
 /// narrower contract.
+// requires: 0 <= numBits && numBits < 64
+// ensures: __out == ((static_cast<uint64_t>(1) << numBits) - 1)
 static inline
 uint64_t rawLt64(int numBits)
 {

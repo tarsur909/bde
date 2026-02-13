@@ -53,6 +53,8 @@ DayOfWeekSet_Iter::DayOfWeekSet_Iter(int data, int index)
 }
 
 // MANIPULATORS
+// requires: d_index < 8
+// ensures: __out == *this && (d_index < 8 ==> (1 << d_index) & d_data || d_index == 8)
 DayOfWeekSet_Iter& DayOfWeekSet_Iter::operator++()
 {
     while (d_index < 8) {

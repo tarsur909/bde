@@ -339,6 +339,8 @@ RegEx_MatchContext::~RegEx_MatchContext()
 }
 
 // PRIVATE ACCESSORS
+// requires: matchContextData != 0
+// ensures: (__out == 0 ==> (matchContextData->d_matchData_p != 0 ⋆ matchContextData->d_matchContext_p != 0 ⋆ (matchContextData->d_jitStack_p != 0 || d_jitStackSize == 0))) && (__out == k_INTERNAL_ERROR ==> (matchContextData->d_matchData_p == 0 && matchContextData->d_matchContext_p == 0 && matchContextData->d_jitStack_p == 0))
 int
 RegEx_MatchContext::allocateMatchContext(
                                 RegEx_MatchContextData *matchContextData) const
@@ -401,6 +403,8 @@ RegEx_MatchContext::deallocateMatchContext(
 }
 
 // MANIPULATORS
+// requires: pcre2Context != 0 && patternCode != 0
+// ensures: d_pcre2Context_p ↦ pcre2Context ⋆ d_pcre2PatternCode_p ↦ patternCode ⋆ d_depthLimit ↦ depthLimit ⋆ d_jitStackSize ↦ jitStackSize ⋆ (d_mainThreadMatchData ↦ _)
 int RegEx_MatchContext::initialize(pcre2_general_context *pcre2Context,
                                    pcre2_code            *patternCode,
                                    int                    depthLimit,
@@ -430,6 +434,8 @@ void RegEx_MatchContext::setDepthLimit(int depthLimit)
 }
 
 // ACCESSORS
+// requires: matchContextData != NULL ==> true
+// ensures: (matchContextData != nullptr ==> __out == RegEx::k_STATUS_SUCCESS || __out != RegEx::k_STATUS_SUCCESS)
 int
 RegEx_MatchContext::acquireMatchContext(
                                 RegEx_MatchContextData *matchContextData) const
@@ -820,6 +826,8 @@ int RegEx::replaceImp(STRING                  *result,
 }
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == k_IS_JIT_SUPPORTED
 bool RegEx::isJitAvailable()
 {
     unsigned int result = 0;
@@ -903,6 +911,8 @@ int RegEx::setDepthLimit(int depthLimit)
 }
 
 // ACCESSORS
+// requires: subjectOffset <= subject.length()
+// ensures: __out == match(subject.data(), subject.length(), subjectOffset)
 int RegEx::match(const bsl::string_view& subject,
                  size_t                  subjectOffset) const
 {

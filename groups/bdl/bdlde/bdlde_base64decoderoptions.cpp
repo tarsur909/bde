@@ -16,6 +16,8 @@ namespace bdlde {
                             // --------------------
 
 // ACCESSORS
+// requires: stream.good()
+// ensures: __out == stream && (stream.good() && (SEPFORALL(0, d_ignoreMode.size(), i, stream + i ↦ d_ignoreMode.data()[i]) ⋆ SEPFORALL(d_ignoreMode.size(), d_ignoreMode.size() + d_alphabet.size(), i, stream + i ↦ d_alphabet.data()[i - d_ignoreMode.size()]) ⋆ SEPFORALL(d_ignoreMode.size() + d_alphabet.size(), d_ignoreMode.size() + d_alphabet.size() + d_isPadded.size(), i, stream + i ↦ d_isPadded.data()[i - d_ignoreMode.size() - d_alphabet.size()])))
 bsl::ostream& Base64DecoderOptions::print(bsl::ostream& stream,
                                           int           level,
                                           int           spacesPerLevel) const
@@ -37,6 +39,8 @@ bsl::ostream& Base64DecoderOptions::print(bsl::ostream& stream,
 // inline in anticipation of their being rarely used.
 
 // FREE FUNCTIONS
+// requires: true
+// ensures: (__out == true) ==> (lhs.ignoreMode() == rhs.ignoreMode() && lhs.alphabet() == rhs.alphabet() && lhs.isPadded() == rhs.isPadded()) && (__out == false) ==> !(lhs.ignoreMode() == rhs.ignoreMode() && lhs.alphabet() == rhs.alphabet() && lhs.isPadded() == rhs.isPadded())
 bool bdlde::operator==(const bdlde::Base64DecoderOptions& lhs,
                        const bdlde::Base64DecoderOptions& rhs)
 {

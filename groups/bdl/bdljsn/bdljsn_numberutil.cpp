@@ -59,6 +59,8 @@ static const bsls::Types::Uint64 POWER_OF_TEN_LOOKUP[] = {
 /// valid unsigned integer.  If this function returns `false`, `*iter` is
 /// left in a valid but unspecified state (i.e., it may or may not have been
 /// advanced).
+// requires: (*iter != end) && (SEPFORALL(*iter, end, i, (i ↦ sep_v && (sep_v == '0' || bdlb::CharType::isDigit(sep_v)))))
+// ensures: (__out == true ==> SEPFORALL(old_iter, *iter, i, (i ↦ sep_v && bdlb::CharType::isDigit(sep_v)))) && (__out == false ==> SEPEXISTS(old_iter, *iter, i, (i ↦ sep_v && !bdlb::CharType::isDigit(sep_v))))
 static bool skipIfIsValidUint(bsl::string_view::const_iterator *iter,
                               bsl::string_view::const_iterator  end)
 {
@@ -164,6 +166,8 @@ bsl::ostream& operator<<(bsl::ostream& stream, const DecomposedNumber& n)
 /// for equality), and primarily serves to ignore a `+` character if it
 /// appears in the Exp.  E.g., "1e100000000000000000000" and
 /// "1e+100000000000000000000" would compare equal.
+// requires: (res_tmp == false) ==> (lhs.d_isExpNegative != rhs.d_isExpNegative || lhs.d_significantDigits != rhs.d_significantDigits) && (res_tmp == true) ==> (lhs.d_isExpNegative == rhs.d_isExpNegative && lhs.d_significantDigits == rhs.d_significantDigits && lhs.d_exponent == rhs.d_exponent)
+// ensures: (__out == false) ==> (lhs.d_isExpNegative != rhs.d_isExpNegative || lhs.d_significantDigits != rhs.d_significantDigits) && (__out == true) ==> (lhs.d_isExpNegative == rhs.d_isExpNegative && lhs.d_significantDigits == rhs.d_significantDigits && lhs.d_exponent == rhs.d_exponent)
 static bool compareNumberTextFallback(const DecomposedNumber& lhs,
                                       const DecomposedNumber& rhs)
 {
@@ -182,6 +186,8 @@ static bool compareNumberTextFallback(const DecomposedNumber& lhs,
 /// iterator, and prior to the specified `end` character.  Return `end` if
 /// all of the characters are digits.  Note that `find_if_not` is a C++20
 /// algorithm.
+// requires: begin <= end
+// ensures: (__out == end) || (!bdlb::CharType::isDigit(*__out))
 static bsl::string_view::const_iterator findFirstNonDigit(
                                         bsl::string_view::const_iterator begin,
                                         bsl::string_view::const_iterator end)

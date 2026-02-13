@@ -35,6 +35,8 @@ bsls::AtomicOperations::AtomicTypes::Pointer s_semaphoreKey = {0};
 /// Obtain an allocator object suitable for allocating memory for a thread
 /// local semaphore object which potentially outlives stateful allocators
 /// with static storage.
+// requires: true
+// ensures: __out == bslma::NewDeleteAllocator::singleton()
 inline
 bslma::Allocator& semaphoreAllocator()
 {
@@ -109,6 +111,8 @@ extern "C" void deleteThreadLocalSemaphore(void *semaphore)
 /// thread-safe: calling it multiple times simultaneously will result in the
 /// initialization of a single TLS key.  Note that the returned key can be
 /// used to access the thread-local semaphore for the current thread.
+// requires: true
+// ensures: (__out != 0) && ((__out == key) || (__out == oldKey))
 TlsKey *initializeSemaphoreTLSKey()
 {
     TlsKey *key = new (semaphoreAllocator()) TlsKey;
@@ -143,6 +147,8 @@ TlsKey *initializeSemaphoreTLSKey()
 /// Create and initialize a new key if one has not been previously been
 /// created.  This operation is thread-safe: calling it multiple times
 /// simultaneously will return the same address to an initialized key.
+// requires: true
+// ensures: __out != 0 && (bsls::AtomicOperations::getPtr(&s_semaphoreKey) == 0 ==> __out == initializeSemaphoreTLSKey())
 inline
 TlsKey *getSemaphoreTLSKey()
 {
@@ -157,6 +163,8 @@ TlsKey *getSemaphoreTLSKey()
 }
 
 /// Return the address of the semaphore unique to the calling thread.
+// requires: true
+// ensures: __out != 0
 SemaphorePtr getSemaphoreForCurrentThread()
 {
 #ifdef BSLMT_THREAD_LOCAL_VARIABLE

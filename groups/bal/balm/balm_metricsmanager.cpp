@@ -801,6 +801,8 @@ MetricsManager_PublisherRegistry::~MetricsManager_PublisherRegistry()
 }
 
 // MANIPULATORS
+// requires: publisher != nullptr
+// ensures: (__out == -1) ==> (publisher != nullptr) && (__out == 0) ==> (publisher != nullptr)
 int MetricsManager_PublisherRegistry::addGeneralPublisher(
                               const bsl::shared_ptr<Publisher>& publisher)
 {
@@ -1007,6 +1009,8 @@ MetricsManager_CallbackRegistry::~MetricsManager_CallbackRegistry()
 }
 
 // MANIPULATORS
+// requires: category != 0
+// ensures: __out == d_nextHandle - 1 && d_callbacks.find(category) != d_callbacks.end() && d_handles.find(__out) != d_handles.end()
 MetricsManager_CallbackRegistry::CallbackHandle
 MetricsManager_CallbackRegistry::registerCollectionCallback(
                                     const Category                   *category,

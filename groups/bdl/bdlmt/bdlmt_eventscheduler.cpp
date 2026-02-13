@@ -77,6 +77,8 @@ bsl::function<bsls::TimeInterval()> createDefaultCurrentTimeFunctor(
 }
 
 /// Return a value that is guaranteed never to be a valid thread id.
+// requires: true
+// ensures: true
 static inline
 bsls::Types::Uint64 invalidThreadId()
 {
@@ -140,6 +142,8 @@ EventSchedulerTestTimeSource_Data::EventSchedulerTestTimeSource_Data(
 }
 
 // MANIPULATORS
+// requires: amount > 0
+// ensures: __out > 0 && __out == d_currentTime
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -151,6 +155,8 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::advanceTime(
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_currentTime
 bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_currentTimeMutex);
@@ -165,6 +171,8 @@ bsls::TimeInterval EventSchedulerTestTimeSource_Data::currentTime() const
 const char EventScheduler::s_defaultThreadName[16] = { "bdl.EventSched" };
 
 // PRIVATE CLASS METHODS
+// requires: true
+// ensures: __out == 0
 bsls::Types::Int64 EventScheduler::returnZero()
 {
     return 0;
@@ -176,6 +184,8 @@ bsls::Types::Int64 EventScheduler::returnZeroInt(int)
 }
 
 // PRIVATE MANIPULATORS
+// requires: now != 0 && (d_currentRecurringEvent != 0 || d_currentEvent != 0)
+// ensures: __out == d_currentEvent->key() || __out == d_currentRecurringEvent->key()
 bsls::Types::Int64 EventScheduler::chooseNextEvent(bsls::AtomicInt64 *now)
 {
     BSLS_ASSERT(0 != d_currentRecurringEvent || 0 != d_currentEvent);
@@ -1224,6 +1234,8 @@ void EventScheduler::stop()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_running
 bool EventScheduler::isStarted() const
 {
     bslmt::LockGuard<bslmt::Mutex> lock(&d_mutex);
@@ -1298,6 +1310,8 @@ EventSchedulerTestTimeSource::EventSchedulerTestTimeSource(
 }
 
 // MANIPULATORS
+// requires: amount > 0
+// ensures: __out > bsls::TimeInterval(0)
 bsls::TimeInterval EventSchedulerTestTimeSource::advanceTime(
                                                      bsls::TimeInterval amount)
 {
@@ -1343,6 +1357,8 @@ bsls::TimeInterval EventSchedulerTestTimeSource::advanceTime(
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_data_p->currentTime()
 bsls::TimeInterval EventSchedulerTestTimeSource::now() const
 {
     return d_data_p->currentTime();

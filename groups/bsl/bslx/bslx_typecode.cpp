@@ -16,6 +16,8 @@ namespace bslx {
                      // ---------------
 
 // CLASS METHODS
+// requires: !stream.bad() && (value >= TypeCode::Enum::MIN && value <= TypeCode::Enum::MAX)
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, strlen(TypeCode::toAscii(value)), i, stream + i ↦ TypeCode::toAscii(value)[i]))))
 bsl::ostream& TypeCode::print(bsl::ostream&  stream,
                               TypeCode::Enum value,
                               int            level,

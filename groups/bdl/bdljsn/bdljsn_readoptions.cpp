@@ -25,6 +25,8 @@ ReadOptions::ReadOptions()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: d_allowTrailingText ↦ s_DEFAULT_INITIALIZER_ALLOW_TRAILING_TEXT ⋆ d_maxNestedDepth ↦ s_DEFAULT_INITIALIZER_MAX_NESTED_DEPTH
 ReadOptions& ReadOptions::reset()
 {
     d_allowTrailingText = s_DEFAULT_INITIALIZER_ALLOW_TRAILING_TEXT;

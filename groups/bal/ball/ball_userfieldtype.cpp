@@ -16,6 +16,8 @@ namespace ball {
                      // --------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == stream && (SEPFORALL(0, toAscii(value).size(), i, stream + i ↦ toAscii(value)[i]))
 bsl::ostream& UserFieldType::print(bsl::ostream&       stream,
                                    UserFieldType::Enum value,
                                    int                 level,

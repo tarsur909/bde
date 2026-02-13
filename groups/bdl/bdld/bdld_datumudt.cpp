@@ -16,6 +16,8 @@ namespace bdld {
                         // --------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, stream.str().size(), i, stream + i ↦ stream.str()[i]))))
 bsl::ostream& DatumUdt::print(bsl::ostream& stream,
                               int           level,
                               int           spacesPerLevel) const

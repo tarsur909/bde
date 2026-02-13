@@ -306,6 +306,8 @@ void Calendar::unionNonBusinessDays(const PackedCalendar& other)
 }
 
 // ACCESSORS
+// requires: nextBusinessDay != 0 && Date(9999, 12, 31) > date && 0 < nth
+// ensures: (__out == e_SUCCESS ==> (*nextBusinessDay == firstDate() + offset)) && (__out == e_FAILURE ==> __out == e_FAILURE) && (nextBusinessDay != 0)
 int Calendar::getNextBusinessDay(Date        *nextBusinessDay,
                                  const Date&  date,
                                  int          nth) const
@@ -334,6 +336,8 @@ int Calendar::getNextBusinessDay(Date        *nextBusinessDay,
 #ifndef BDE_OMIT_INTERNAL_DEPRECATED  // BDE3.0
 
 // DEPRECATED METHODS
+// requires: true
+// ensures: __out > initialDate && !isWeekendDay(__out)
 Date Calendar::getNextBusinessDay(const Date& initialDate) const
 {
     Date currentDate = initialDate;

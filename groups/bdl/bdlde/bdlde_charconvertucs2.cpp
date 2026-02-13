@@ -640,6 +640,8 @@ namespace bdlde {
                            // ----------------------
 
 // CLASS METHODS
+// requires: dstBuffer != 0 && dstCapacity >= 0 && (srcString == 0 || strlen(srcString) >= 0) && errorCharacter >= 0
+// ensures: (__out == k_SUCCESS || __out == k_OUTPUT_BUFFER_TOO_SMALL
 int CharConvertUcs2::utf8ToUcs2(unsigned short *dstBuffer,
                                 bsl::size_t     dstCapacity,
                                 const char     *srcString,

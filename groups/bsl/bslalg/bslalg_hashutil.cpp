@@ -65,6 +65,8 @@ unsigned int hash(const char *data, int length)
 /// would do them, so that this function, when called on a little-endian
 /// machine, will return the same value as `hash` called on a big-endian
 /// machine.
+// requires: 0 <= length && (length == 0 || (data != 0 && SEPFORALL(0, length, i, (reinterpret_cast<const unsigned char*>(data) + i) ↦ _)))
+// ensures: true
 static
 unsigned int reverse_hash(const char *data, int length)
 {

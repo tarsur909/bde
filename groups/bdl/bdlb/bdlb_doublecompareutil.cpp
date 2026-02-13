@@ -15,6 +15,8 @@ const double DoubleCompareUtil::k_DEFAULT_RELATIVE_TOLERANCE = 1e-12;
 const double DoubleCompareUtil::k_DEFAULT_ABSOLUTE_TOLERANCE = 1e-24;
 
 /// Return the absolute value of the specified `input`.
+// requires: true
+// ensures: __out == (input >= 0.0 ? input : -input) && __out >= 0.0
 static inline
 double fabsval(double input)
 {
@@ -26,6 +28,8 @@ double fabsval(double input)
                      // ------------------------------
 
 // CLASS METHODS
+// requires: bdlb::Float::isFinite(relTol) && bdlb::Float::signBit(relTol) == false && bdlb::Float::isFinite(absTol) && bdlb::Float::signBit(absTol) == false
+// ensures: __out == BloombergLP::bdlb::DoubleCompareUtil::e_NON_COMPARABLE || __out == BloombergLP::bdlb::DoubleCompareUtil::e_EQUAL || __out == BloombergLP::bdlb::DoubleCompareUtil::e_LESS_THAN || __out == BloombergLP::bdlb::DoubleCompareUtil::e_GREATER_THAN
 DoubleCompareUtil::CompareResult
 DoubleCompareUtil::fuzzyCompare(double a,
                                 double b,

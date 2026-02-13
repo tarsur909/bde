@@ -16,6 +16,8 @@ namespace bdld {
                         // --------------------
 
 // ACCESSORS
+// requires: true
+// ensures: __out == stream && (stream.bad() || (stream.good() && (SEPFORALL(0, strlen("binary"), k, stream + k ↦ "binary"[k]) ⋆ (stream + strlen("binary") ↦ ':') ⋆ (stream + strlen("binary") + 1 ↦ ' ') ⋆ SEPFORALL(0, strlen(d_data_p), j, stream + strlen("binary") + 2 + j ↦ d_data_p[j]) ⋆ (stream + strlen("binary") + 2 + strlen(d_data_p) ↦ ' ') ⋆ SEPFORALL(0, strlen("size"), m, stream + strlen("binary") + 2 + strlen(d_data_p) + 1 + m ↦ "size"[m]) ⋆ (stream + strlen("binary") + 2 + strlen(d_data_p) + 1 + strlen("size") ↦ ':') ⋆ (stream + strlen("binary") + 2 + strlen(d_data_p) + 1 + strlen("size") + 1 ↦ ' ') ⋆ SEPFORALL(0, std::to_string(d_size).size(), n, stream + strlen("binary") + 2 + strlen(d_data_p) + 1 + strlen("size") + 2 + n ↦ std::to_string(d_size)[n]))))
 bsl::ostream& DatumBinaryRef::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const

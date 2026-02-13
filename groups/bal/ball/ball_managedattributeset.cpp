@@ -27,6 +27,8 @@ int ManagedAttributeSet::AttributeHash::s_hashtableSize = INT_MAX;
 int ManagedAttributeSet::s_initialSize = 8;
 
 // CLASS METHODS
+// requires: size > 0
+// ensures: __out >= 0 && __out < size
 int ManagedAttributeSet::hash(const ManagedAttributeSet& set, int size)
 {
     BSLS_ASSERT(0 < size);
@@ -40,6 +42,8 @@ int ManagedAttributeSet::hash(const ManagedAttributeSet& set, int size)
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (this != &rhs ==> d_attributeSet == rhs.d_attributeSet) && __out == *this
 ManagedAttributeSet&
 ManagedAttributeSet::operator=(const ManagedAttributeSet& rhs)
 {
@@ -79,6 +83,8 @@ ManagedAttributeSet::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: (__out == true ==> (lhs.numAttributes() == rhs.numAttributes() && SEPFORALL(lhs.begin(), lhs.end(), iter, rhs.isMember(*iter)))) && (__out == false ==> (lhs.numAttributes() != rhs.numAttributes() || SEPEXISTS(lhs.begin(), lhs.end(), iter, !rhs.isMember(*iter))))
 bool ball::operator==(const ManagedAttributeSet& lhs,
                       const ManagedAttributeSet& rhs)
 {
