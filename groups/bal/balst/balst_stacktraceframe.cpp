@@ -16,6 +16,7 @@ namespace balst {
                            // ---------------------
 
 // ACCESSORS
+__out == stream && (d_address ↦ _ ⋆ d_libraryFileName ↦ _ ⋆ d_lineNumber ↦ _ ⋆ d_mangledSymbolName ↦ _ ⋆ d_offsetFromSymbol ↦ _ ⋆ d_sourceFileName ↦ _ ⋆ d_symbolName ↦ _)
 bsl::ostream& StackTraceFrame::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const
@@ -57,6 +58,7 @@ void StackTraceFrame::swap(StackTraceFrame& other)
 }  // close package namespace
 
 // FREE OPERATORS
+__out == stream
 bsl::ostream& balst::operator<<(bsl::ostream&          stream,
                                 const StackTraceFrame& object)
 {

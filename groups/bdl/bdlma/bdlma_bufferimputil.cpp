@@ -15,6 +15,7 @@ namespace bdlma {
                            // --------------------
 
 // CLASS METHODS
+__out != 0 && *cursor == old_cursor + size && *cursor <= bufferSize
 void *BufferImpUtil::allocateFromBuffer(bsls::Types::IntPtr       *cursor,
                                         char                      *buffer,
                                         bsls::Types::size_type     bufferSize,

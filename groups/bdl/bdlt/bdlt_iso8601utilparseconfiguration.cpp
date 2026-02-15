@@ -36,6 +36,7 @@ Iso8601UtilParseConfiguration::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+__out == &stream && __out->rdbuf()->in_avail() == old_stream.rdbuf()->in_avail() - (object.basic().size() + object.relaxed().size())
 bsl::ostream& bdlt::operator<<(bsl::ostream&                        stream,
                                const Iso8601UtilParseConfiguration& object)
 {

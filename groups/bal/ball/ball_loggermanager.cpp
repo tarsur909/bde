@@ -234,6 +234,7 @@ void bufferPoolDeleter(void *buffer, void *pool)
 /// result in the specified `filteredNameBuffer`, and return the address of
 /// the non-modifiable data of `filteredNameBuffer`; return `originalName`
 /// otherwise (i.e., if `nameFilter` is null).
+(nameFilter ? (__out == filteredNameBuffer->c_str()) : (__out == originalName))
 const char *filterName(
    bsl::string                                             *filteredNameBuffer,
    const char                                              *originalName,
@@ -602,6 +603,7 @@ void Logger::publish(const bsl::shared_ptr<Record>& record,
 }
 
 // MANIPULATORS
+__out != 0
 Record *Logger::getRecord(const char *fileName, int lineNumber)
 {
    // The shared pointer returned by 'getRecordPtr' is reconstituted in the
@@ -1605,6 +1607,7 @@ void LoggerManager::setDefaultThresholdLevelsCallback(
 }
 
 // ACCESSORS
+(category->relevantRuleMask() ==> __out == (AttributeContext::getContext()->determineThresholdLevels(&levels, category) && ThresholdAggregate::maxLevel(levels) >= severity)) && (!category->relevantRuleMask() ==> __out == (category->maxLevel() >= severity))
 bool LoggerManager::isCategoryEnabled(const Category *category,
                                       int             severity) const
 {

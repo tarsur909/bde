@@ -463,6 +463,7 @@ void FdStreamBuf_FileHandler::unmap(void *mappedMemory, bsl::streamoff length)
 }
 
 // ACCESSORS
+(__out >= 0) && (__out == 0 || __out > 0)
 bsl::streamoff
 FdStreamBuf_FileHandler::fileSize() const
 {
@@ -524,6 +525,7 @@ FdStreamBuf::~FdStreamBuf()
 }
 
 // PRIVATE MANIPULATORS
+(__out == 0 ==> d_mode == e_INPUT_MODE) && (__out == -1 ==> (d_mode == e_ERROR_MODE || !isOpened() || (d_buf_p == 0 && allocateBuffer() != 0)))
 int FdStreamBuf::switchToInputMode()
 {
     switch (d_mode) {

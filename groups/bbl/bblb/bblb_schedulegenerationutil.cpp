@@ -86,6 +86,7 @@ bdlt::Date getDayOfMonth(int year, int month, int day, int dayOfFeb)
 /// by the ratio of the specified `numerator` and the specified
 /// `denominator`, without the use of floating-point calculations.  The
 /// behavior is undefined unless `denominator > 0`.
+(numerator >= 0 || numerator % denominator == 0) ==> __out == numerator / denominator && (numerator < 0 && numerator % denominator != 0) ==> __out == numerator / denominator - 1
 inline
 int rationalFloor(int numerator, int denominator)
 {
@@ -197,6 +198,7 @@ int computeMonthRange(int *startSerialMonth,
 /// `k_MIN_SERIAL_MONTH <= *endSerialMonth <= k_MAX_SERIAL_MONTH`,
 /// `k_MIN_SERIAL_MONTH <= earliestSerialMonth <= k_MAX_SERIAL_MONTH`,
 /// `1 <= startDay <= 31`, and `1 <= endDay <= 31`.
+(__out == e_VALID_RANGE ==> (*startSerialMonth ↦ startSerialMonthCandidate ⋆ *endSerialMonth ↦ endSerialMonthCandidate)) && (__out == e_OUT_OF_RANGE ==> (*startSerialMonth ↦ old_startSerialMonth ⋆ *endSerialMonth ↦ old_endSerialMonth))
 int adjustMonthRange(int *startSerialMonth,
                      int *endSerialMonth,
                      int  startDay,

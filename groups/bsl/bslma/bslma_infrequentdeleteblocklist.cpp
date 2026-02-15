@@ -26,6 +26,7 @@ InfrequentDeleteBlockList::~InfrequentDeleteBlockList()
 }
 
 // MANIPULATORS
+(numBytes == 0 ==> __out == 0) && (numBytes != 0 ==> (d_head_p != 0 ⋆ d_head_p->d_next_p ↦ old_d_head_p ⋆ (__out ↦ &d_head_p->d_memory)))
 void *InfrequentDeleteBlockList::allocate(int numBytes)
 {
     if (0 == numBytes) {

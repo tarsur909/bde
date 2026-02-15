@@ -72,6 +72,7 @@ namespace bslma {
                         // ---------------------
 
 // CLASS METHODS
+(size <= 0 ==> __out == 0) && (size > 0 ==> (__out == 0 || __out != 0))
 void *BufferAllocator::allocateFromBuffer(int               *cursor,
                                           char              *buffer,
                                           size_type          bufSize,

@@ -85,6 +85,7 @@ void ElementAttribute::reset(const PrefixStack *prefixStack,
 }
 
 // ACCESSORS
+(d_prefix || !d_qualifiedName) ==> __out == d_prefix && (d_prefixStack && bsl::strchr(d_qualifiedName, ':')) ==> __out == d_prefixStack->lookupNamespacePrefix(bsl::string_view(d_qualifiedName, bsl::strchr(d_qualifiedName, ':') - d_qualifiedName)) && (!d_prefixStack || !bsl::strchr(d_qualifiedName, ':')) ==> __out == ""
 const char *ElementAttribute::prefix() const
 {
     if (d_prefix || ! d_qualifiedName) {

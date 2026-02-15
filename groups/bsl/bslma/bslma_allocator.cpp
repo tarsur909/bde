@@ -36,6 +36,7 @@ Allocator::~Allocator()
 }
 
 // PROTECTED MANIPULATORS
+(bytes == 0 ==> __out == bslma::MemoryResourceImpSupport::singularPointer()) && (bytes != 0 ==> __out != 0)
 void *Allocator::do_allocate(std::size_t bytes, std::size_t align)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_UNLIKELY(0 == bytes)) {

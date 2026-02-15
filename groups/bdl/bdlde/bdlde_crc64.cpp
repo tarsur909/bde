@@ -329,6 +329,7 @@ void Crc64::update(const void *data, bsl::size_t length)
 }
 
 // ACCESSORS
+__out == &stream ⋆ SFORALL(0, 8, i, (out + 2 + 2 * i) ↦ hex[((crc >> (56 - (i * 8))) & 0xff) >> 4] ⋆ (out + 3 + 2 * i) ↦ hex[((crc >> (56 - (i * 8))) & 0xff) & 0xf])
 bsl::ostream& Crc64::print(bsl::ostream& stream) const
 {
     static const char hex[] = "0123456789abcdef";

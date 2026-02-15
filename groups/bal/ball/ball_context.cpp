@@ -42,6 +42,7 @@ bool Context::isValid(Transmission::Cause transmissionCause,
 }
 
 // ACCESSORS
+__out == stream && (__out->d_transmissionCause ↦ d_transmissionCause ⋆ __out->d_recordIndex ↦ d_recordIndex ⋆ __out->d_sequenceLength ↦ d_sequenceLength)
 bsl::ostream& Context::print(bsl::ostream& stream,
                              int           level,
                              int           spacesPerLevel) const

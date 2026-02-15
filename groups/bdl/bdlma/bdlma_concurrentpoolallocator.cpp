@@ -20,6 +20,7 @@ enum {
 };
 
 // STATIC METHODS
+__out == ((totalSize + (BloombergLP::bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1)) & ~(BloombergLP::bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1))
 static inline
 BloombergLP::bsls::Types::size_type calculateMaxAlignedSize(
                                  BloombergLP::bsls::Types::size_type totalSize)

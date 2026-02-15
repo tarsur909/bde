@@ -290,6 +290,7 @@ namespace {
 /// undefined unless `tag` is a non-empty null-terminated string.  Return
 /// `0` if the `plink_timestamp___` global variable does not contain the
 /// `tag` or is not well formed.
+(__out != 0 ==> EXISTS(0, strlen(plink_timestamp___[0]), i, (strchr(plink_timestamp___[i], ']') != 0 && strncmp(plink_timestamp___[i] + (strchr(plink_timestamp___[i], ']') - plink_timestamp___[i] + 1), tag, strlen(tag)) == 0))) || (__out == 0)
 const char *getPwhatVar(const char *const tag)
 {
     // This is a modified version of 'sysutil_pwhat_getvar', adjusted to not

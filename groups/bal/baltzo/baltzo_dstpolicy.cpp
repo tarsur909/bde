@@ -17,6 +17,7 @@ namespace baltzo {
                               // ----------------
 
 // CLASS METHODS
+__out == &stream ⋆ (__out->str ↦ _)
 bsl::ostream& DstPolicy::print(bsl::ostream&   stream,
                                DstPolicy::Enum value,
                                int             level,

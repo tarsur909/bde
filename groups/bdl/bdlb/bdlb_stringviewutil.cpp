@@ -11,6 +11,7 @@ namespace bdlb {
 
 /// Return `true` is the specified `ch` is one of the ASCII whitespace
 /// characters in the "C" and "POSIX" locales, and `false` otherwise.
+((ch == 32 || ch == 9 || ch == 10 || ch == 11 || ch == 12 || ch == 13) ==> __out == true) && ((ch != 32 && ch != 9 && ch != 10 && ch != 11 && ch != 12 && ch != 13) ==> __out == false)
 static inline bool u_isWhitespace(unsigned char ch)
 {
     if (' ' == ch) {

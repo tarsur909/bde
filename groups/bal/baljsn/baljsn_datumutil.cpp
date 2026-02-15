@@ -63,6 +63,7 @@ int encodeValue(baljsn::SimpleFormatter    *formatter,
 /// Decode into the specified `*result` the JSON object in the specified
 /// `*tokenizer`, updating the specified `*errorStream` if any errors are
 /// detected, including if the specified `maxNestedDepth` is exceeded.
+(__out == 0) || (__out == -1) || (__out == -2) || (__out == -3) || (__out == -4)
 int decodeObject(bdld::ManagedDatum *result,
                  bsl::ostream       *errorStream,
                  baljsn::Tokenizer  *tokenizer,
@@ -214,6 +215,7 @@ int encodeImp(STRING                             *result,
 
 /// Extract into the specified `*result` the current value in the specified
 /// `*tokenizer`.
+(__out == 0) || (__out == -1)
 int extractValue(bdld::ManagedDatum *result,
                  baljsn::Tokenizer  *tokenizer)
 {
@@ -305,6 +307,7 @@ int decodeValue(bdld::ManagedDatum *result,
 /// unsupported types or values are encountered.  Optionally specify the
 /// `name` to be used for this array.  Return 0 on success, and a negative
 /// value if `datum` cannot be encoded, which should stop further encoding.
+(__out == 0 ==> FORALL(0, datum.length(), i, u::encodeValue(formatter, datum[i], strictTypesCheckStatus) == 0)) && (__out != 0 ==> EXISTS(0, datum.length(), i, u::encodeValue(formatter, datum[i], strictTypesCheckStatus) != 0))
 int encodeArray(baljsn::SimpleFormatter    *formatter,
                 const bdld::DatumArrayRef&  datum,
                 int                        *strictTypesCheckStatus,
@@ -340,6 +343,7 @@ int encodeArray(baljsn::SimpleFormatter    *formatter,
 /// unsupported types or values are encountered.Optionally specify the
 /// `name` to be used for this object.  Return 0 on success, and a negative
 /// value if `datum` cannot be encoded, which should stop further encoding.
+(name == 0 || true) && (__out == 0 || __out != 0)
 int encodeObject(baljsn::SimpleFormatter  *formatter,
                  const bdld::DatumMapRef&  datum,
                  int                      *strictTypesCheckStatus,

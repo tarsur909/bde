@@ -182,6 +182,7 @@ RuleSet& RuleSet::operator=(const RuleSet& rhs)
 }
 
 // ACCESSORS
+(__out == -1) || (EXISTS(0, d_ruleAddresses.size(), i, d_ruleAddresses[i] == &*d_ruleHashtable.find(value) ==> __out == i))
 int RuleSet::ruleId(const Rule& value) const
 {
     HashtableType::const_iterator iter = d_ruleHashtable.find(value);
@@ -222,6 +223,7 @@ bsl::ostream& RuleSet::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(lhs.numRules() != rhs.numRules() ==> __out == false) && (lhs.numRules() == rhs.numRules() ==> (SFORALL(0, lhs.numRules(), i, 0 <= rhs.ruleId(*lhs.getRuleById(i))) ==> __out == true))
 bool ball::operator==(const RuleSet& lhs, const RuleSet& rhs)
 {
     if (lhs.numRules() != rhs.numRules()) {

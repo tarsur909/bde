@@ -19,6 +19,7 @@ namespace ball {
                     // --------------------------------
 
 // CLASS METHODS
+__out == LoggerManagerDefaults::isValidDefaultRecordBufferSize(numBytes)
 bool
 LoggerManagerConfiguration::isValidDefaultRecordBufferSize(int numBytes)
 {
@@ -84,6 +85,7 @@ LoggerManagerConfiguration::LoggerManagerConfiguration(
 }
 
 // MANIPULATORS
+__out == *this ⋆ d_defaults ↦ rhs.d_defaults ⋆ d_userPopulator ↦ rhs.d_userPopulator ⋆ d_categoryNameFilter ↦ rhs.d_categoryNameFilter ⋆ d_defaultThresholdsCb ↦ rhs.d_defaultThresholdsCb ⋆ d_logOrder ↦ rhs.d_logOrder ⋆ d_triggerMarkers ↦ rhs.d_triggerMarkers
 LoggerManagerConfiguration&
 LoggerManagerConfiguration::operator=(const LoggerManagerConfiguration& rhs)
 {
@@ -160,6 +162,7 @@ void LoggerManagerConfiguration::setTriggerMarkers(TriggerMarkers value)
 }
 
 // ACCESSORS
+__out == d_defaults
 const LoggerManagerDefaults& LoggerManagerConfiguration::defaults() const
 {
     return d_defaults;
