@@ -49,6 +49,7 @@ bool startsWith(const char *begin, const char (&prefix)[CLEN])
 /// Return `true` if the specified character `ch` occurs at least the
 /// specified `count` times within the specified [`begin` .. `end`) range.
 /// The behavior is undefined unless `begin` is not less than `end`.
+__out == (FORALL(begin, end, i, *i == ch) ==> count <= 0)
 static
 inline
 bool hasAtLeastCountChar(const char *       begin,
@@ -71,6 +72,7 @@ bool hasAtLeastCountChar(const char *       begin,
 /// right after it, or `end` if it is the last character.  If `ch` is not
 /// found return `begin`.  The behavior is undefined if `begin` is greater
 /// than `end`.
+(__out == end) || (__out >= begin && __out < end)
 static
 inline
 const char *onePastLastChr(const char *const begin, const char *end, char ch)
@@ -89,6 +91,7 @@ const char *onePastLastChr(const char *const begin, const char *end, char ch)
 
 /// Return `true` if the specified `tag` is a lowercase US alphabetic/letter
 /// character or return `false` if it is some other character.
+(tag >= 'a' && tag <= 'z') ==> __out == true && (tag < 'a' || tag > 'z') ==> __out == false
 static
 inline
 bool isAlphaTag(char tag)
@@ -112,6 +115,7 @@ bool isAlphaTag(char tag)
 
 /// Return `true` if the specified `tag` is a valid test driver tag
 /// character from a source name (`t` or `g`).
+(tag == 't' || tag == 'g') ==> __out == true && (tag != 't' && tag != 'g') ==> __out == false
 static
 inline
 bool isTestDriverTag(char tag)
@@ -121,6 +125,7 @@ bool isTestDriverTag(char tag)
 
 /// Return `true` if the specified `sourceType` is a test driver type
 /// according to `SourceTypes`.
+(sourceType & BslSourceNameParserUtil::k_MASK_TEST) != 0 ==> __out == true && (sourceType & BslSourceNameParserUtil::k_MASK_TEST) == 0 ==> __out == false
 static
 inline
 bool isTestDriverType(unsigned sourceType)
@@ -131,6 +136,7 @@ bool isTestDriverType(unsigned sourceType)
 
 /// Return a pointer to the first character of the specified `filename`
 /// after the last path delimiter.
+(__out == filename) || (!strpbrk(__out, pathSeparators))
 static
 const char *skipPath(const char *filename)
 {

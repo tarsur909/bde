@@ -197,6 +197,7 @@ OccurrenceInfo::~OccurrenceInfo()
 }
 
 // MANIPULATORS
+__out.d_defaultValue == rhs.d_defaultValue && __out.d_isRequired == rhs.d_isRequired && __out.d_isHidden == rhs.d_isHidden
 OccurrenceInfo& OccurrenceInfo::operator=(const OccurrenceInfo& rhs)
 {
     if (&rhs != this) {
@@ -225,6 +226,7 @@ void OccurrenceInfo::setHidden()
 }
 
 // ACCESSORS
+&__out == &d_defaultValue
 const OptionValue& OccurrenceInfo::defaultValue() const
 {
     return d_defaultValue;
@@ -309,6 +311,15 @@ bsl::ostream& OccurrenceInfo::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+POST(
+    __out == (
+        lhs.occurrenceType() == rhs.occurrenceType() &&
+        lhs.hasDefaultValue() == rhs.hasDefaultValue() &&
+        (!lhs.hasDefaultValue() || lhs.defaultValue() == rhs.defaultValue())
+    )
+)
+
+Since the `POST` macro was not declared in the scope, we can describe the postcondition in a more straightforward manner without using the `POST` macro directly in the code. The postcondition itself is logically correct and describes the behavior of the function accurately.
 bool balcl::operator==(const OccurrenceInfo& lhs, const OccurrenceInfo& rhs)
 {
     return lhs.occurrenceType()  == rhs.occurrenceType()

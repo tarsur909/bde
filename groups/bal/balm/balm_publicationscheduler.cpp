@@ -59,6 +59,7 @@ struct IsPair {
 
 /// Return the invalid scheduling interval value.  Note that this function
 /// is provided to avoid creating a statically initialized constant.
+__out.seconds() == 0 && __out.nanoseconds() == 0
 inline
 bsls::TimeInterval makeInvalidInterval()
 {
@@ -272,6 +273,7 @@ PublicationScheduler_ClockData::~PublicationScheduler_ClockData()
 }
 
 // MANIPULATORS
+__out != NULL
 inline
 bslmt::Mutex *PublicationScheduler_ClockData::mutex()
 {
@@ -688,6 +690,7 @@ int PublicationScheduler::clearDefaultSchedule()
 }
 
 // ACCESSORS
+(__out == true ==> catIt != d_categories.end()) && (__out == false ==> catIt == d_categories.end())
 bool
 PublicationScheduler::findCategorySchedule(bsls::TimeInterval *result,
                                            const Category     *category) const

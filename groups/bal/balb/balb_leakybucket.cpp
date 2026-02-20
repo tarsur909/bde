@@ -161,6 +161,7 @@ LeakyBucket::LeakyBucket(bsls::Types::Uint64       drainRate,
 }
 
 // MANIPULATORS
+__out >= bsls::TimeInterval(0, 0)
 bsls::TimeInterval LeakyBucket::calculateTimeToSubmit(
                                          const bsls::TimeInterval& currentTime)
 {

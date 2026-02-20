@@ -98,6 +98,7 @@ bsls::Types::Int64 bslmt::Turnstile::waitTurn(bool sleep)
 }
 
 // ACCESSORS
+__out >= 0
 bsls::Types::Int64 bslmt::Turnstile::lagTime() const
 {
     Int64 nowUSecs = updateTimestamp(&d_timestamp);

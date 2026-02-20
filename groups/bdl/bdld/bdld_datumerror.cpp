@@ -16,6 +16,7 @@ namespace bdld {
                         // ----------------
 
 // ACCESSORS
+(stream.bad() ==> __out.bad()) && (!stream.bad() ==> !__out.bad())
 bsl::ostream& DatumError::print(bsl::ostream& stream,
                                 int           level,
                                 int           spacesPerLevel) const

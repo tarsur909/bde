@@ -44,6 +44,7 @@ AttributeContainerList::AttributeContainerList(
 }
 
 // MANIPULATORS
+__out == *this && __out.d_length == rhs.d_length
 AttributeContainerList& AttributeContainerList::operator=(
                                              const AttributeContainerList& rhs)
 {
@@ -154,6 +155,7 @@ void AttributeContainerList::removeAllAndRelease()
 }
 
 // ACCESSORS
+__out == true ==> EXISTS(d_head_p, nullptr, node, node->d_value_p->hasValue(value))
 bool AttributeContainerList::hasValue(const Attribute& value) const
 {
     Node *node = d_head_p;

@@ -287,6 +287,7 @@ const int           HashTable_ImpUtil::NUM_PRIME_NUMBERS
                                                        = NUM_PRIME_NUMBERS_IMP;
 
 // CLASS METHODS
+FORALL(&PRIME_NUMBERS[0], &PRIME_NUMBERS[NUM_PRIME_NUMBERS], p, *p == __out)
 unsigned int HashTable_ImpUtil::hashSize(bsls::Types::Int64 hint)
 {
     BSLS_ASSERT(0 != hint);

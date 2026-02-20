@@ -110,6 +110,7 @@ enum {
 };
 
 /// Return the system-specific error code.
+__out >= 0
 static int getErrorCode(void)
 {
 #ifdef BSLS_PLATFORM_OS_WINDOWS
@@ -121,6 +122,7 @@ static int getErrorCode(void)
 }
 
 /// Return the specified `timestamp` in the `YYYYMMDD_hhmmss` format.
+__out.size() == 15 && __out[8] == '_'
 static bsl::string getTimestampSuffix(const bdlt::Datetime& timestamp)
 {
     char buffer[16];
@@ -248,6 +250,7 @@ static bool hasEscapePattern(const char *logFilePattern)
 /// Open a file stream referred to by the specified `stream` for the file
 /// with the specified `filename` in append mode.  Return 0 on success, and
 /// a non-zero value otherwise.
+__out == 0 || __out == -1
 static int openLogFile(bsl::ostream *stream, const char *filename)
 {
     BSLS_ASSERT(stream);
@@ -337,6 +340,7 @@ bool fuzzyEqual(const bdlt::Datetime&         a,
 /// interpreted as local time value, and as UTC time value otherwise.
 /// `fileCreationTimeUtc` must be a UTC time value.  The behavior is
 /// undefined unless `0 <= interval.totalMilliseconds()`.
+__out >= fileCreationTimeUtc
 static bdlt::Datetime computeNextRotationTime(
                    const bdlt::Datetime&         referenceStartTime,
                    bool                          referenceStartTimeInLocalTime,
@@ -847,6 +851,7 @@ void FileObserver2::setOnFileRotationCallback(
 }
 
 // ACCESSORS
+__out == d_logStreamBuf.isOpened()
 bool FileObserver2::isFileLoggingEnabled() const
 {
     bslmt::LockGuard<bslmt::Mutex> guard(&d_mutex);

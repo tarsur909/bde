@@ -160,6 +160,7 @@ namespace u {
 
 /// Convert the specified `str` to a string view, and then return the result
 /// of `substr` on that passing the specified `idx` and `len`.
+(__out.size() <= str.size() - idx) && (len != bsl::string::npos ==> __out.size() <= len)
 bsl::string_view substr(const bsl::string& str,
                         const size_t       idx,
                         const size_t       len = bsl::string::npos)
@@ -512,6 +513,7 @@ struct NameRec {
 /// Return an identifier for the current running process.  Note that this
 /// duplicates functionality in `ProcessUtil`, and is reproduced here to
 /// avoid a cycle.
+__out > 0
 int getProcessId()
 {
 #ifdef BSLS_PLATFORM_OS_WINDOWS
@@ -902,6 +904,7 @@ int makeDirectory(const char *path, bool isPrivate)
 /// specified open file descriptor `dirFD`, not including the root.  Close
 /// `dirFd`.  The behavior is undefined unless `dirFD` refers to a directory
 /// and not a symlink.  Return 0 on success and a non-zero value otherwise.
+(__out == 0) || (__out == -2) || (__out == -7) || (__out == -9) || (__out == -10) || (__out == -11)
 static
 int u_removeContentsOfTree(
                  const BloombergLP::bdls::FilesystemUtil::FileDescriptor dirFD)

@@ -16,6 +16,7 @@ namespace bdld {
                         // --------------------
 
 // ACCESSORS
+__out && __out.good() && __out.eof() == false && __out.fail() == false && __out.bad() == false && __out.flags() & bsl::ios_base::unitbuf
 bsl::ostream& DatumBinaryRef::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const

@@ -15,6 +15,7 @@ const double DoubleCompareUtil::k_DEFAULT_RELATIVE_TOLERANCE = 1e-12;
 const double DoubleCompareUtil::k_DEFAULT_ABSOLUTE_TOLERANCE = 1e-24;
 
 /// Return the absolute value of the specified `input`.
+__out >= 0.0
 static inline
 double fabsval(double input)
 {
@@ -26,6 +27,7 @@ double fabsval(double input)
                      // ------------------------------
 
 // CLASS METHODS
+__out == e_NON_COMPARABLE || __out == e_EQUAL || __out == e_LESS_THAN || __out == e_GREATER_THAN
 DoubleCompareUtil::CompareResult
 DoubleCompareUtil::fuzzyCompare(double a,
                                 double b,
