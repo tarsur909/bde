@@ -26,6 +26,8 @@ namespace BloombergLP {
 /// allocation.  The behavior is undefined unless
 /// `0 < alignment <= bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT` and alignment
 /// is an integral power of 2.
+// requires: (0 < alignment) && (alignment <= bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT) && (0 == (alignment & (alignment - 1))) && (0 <= *cursor) && (*cursor <= bufSize) && (0 < size) && (size <= bufSize)
+// ensures: (__out == nullptr ==> *cursor + bsls::AlignmentUtil::calculateAlignmentOffset(buffer + *cursor, alignment) + size > bufSize) && (__out != nullptr ==> __out >= buffer && __out < buffer + bufSize)
 static
 void *allocateFromBufferImp(int                               *cursor,
                             char                              *buffer,

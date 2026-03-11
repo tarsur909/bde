@@ -18,6 +18,8 @@ namespace baljsn {
                                // -------------
 
 // PRIVATE MANIPULATORS
+// requires: true
+// ensures: __out == d_logStream
 bsl::ostream& Decoder::logTokenizerError(const char *alternateString)
 {
     const int sts = d_tokenizer.readStatus();

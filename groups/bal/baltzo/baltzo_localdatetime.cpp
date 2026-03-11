@@ -38,6 +38,8 @@ bsl::ostream& LocalDatetime::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: !stream.bad() && (object.datetimeTz() ↦ _ ⋆ object.timeZoneId().c_str() ↦ _)
+// ensures: (__out == stream) && (stream.bad() || (SEPFORALL(0, object.datetimeTz().size(), i, stream + i ↦ object.datetimeTz()[i]) ⋆ SEPFORALL(0, object.timeZoneId().size(), i, stream + (object.datetimeTz().size() + i) ↦ object.timeZoneId().c_str()[i])))
 bsl::ostream& baltzo::operator<<(bsl::ostream&        stream,
                                  const LocalDatetime& object)
 {

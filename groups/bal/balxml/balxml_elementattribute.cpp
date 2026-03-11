@@ -85,6 +85,8 @@ void ElementAttribute::reset(const PrefixStack *prefixStack,
 }
 
 // ACCESSORS
+// requires: true
+// ensures: (d_prefix || !d_qualifiedName || !d_prefixStack || !bsl::strchr(d_qualifiedName, ':')) ==> __out == d_prefix ⋆ (d_prefixStack && bsl::strchr(d_qualifiedName, ':') ==> __out == d_prefix)
 const char *ElementAttribute::prefix() const
 {
     if (d_prefix || ! d_qualifiedName) {

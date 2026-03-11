@@ -23,6 +23,8 @@ namespace ball {
                            // ------------
 
 // ACCESSORS
+// requires: true
+// ensures: __out == stream && SEPFORALL(0, d_attributes.size(), i, (d_attributes[i]->print(stream, level + 1, spacesPerLevel) && (0 <= spacesPerLevel ==> SEPFORALL(0, level + 1, j, (stream + j ↦ sep_v)))))
 bsl::ostream& Record::print(bsl::ostream& stream,
                             int           level,
                             int           spacesPerLevel) const

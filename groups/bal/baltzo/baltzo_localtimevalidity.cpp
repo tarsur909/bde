@@ -16,6 +16,8 @@ namespace baltzo {
                           // ------------------------
 
 // CLASS METHODS
+// requires: stream ↦ _
+// ensures: (__out == stream) && (__out ↦ _)
 bsl::ostream& LocalTimeValidity::print(bsl::ostream&           stream,
                                        LocalTimeValidity::Enum value,
                                        int                     level,

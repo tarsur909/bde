@@ -14,6 +14,8 @@ namespace baljsn {
                         // -----------------------------
 
 // CLASS METHODS
+// requires: formatter != NULL && value.size() > 0
+// ensures: __out < 0 || __out == encodeSimpleValue(formatter, base64String, encoderOptions)
 int Encoder_EncodeImplUtil::encodeCharArray(
                                       Formatter                *formatter,
                                       const bsl::vector<char>& value,

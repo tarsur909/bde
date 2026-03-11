@@ -16,6 +16,8 @@ namespace ball {
                      // --------------------
 
 // CLASS METHODS
+// requires: stream ↦ _
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& UserFieldType::print(bsl::ostream&       stream,
                                    UserFieldType::Enum value,
                                    int                 level,

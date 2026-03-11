@@ -14,6 +14,8 @@ namespace bbldc {
                          // -----------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == (endDate - beginDate) / 365.25
 double BasicActual36525::yearsDiff(const bdlt::Date& beginDate,
                                    const bdlt::Date& endDate)
 {

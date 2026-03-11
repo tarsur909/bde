@@ -17,6 +17,8 @@ namespace baltzo {
                               // ----------------
 
 // CLASS METHODS
+// requires: true
+// ensures: __out == stream && (__out + level ↦ DstPolicy::toAscii(value)) && (spacesPerLevel >= 0 ==> (__out + level + 1 ↦ 10))
 bsl::ostream& DstPolicy::print(bsl::ostream&   stream,
                                DstPolicy::Enum value,
                                int             level,

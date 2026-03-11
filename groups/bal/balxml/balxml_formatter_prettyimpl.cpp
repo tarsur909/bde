@@ -260,6 +260,8 @@ void Formatter_PrettyImplUtil::addListDataImpl(bsl::ostream&            stream,
 }
 
 // CLASS METHODS
+// requires: state != 0 && (state->id() == StateId::e_IN_TAG || state->id() == StateId::e_FIRST_DATA_BETWEEN_TAGS || state->id() == StateId::e_TRAILING_DATA_BETWEEN_TAGS)
+// ensures: (__out == stream) && (state->column() == 0
 bsl::ostream& Formatter_PrettyImplUtil::addBlankLine(bsl::ostream&  stream,
                                                      State         *state)
 {

@@ -17,6 +17,8 @@ namespace bdljsn {
                              // -----------------
 
 // CLASS METHODS
+// requires: SEPFORALL(0, level, i, (stream + i ↦ _)) ⋆ (spacesPerLevel >= 0 ==> (stream + level + 1 ↦ 10))
+// ensures: __out == stream && SEPFORALL(0, level, i, (__out + i ↦ sep_v)) ⋆ (__out + level ↦ WriteStyle::toAscii(value)) ⋆ (spacesPerLevel >= 0 ==> (__out + level + 1 ↦ 10))
 bsl::ostream& WriteStyle::print(bsl::ostream&    stream,
                                 WriteStyle::Enum value,
                                 int              level,

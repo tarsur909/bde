@@ -14,6 +14,8 @@ namespace bdlt {
                               // ---------------
 
 // CLASS METHODS
+// requires: true
+// ensures: true
 DateTz FuzzUtil::consumeDateTz(bslim::FuzzDataView *fuzzDataView)
 {
     return DateTz(consumeDate(fuzzDataView), consumeTz(fuzzDataView));

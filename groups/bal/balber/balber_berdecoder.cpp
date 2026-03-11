@@ -74,6 +74,8 @@ BerDecoder::ErrorSeverity BerDecoder::logMsg(const char *prefix,
                        // -----------------------------
 
 // ACCESSORS
+// requires: true
+// ensures: __out == (d_parent == 0 ? 0 : d_parent->d_consumedHeaderBytes + d_parent->d_consumedBodyBytes + d_parent->startPos())
 int BerDecoder_Node::startPos() const
 {
     int ret = 0;
@@ -179,6 +181,8 @@ void BerDecoder_Node::print(bsl::ostream&  out,
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == d_decoder->logError(msg)
 int BerDecoder_Node::logError(const char *msg)
 {
     BerDecoder::ErrorSeverity rc = d_decoder->logError(msg);

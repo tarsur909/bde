@@ -1,0 +1,2094 @@
+# Specs found
+
+- **groups/bal/balb/balb_controlmanager.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == 0 || __out == 1`
+    - `__out == d_defaultHandler.has_value()`
+- **groups/bal/balb/balb_leakybucket.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == units) && (*fractionalUnitDrainedInNanoUnits ↦ nanounits % k_NANOUNITS_PER_UNIT)`
+    - `(d_unitsInBucket + d_unitsReserved < d_capacity ==> __out == bsls::TimeInterval(0, 0)) && (d_unitsInBucket + d_unitsReserved >= d_capacity ==> __out >= bsls::TimeInterval(0, 0))`
+- **groups/bal/balb/balb_performancemonitor.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (bsl::fabs(lhs - rhs) < bsl::numeric_limits<double>::epsilon())`
+- **groups/bal/balb/balb_pipetaskmanager.cpp**
+  - requires:
+    - `controlManager != 0 && basicAllocator != 0`
+  - ensures:
+    - `__out != 0`
+- **groups/bal/balb/balb_ratelimiter.cpp**
+  - requires:
+    - `limit > 0 && window > bsls::TimeInterval() && (limit == 1 || window <= LeakyBucket::calculateDrainTime(ULLONG_MAX, limit, true)) && window == LeakyBucket::calculateTimeWindow(limit, LeakyBucket::calculateCapacity(limit, window))`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (limit > 0 && window > bsls::TimeInterval() && (limit == 1 || window <= LeakyBucket::calculateDrainTime(ULLONG_MAX, limit, true)) && window == LeakyBucket::calculateTimeWindow(limit, LeakyBucket::calculateCapacity(limit, window)))) && (__out == false ==> !(limit > 0 && window > bsls::TimeInterval() && (limit == 1 || window <= LeakyBucket::calculateDrainTime(ULLONG_MAX, limit, true)) && window == LeakyBucket::calculateTimeWindow(limit, LeakyBucket::calculateCapacity(limit, window))))`
+    - `__out == bsl::max(d_peakRateBucket.calculateTimeToSubmit(currentTime), d_sustainedRateBucket.calculateTimeToSubmit(currentTime))`
+- **groups/bal/balber/balber_berdecoder.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (d_parent == 0 ? 0 : d_parent->d_consumedHeaderBytes + d_parent->d_consumedBodyBytes + d_parent->startPos())`
+    - `__out == d_decoder->logError(msg)`
+- **groups/bal/balber/balber_berdecoderoptions.cpp**
+  - requires:
+    - `nameLength >= 0 && SEPFORALL(0, nameLength, i, name[i] ↦ _)`
+  - ensures:
+    - `(__out == 0) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_MAX_DEPTH] && nameLength == 8) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_TRACE_LEVEL] && nameLength == 10) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_MAX_SEQUENCE_SIZE] && nameLength == 15) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_SKIP_UNKNOWN_ELEMENTS] && nameLength == 19) || (__out == &ATTRIBUTE_INFO_ARRAY[e_ATTRIBUTE_INDEX_DEFAULT_EMPTY_STRINGS] && nameLength == 19)`
+- **groups/bal/balber/balber_berencoder.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(static_cast<int>(d_severity) >= static_cast<int>(e_BER_ERROR)) && (__out == logMsg("ERROR", tagClass, tagNumber, name, index))`
+- **groups/bal/balber/balber_beruniversaltagnumber.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(value == e_BER_BOOL ==> __out == "BOOL") && (value == e_BER_INT ==> __out == "INT") && (value == e_BER_OCTET_STRING ==> __out == "OCTET_STRING") && (value == e_BER_REAL ==> __out == "REAL") && (value == e_BER_ENUMERATION ==> __out == "ENUMERATION") && (value == e_BER_UTF8_STRING ==> __out == "UTF8_STRING") && (value == e_BER_SEQUENCE ==> __out == "SEQUENCE") && (value == e_BER_VISIBLE_STRING ==> __out == "VISIBLE_STRING") && (value != e_BER_BOOL && value != e_BER_INT && value != e_BER_OCTET_STRING && value != e_BER_REAL && value != e_BER_ENUMERATION && value != e_BER_UTF8_STRING && value != e_BER_SEQUENCE && value != e_BER_VISIBLE_STRING ==> __out == "(* UNKNOWN *)")`
+- **groups/bal/balber/balber_berutil.cpp**
+  - requires:
+    - `newSize >= d_oldSize`
+    - `tagClass != NULL && tagType != NULL && tagNumber != NULL && accumNumBytesConsumed != NULL && streamBuf != NULL`
+    - `tagNumber >= 0 && streamBuf != NULL`
+    - `true`
+  - ensures:
+    - `(__out == SUCCESS || __out == FAILURE)`
+    - `(__out == true ==> (k_MIN_OFFSET <= value && k_MAX_OFFSET >= value)) && (__out == false ==> !(k_MIN_OFFSET <= value && k_MAX_OFFSET >= value))`
+    - `(value == 0 ==> __out == 1) && (value > 0 ==> __out == (((31 - bdlb::BitUtil::numLeadingUnsetBits(static_cast<bsl::uint32_t>(value))) + 2 + Constants::k_NUM_BITS_PER_OCTET - 1) / Constants::k_NUM_BITS_PER_OCTET)) && (value < 0 ==> __out == (((31 - bdlb::BitUtil::numLeadingUnsetBits(static_cast<bsl::uint32_t>(~value))) + 2 + Constants::k_NUM_BITS_PER_OCTET - 1) / Constants::k_NUM_BITS_PER_OCTET))`
+    - `__out == SUCCESS || __out == FAILURE`
+    - `__out == d_oldSize + nRead`
+    - `true`
+- **groups/bal/balcl/balcl_commandline.cpp**
+  - requires:
+    - `rhs.d_state != e_INVALID`
+    - `specTable != 0 && length >= 0`
+    - `true`
+  - ensures:
+    - `(__out != -1 ==> (0 <= __out && __out < static_cast<int>(d_schema_p->size()))) && (__out == -1 ==> true)`
+    - `(__out != -1 ==> d_options[__out].name() == name) && (__out == -1 ==> FORALL(0, d_options.size(), i, d_options[i].name() != name))`
+    - `(__out == *this) && (d_options == rhs.d_options) && (d_state == e_NOT_PARSED || (d_state == e_PARSED && d_arguments == rhs.d_arguments))`
+    - `(__out == true ==> 0 <= findName(name)) && (__out == false ==> findName(name) < 0)`
+    - `__out == (lhs.isParsed() && rhs.isParsed() && lhs.options() == rhs.options())`
+    - `__out == (status == 0)`
+    - `__out == 0 || __out == 1 || __out == 2 || __out == 3 || __out == 4 || __out == 5 || __out == 6 || __out == 7 || __out == 8 || __out == 9 || __out == 10 || __out == 11 || __out == 12 || __out == 14 || __out == -1 || __out == -2 || __out == -3`
+    - `__out == d_returnValue`
+    - `__out == stream`
+    - `true`
+- **groups/bal/balcl/balcl_occurrenceinfo.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == *this) && ((&rhs != this) ==> (d_defaultValue ↦ rhs.d_defaultValue ⋆ d_isRequired ↦ rhs.d_isRequired ⋆ d_isHidden ↦ rhs.d_isHidden))`
+    - `(__out == true ==> (lhs.occurrenceType() == rhs.occurrenceType() && lhs.hasDefaultValue() == rhs.hasDefaultValue() && (!lhs.hasDefaultValue() || lhs.defaultValue() == rhs.defaultValue()))) && (__out == false ==> !(lhs.occurrenceType() == rhs.occurrenceType() && lhs.hasDefaultValue() == rhs.hasDefaultValue() && (!lhs.hasDefaultValue() || lhs.defaultValue() == rhs.defaultValue())))`
+    - `__out == d_defaultValue`
+- **groups/bal/balcl/balcl_option.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (static_cast<const OptionInfo&>(lhs) == static_cast<const OptionInfo&>(rhs))`
+    - `__out == *this && *this == rhs`
+- **groups/bal/balcl/balcl_optioninfo.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bal/balcl/balcl_optiontype.cpp**
+  - requires:
+    - `stream ↦ _`
+  - ensures:
+    - `__out == stream && (stream ↦ _)`
+- **groups/bal/balcl/balcl_optionvalue.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (d_value.is<OptionValue_NullOf>() ? d_value.the<OptionValue_NullOf>().type() : static_cast<OptionType::Enum>(d_value.typeIndex()))`
+- **groups/bal/balcl/balcl_typeinfo.cpp**
+  - requires:
+    - `true`
+    - `value != NULL`
+  - ensures:
+    - `(this != &rhs ==> (d_elemType == rhs.d_elemType && d_linkedVariable_p == rhs.d_linkedVariable_p && d_isOptionalLinkedVariable == rhs.d_isOptionalLinkedVariable && d_constraint_p == rhs.d_constraint_p)) && (__out == *this)`
+    - `(type == OptionType::e_STRING ==> __out == true) && (type != OptionType::e_STRING ==> (__out == true || __out == false))`
+    - `__out == (lhs.type() == rhs.type() && lhs.linkedVariable() == rhs.linkedVariable() && lhs.constraint() == rhs.constraint())`
+    - `__out == OptionType::e_BOOL`
+    - `__out == d_constraint_p`
+- **groups/bal/baljsn/baljsn_datumutil.cpp**
+  - requires:
+    - `formatter != nullptr && datum.size() >= 0 && strictTypesCheckStatus != nullptr && (name == nullptr || name->size() >= 0)`
+    - `formatter != nullptr && strictTypesCheckStatus != nullptr`
+    - `maxNestedDepth >= 0`
+    - `maxNestedDepth >= 0 && tokenizer && result`
+    - `result != NULL && jsonBuffer != NULL`
+    - `result != NULL && tokenizer != NULL`
+  - ensures:
+    - `(__out == 0 || __out == -1)`
+    - `(__out == 0) ==> (FORALL(0, datum.length(), i, u::encodeValue(formatter, datum[i], strictTypesCheckStatus) == 0))`
+    - `(__out == 0) ==> true && (__out != 0) ==> true`
+    - `(__out == 0) || (__out == -4) || (__out == -1) || (__out == -2)`
+    - `__out == -4 || __out == -1 || __out == -2 || __out == -3 || __out == 0`
+    - `__out == 0 || __out == -1 || __out == -2 || __out == -3`
+- **groups/bal/baljsn/baljsn_decoder.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == d_logStream`
+- **groups/bal/baljsn/baljsn_encoder.cpp**
+  - requires:
+    - `formatter != NULL && value.size() > 0`
+  - ensures:
+    - `__out < 0 || __out == encodeSimpleValue(formatter, base64String, encoderOptions)`
+- **groups/bal/baljsn/baljsn_encoder_testtypes.cpp**
+  - requires:
+    - `(selectionId == SELECTION_ID_CHAR_ARRAY || selectionId == SELECTION_ID_CHOICE || selectionId == SELECTION_ID_CUSTOMIZED_TYPE || selectionId == SELECTION_ID_ENUMERATION || selectionId == SELECTION_ID_SEQUENCE || selectionId == SELECTION_ID_SIMPLE || selectionId == SELECTION_ID_UNDEFINED) ==> true`
+    - `(selectionId == SELECTION_ID_SELECTION0 || selectionId == SELECTION_ID_UNDEFINED) ==> true && (selectionId != SELECTION_ID_SELECTION0 && selectionId != SELECTION_ID_UNDEFINED) ==> true`
+    - `(value == A) || (value == B)`
+    - `(value == EncoderTestChoiceWithAllCategoriesEnumeration::A) || (value == EncoderTestChoiceWithAllCategoriesEnumeration::B)`
+    - `EXISTS(0, 2, i, (stringLength == EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_nameLength && 0 == bsl::memcmp(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_name_p, string, stringLength))) ==> *result == static_cast<EncoderTestChoiceWithAllCategoriesEnumeration::Value>(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_value)`
+    - `name != nullptr && nameLength >= 0 && name[nameLength - 1] == '\0'`
+    - `nameLength >= 0 && FORALL(0, nameLength, i, name[i] != 0) && name[nameLength] == 0`
+    - `result != 0 && (number == EncoderTestChoiceWithAllCategoriesEnumeration::A || number == EncoderTestChoiceWithAllCategoriesEnumeration::B)`
+    - `result != 0 && (number == EncoderTestSequenceWithAllCategoriesEnumeration::A || number == EncoderTestSequenceWithAllCategoriesEnumeration::B)`
+    - `true`
+  - ensures:
+    - `&__out == this`
+    - `(SELECTION_ID_SIMPLE == d_selectionId ==> (d_simple.object() == value)) && (__out == value)`
+    - `(__out == *this) && (__out.d_selectionId == rhs.d_selectionId) && (__out.d_selectionId == SELECTION_ID_SELECTION0 ==> (__out.d_selection0.object() == rhs.d_selection0.object()))`
+    - `(__out == 0 ==> ((*result ↦ static_cast<EncoderTestChoiceWithAllCategoriesEnumeration::Value>(number)) && (number == EncoderTestChoiceWithAllCategoriesEnumeration::A || number == EncoderTestChoiceWithAllCategoriesEnumeration::B))) && (__out == -1 ==> (number != EncoderTestChoiceWithAllCategoriesEnumeration::A && number != EncoderTestChoiceWithAllCategoriesEnumeration::B))`
+    - `(__out == 0 ==> ((*result ↦ static_cast<EncoderTestSequenceWithAllCategoriesEnumeration::Value>(number)) && (number == EncoderTestSequenceWithAllCategoriesEnumeration::A || number == EncoderTestSequenceWithAllCategoriesEnumeration::B))) && (__out == -1 ==> (number != EncoderTestSequenceWithAllCategoriesEnumeration::A && number != EncoderTestSequenceWithAllCategoriesEnumeration::B))`
+    - `(__out == 0 ==> EXISTS(0, 2, i, (stringLength == EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_nameLength && 0 == bsl::memcmp(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_name_p, string, stringLength) && (*result == static_cast<EncoderTestChoiceWithAllCategoriesEnumeration::Value>(EncoderTestChoiceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_value))))) && (__out == -1 ==> *result == old_result)`
+    - `(__out == 0 ==> EXISTS(0, 2, i, (stringLength == EncoderTestSequenceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_nameLength && 0 == bsl::memcmp(EncoderTestSequenceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_name_p, string, stringLength) && (*result ↦ EncoderTestSequenceWithAllCategoriesEnumeration::ENUMERATOR_INFO_ARRAY[i].d_value)))) && (__out == -1 ==> *result ↦ old_result)`
+    - `(d_selectionId == SELECTION_ID_ENUMERATION) && (__out == value)`
+    - `(d_selectionId == SELECTION_ID_SELECTION0 ==> (d_selection0.object() ↦ value)) && (d_selectionId != SELECTION_ID_SELECTION0 ==> (d_selectionId == SELECTION_ID_SELECTION0 ⋆ d_selection0.object() ↦ value))`
+    - `(d_selectionId == SELECTION_ID_SELECTION0 ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SELECTION0].name()) && (d_selectionId != SELECTION_ID_SELECTION0 ==> __out == "(* UNDEFINED *)")`
+    - `(d_selectionId == SELECTION_ID_SEQUENCE ==> __out == SELECTION_INFO_ARRAY[SELECTION_INDEX_SEQUENCE].name()) && (d_selectionId != SELECTION_ID_SEQUENCE ==> __out == "(* UNDEFINED *)")`
+    - `(lookupSelectionInfo(name, nameLength) == 0 ==> __out == -1) && (lookupSelectionInfo(name, nameLength) != 0 ==> __out == makeSelection(lookupSelectionInfo(name, nameLength)->d_id))`
+    - `(selectionId == SELECTION_ID_CHAR_ARRAY || selectionId == SELECTION_ID_CHOICE || selectionId == SELECTION_ID_CUSTOMIZED_TYPE || selectionId == SELECTION_ID_ENUMERATION || selectionId == SELECTION_ID_SEQUENCE || selectionId == SELECTION_ID_SIMPLE || selectionId == SELECTION_ID_UNDEFINED) ==> (__out == 0) && (selectionId != SELECTION_ID_CHAR_ARRAY && selectionId != SELECTION_ID_CHOICE && selectionId != SELECTION_ID_CUSTOMIZED_TYPE && selectionId != SELECTION_ID_ENUMERATION && selectionId != SELECTION_ID_SEQUENCE && selectionId != SELECTION_ID_SIMPLE && selectionId != SELECTION_ID_UNDEFINED) ==> (__out == -1)`
+    - `(selectionId == SELECTION_ID_SELECTION0 || selectionId == SELECTION_ID_UNDEFINED) ==> (__out == 0) && (selectionId != SELECTION_ID_SELECTION0 && selectionId != SELECTION_ID_UNDEFINED) ==> (__out == -1)`
+    - `(selectionInfo == 0 ==> __out == -1) && (selectionInfo != 0 ==> __out == makeSelection(selectionInfo->d_id))`
+    - `(this != &rhs ==> (d_name ↦ rhs.d_name ⋆ d_homeAddress ↦ rhs.d_homeAddress ⋆ d_age ↦ rhs.d_age)) && (__out == *this)`
+    - `(this != &rhs ==> (d_street ↦ rhs.d_street ⋆ d_city ↦ rhs.d_city ⋆ d_state ↦ rhs.d_state)) && __out == *this`
+    - `(value == A ==> __out == "A") && (value == B ==> __out == "B") && (value != A && value != B ==> __out == 0)`
+    - `__out == *this`
+    - `__out == *this && (this != &rhs ==> (d_charArray == rhs.d_charArray ⋆ d_aString == rhs.d_aString ⋆ d_array == rhs.d_array ⋆ d_choice == rhs.d_choice ⋆ d_customizedType == rhs.d_customizedType ⋆ d_enumeration == rhs.d_enumeration ⋆ d_nullableValue == rhs.d_nullableValue ⋆ d_sequence == rhs.d_sequence ⋆ d_simple == rhs.d_simple))`
+- **groups/bal/baljsn/baljsn_parserutil.cpp**
+  - requires:
+    - `value != nullptr && data.size() >= 0`
+  - ensures:
+    - `__out == bdljsn::StringUtil::readUnquotedString(value, data, bdljsn::StringUtil::e_ACCEPT_CAPITAL_UNICODE_ESCAPE)`
+- **groups/bal/ball/ball_administration.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == 0 || __out == 1)`
+- **groups/bal/ball/ball_asyncfileobserver.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == true ==> record.d_record.get() == 0) && (__out == false ==> record.d_record.get() != 0)`
+    - `true`
+- **groups/bal/ball/ball_attribute.cpp**
+  - requires:
+    - `0 < size`
+    - `stream ↦ _`
+    - `true`
+  - ensures:
+    - `(0 <= __out && __out < size) && attribute.d_hashValue == __out && attribute.d_hashSize == size`
+    - `__out == output`
+    - `__out == stream && (stream ↦ _)`
+- **groups/bal/ball/ball_attributecollectorregistry.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == 0 || __out == 1)`
+- **groups/bal/ball/ball_attributecontainerlist.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(lhs.numContainers() == rhs.numContainers() && FORALL(0, lhs.numContainers(), i, lhs[i] == rhs[i])) ==> __out == true && (lhs.numContainers() != rhs.numContainers() || EXISTS(0, lhs.numContainers(), i, lhs[i] != rhs[i])) ==> __out == false`
+    - `__out == *this && SEPFORALL(rhs.begin(), rhs.end(), it, EXISTS(__out.begin(), __out.end(), jt, *jt == *it))`
+    - `__out == true || __out == false`
+- **groups/bal/ball/ball_attributecontext.cpp**
+  - requires:
+    - `FORALL(0, RuleSet::e_MAX_NUM_RULES, i, (relevantRulesMask & (1 << i)) != 0 ==> rules.getRuleById(i) != nullptr)`
+    - `category != NULL`
+    - `stream ↦ _`
+    - `true`
+  - ensures:
+    - `(category->relevantRuleMask() == 0 ==> __out == false) && (category->relevantRuleMask() != 0 ==> __out == true)`
+    - `__out != 0`
+    - `__out == &s_contextKey`
+    - `__out == d_resultMask`
+    - `__out == stream && (stream ↦ _)`
+- **groups/bal/ball/ball_broadcastobserver.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == 0 || __out == 1)`
+    - `(d_observers.find(observerName) == d_observers.end() ==> __out.use_count() == 0) && (d_observers.find(observerName) != d_observers.end() ==> __out.use_count() > 0)`
+- **groups/bal/ball/ball_category.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == 0 || __out == -1`
+- **groups/bal/ball/ball_categorymanager.cpp**
+  - requires:
+    - `categoryName != 0`
+    - `categoryName != NULL`
+  - ensures:
+    - `(__out == 0 ==> d_registry.find(categoryName) == d_registry.end()) && (__out != 0 ==> (d_registry.find(categoryName) != d_registry.end() && __out == d_categories[iter->second]))`
+    - `__out != NULL`
+- **groups/bal/ball/ball_defaultattributecontainer.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.numAttributes() == rhs.numAttributes() && FORALL(iter, lhs.begin(), lhs.end(), rhs.hasValue(*iter)))) && (__out == false ==> (lhs.numAttributes() != rhs.numAttributes() || EXISTS(iter, lhs.begin(), lhs.end(), !rhs.hasValue(*iter))))`
+    - `(__out == true ==> d_attributeSet.find(value) != d_attributeSet.end()) && (__out == false ==> d_attributeSet.find(value) == d_attributeSet.end())`
+    - `__out == *this && FORALL(rhs.begin(), rhs.end(), iter, EXISTS(this->begin(), this->end(), iter2, *iter2 == *iter))`
+- **groups/bal/ball/ball_fileobserver.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out != 0`
+- **groups/bal/ball/ball_fileobserver2.cpp**
+  - requires:
+    - `0 <= interval.totalMilliseconds()`
+    - `logFilePattern != NULL`
+    - `stream != nullptr && filename != nullptr && stream->rdbuf() != nullptr && dynamic_cast<bdls::FdStreamBuf*>(stream->rdbuf()) != nullptr`
+    - `true`
+  - ensures:
+    - `(__out == 0 ==> (stream->rdbuf() != 0)) && (__out == -1 ==> true)`
+    - `(__out == true ==> abs((a - b).totalMilliseconds()) < (interval.totalMilliseconds() / 10)) && (__out == false ==> abs((a - b).totalMilliseconds()) >= (interval.totalMilliseconds() / 10))`
+    - `(__out == true) == (std::string(logFilePattern).find("%Y") != std::string::npos || std::string(logFilePattern).find("%M") != std::string::npos || std::string(logFilePattern).find("%D") != std::string::npos || std::string(logFilePattern).find("%h") != std::string::npos || std::string(logFilePattern).find("%m") != std::string::npos || std::string(logFilePattern).find("%s") != std::string::npos || std::string(logFilePattern).find("%%") != std::string::npos)`
+    - `__out != "" && __out == bsl::string(buffer)`
+    - `__out == d_logStreamBuf.isOpened()`
+    - `__out == fileCreationTimeUtc + interval || __out > fileCreationTimeUtc`
+    - `true`
+- **groups/bal/ball/ball_log.cpp**
+  - requires:
+    - `buffer != NULL && numBytes > 0`
+  - ensures:
+    - `(__out == -1) || (__out >= 0 && __out < (signed)numBytes)`
+- **groups/bal/ball/ball_loggercategoryutil.cpp**
+  - requires:
+    - `loggerManager != 0 && categoryName != 0`
+  - ensures:
+    - `(__out == 0 ==> (loggerManager->lookupCategory(categoryName) || 0 != loggerManager->thresholdLevelsForNewCategory(nullptr, categoryName))) && (__out != 0 ==> (loggerManager->lookupCategory(categoryName) == __out))`
+- **groups/bal/ball/ball_loggermanager.cpp**
+  - requires:
+    - `filteredNameBuffer != 0 && originalName != 0`
+    - `true`
+  - ensures:
+    - `(__out == (category->relevantRuleMask() && (ThresholdAggregate::maxLevel(AttributeContext::getContext()->determineThresholdLevels(&ThresholdAggregate(), category)) >= severity) || (category->maxLevel() >= severity)))`
+    - `(nameFilter ? (__out == filteredNameBuffer->c_str() && filteredNameBuffer->back() == 0) : __out == originalName)`
+    - `__out != 0`
+    - `__out != nullptr`
+- **groups/bal/ball/ball_loggermanagerconfiguration.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == (lhs.d_defaults == rhs.d_defaults && (bool)lhs.d_userPopulator == (bool)rhs.d_userPopulator && (bool)lhs.d_categoryNameFilter == (bool)rhs.d_categoryNameFilter && (bool)lhs.d_defaultThresholdsCb == (bool)rhs.d_defaultThresholdsCb && lhs.d_logOrder == rhs.d_logOrder && lhs.d_triggerMarkers == rhs.d_triggerMarkers))`
+    - `__out == *this ⋆ d_defaults ↦ rhs.d_defaults ⋆ d_categoryNameFilter ↦ rhs.d_categoryNameFilter ⋆ d_logOrder ↦ rhs.d_logOrder ⋆ d_triggerMarkers ↦ rhs.d_triggerMarkers`
+    - `__out == LoggerManagerDefaults::isValidDefaultRecordBufferSize(numBytes)`
+    - `__out == d_defaults`
+- **groups/bal/ball/ball_loggermanagerdefaults.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.d_recordBufferSize == rhs.d_recordBufferSize && lhs.d_loggerBufferSize == rhs.d_loggerBufferSize && lhs.d_defaultRecordLevel == rhs.d_defaultRecordLevel && lhs.d_defaultPassLevel == rhs.d_defaultPassLevel && lhs.d_defaultTriggerLevel == rhs.d_defaultTriggerLevel && lhs.d_defaultTriggerAllLevel == rhs.d_defaultTriggerAllLevel)) && (__out == false ==> !(lhs.d_recordBufferSize == rhs.d_recordBufferSize && lhs.d_loggerBufferSize == rhs.d_loggerBufferSize && lhs.d_defaultRecordLevel == rhs.d_defaultRecordLevel && lhs.d_defaultPassLevel == rhs.d_defaultPassLevel && lhs.d_defaultTriggerLevel == rhs.d_defaultTriggerLevel && lhs.d_defaultTriggerAllLevel == rhs.d_defaultTriggerAllLevel))`
+    - `(__out == true ==> numBytes > 0) && (__out == false ==> numBytes <= 0)`
+    - `__out == *this ⋆ d_recordBufferSize ↦ rhs.d_recordBufferSize ⋆ d_loggerBufferSize ↦ rhs.d_loggerBufferSize ⋆ d_defaultRecordLevel ↦ rhs.d_defaultRecordLevel ⋆ d_defaultPassLevel ↦ rhs.d_defaultPassLevel ⋆ d_defaultTriggerLevel ↦ rhs.d_defaultTriggerLevel ⋆ d_defaultTriggerAllLevel ↦ rhs.d_defaultTriggerAllLevel`
+    - `__out == d_recordBufferSize`
+- **groups/bal/ball/ball_managedattribute.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == output`
+    - `__out == stream && (d_attribute.print(stream, level, spacesPerLevel) == stream)`
+- **groups/bal/ball/ball_managedattributeset.cpp**
+  - requires:
+    - `0 < size`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.numAttributes() == rhs.numAttributes() && FORALL(lhs.begin(), lhs.end(), iter, rhs.isMember(*iter)))) && (__out == false ==> (lhs.numAttributes() != rhs.numAttributes() || EXISTS(lhs.begin(), lhs.end(), iter, !rhs.isMember(*iter))))`
+    - `(__out == true) || (__out == false)`
+    - `(this != &rhs ==> d_attributeSet == rhs.d_attributeSet) && (__out == *this)`
+    - `__out == (hashValue % size)`
+- **groups/bal/ball/ball_patternutil.cpp**
+  - requires:
+    - `FORALL(0, strlen(pattern), i, (pattern[i] == '\\' && (pattern[i + 1] != '\\' && pattern[i + 1] != '*')) ==> false) && (pattern[i] == '*' && (i + 1 < strlen(pattern)) ==> pattern[i + 1] == '\0')`
+  - ensures:
+    - `true`
+- **groups/bal/ball/ball_record.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream && SEPFORALL(0, d_attributes.size(), i, (d_attributes[i]->print(stream, level + 1, spacesPerLevel) && (0 <= spacesPerLevel ==> SEPFORALL(0, level + 1, j, (stream + j ↦ sep_v)))))`
+- **groups/bal/ball/ball_recordattributes.cpp**
+  - requires:
+    - `d_messageStreamBuf.data() != 0`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.d_timestamp == rhs.d_timestamp && lhs.d_processID == rhs.d_processID && lhs.d_threadID == rhs.d_threadID && lhs.d_severity == rhs.d_severity && lhs.d_lineNumber == rhs.d_lineNumber && lhs.d_fileName == rhs.d_fileName && lhs.d_category == rhs.d_category && lhs.messageRef() == rhs.messageRef())) && (__out == false ==> !(lhs.d_timestamp == rhs.d_timestamp && lhs.d_processID == rhs.d_processID && lhs.d_threadID == rhs.d_threadID && lhs.d_severity == rhs.d_severity && lhs.d_lineNumber == rhs.d_lineNumber && lhs.d_fileName == rhs.d_fileName && lhs.d_category == rhs.d_category && lhs.messageRef() == rhs.messageRef()))`
+    - `__out != 0`
+- **groups/bal/ball/ball_recordjsonformatter.cpp**
+  - requires:
+    - `FORALL(0, v.size(), i, v[i].value().isString()) || EXISTS(0, v.size(), i, !v[i].value().isString())`
+    - `true`
+    - `v == k_KEY_TIMESTAMP || v == k_KEY_PROCESS_ID || v == k_KEY_THREAD_ID || v == k_KEY_SEVERITY || v == k_KEY_FILE || v == k_KEY_LINE || v == k_KEY_CATEGORY || v == k_KEY_MESSAGE || v == k_KEY_ATTRIBUTES`
+  - ensures:
+    - `(FORALL(0, v.size(), i, v[i].value().isString()) ==> __out == 0) && (EXISTS(0, v.size(), i, !v[i].value().isString()) ==> __out == -1)`
+    - `(format.empty() ==> __out == -1) && (!format.empty() ==> __out == 0 || __out != 0)`
+    - `__out != 0`
+    - `__out ↦ d_key`
+    - `__out ↦ d_name`
+    - `true`
+- **groups/bal/ball/ball_recordstringformatter.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == true ==> (bsl::strcmp(lhs.format(), rhs.format()) == 0 && lhs.timestampOffset() == rhs.timestampOffset())) && (__out == false ==> (bsl::strcmp(lhs.format(), rhs.format()) != 0 || lhs.timestampOffset() != rhs.timestampOffset()))`
+- **groups/bal/ball/ball_rule.cpp**
+  - requires:
+    - `0 < size`
+    - `stream ↦ _ && level >= 0 && spacesPerLevel >= 0`
+    - `true`
+  - ensures:
+    - `(rule.d_hashValue < 0 || rule.d_hashSize != size) ==> (rule.d_hashValue == (ManagedAttributeSet::hash(rule.d_attributeSet, size) + ThresholdAggregate::hash(rule.d_thresholds, size) + bdlb::HashUtil::hash0(rule.d_pattern.c_str(), size)) % size ⋆ rule.d_hashSize == size) && (__out == rule.d_hashValue)`
+    - `__out == *this && (d_pattern ↦ rhs.d_pattern ⋆ d_thresholds ↦ rhs.d_thresholds ⋆ d_attributeSet ↦ rhs.d_attributeSet ⋆ d_hashValue ↦ rhs.d_hashValue ⋆ d_hashSize ↦ rhs.d_hashSize)`
+    - `__out == stream && (__out ↦ _)`
+- **groups/bal/ball/ball_ruleset.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == -1 ==> (d_ruleHashtable.find(value) == d_ruleHashtable.end() || FORALL(0, d_ruleAddresses.size(), i, d_ruleAddresses[i] != &*d_ruleHashtable.find(value)))) && (__out != -1 ==> EXISTS(0, d_ruleAddresses.size(), i, d_ruleAddresses[i] == &*d_ruleHashtable.find(value) && __out == i))`
+    - `(__out == true ==> (lhs.numRules() == rhs.numRules() && FORALL(0, lhs.numRules(), i, rhs.ruleId(*lhs.getRuleById(i)) >= 0))) && (__out == false ==> (lhs.numRules() != rhs.numRules() || EXISTS(0, lhs.numRules(), i, lhs.getRuleById(i) != nullptr && rhs.ruleId(*lhs.getRuleById(i)) < 0)))`
+    - `__out == -1 || __out == -2 || __out >= 0`
+- **groups/bal/ball/ball_scopedattribute.cpp**
+  - requires:
+    - `stream ↦ _`
+  - ensures:
+    - `(__out == stream) && (stream ↦ _)`
+- **groups/bal/ball/ball_severity.cpp**
+  - requires:
+    - `level != NULL && string != NULL`
+  - ensures:
+    - `(__out == 0 ==> (*level == Severity::e_OFF || *level == Severity::e_INFO || *level == Severity::e_WARN || *level == Severity::e_DEBUG || *level == Severity::e_ERROR || *level == Severity::e_FATAL || *level == Severity::e_TRACE)) && (__out == -1 ==> true)`
+- **groups/bal/ball/ball_severityutil.cpp**
+  - requires:
+    - `level != nullptr && name != nullptr`
+  - ensures:
+    - `(__out == BALL_SUCCESS ==> (bdlb::String::areEqualCaseless("OFF", 3, name) || bdlb::String::areEqualCaseless("FATAL", 5, name) || bdlb::String::areEqualCaseless("ERROR", 5, name) || bdlb::String::areEqualCaseless("WARN", 4, name) || bdlb::String::areEqualCaseless("INFO", 4, name) || bdlb::String::areEqualCaseless("DEBUG", 5, name) || bdlb::String::areEqualCaseless("TRACE", 5, name))) && (__out == BALL_FAILURE ==> !(bdlb::String::areEqualCaseless("OFF", 3, name) || bdlb::String::areEqualCaseless("FATAL", 5, name) || bdlb::String::areEqualCaseless("ERROR", 5, name) || bdlb::String::areEqualCaseless("WARN", 4, name) || bdlb::String::areEqualCaseless("INFO", 4, name) || bdlb::String::areEqualCaseless("DEBUG", 5, name) || bdlb::String::areEqualCaseless("TRACE", 5, name)))`
+- **groups/bal/ball/ball_thresholdaggregate.cpp**
+  - requires:
+    - `0 < size`
+    - `true`
+  - ensures:
+    - `__out == &stream`
+    - `__out == (bdlb::HashUtil::hash1((const char*)&value, sizeof(value)) % size)`
+    - `d_recordLevel ↦ rhs.d_recordLevel ⋆ d_passLevel ↦ rhs.d_passLevel ⋆ d_triggerLevel ↦ rhs.d_triggerLevel ⋆ d_triggerAllLevel ↦ rhs.d_triggerAllLevel`
+- **groups/bal/ball/ball_userfields.cpp**
+  - requires:
+    - `stream ↦ _ && !stream.bad()`
+  - ensures:
+    - `__out == stream && !stream.bad() && (stream ↦ _)`
+- **groups/bal/ball/ball_userfieldtype.cpp**
+  - requires:
+    - `stream ↦ _`
+  - ensures:
+    - `__out == stream && (stream ↦ _)`
+- **groups/bal/ball/ball_userfieldvalue.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == ball::UserFieldType::e_VOID || __out == ball::UserFieldType::e_INT64 || __out == ball::UserFieldType::e_DOUBLE || __out == ball::UserFieldType::e_STRING || __out == ball::UserFieldType::e_DATETIMETZ || __out == ball::UserFieldType::e_CHAR_ARRAY)`
+- **groups/bal/balm/balm_bdlmmetricsadapter.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `true`
+- **groups/bal/balm/balm_collectorrepository.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `&__out == &d_collectors`
+- **groups/bal/balm/balm_configurationutil.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == -1 ==> manager == 0) && (__out == 0 ==> manager != 0)`
+- **groups/bal/balm/balm_defaultmetricsmanager.cpp**
+  - requires:
+    - `basicAllocator != 0 && s_singleton_p == 0 && s_allocator_p == 0`
+  - ensures:
+    - `(__out != 0) && (s_allocator_p ↦ bslma::Default::globalAllocator(basicAllocator)) ⋆ (s_singleton_p ↦ __out)`
+- **groups/bal/balm/balm_metricdescription.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream && SEPFORALL(0, strlen(d_category_p->name() + "." + d_name_p), i, stream + i ↦ (d_category_p->name() + "." + d_name_p)[i])`
+- **groups/bal/balm/balm_metricformat.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+    - `__out == stream ⋆ SEPFORALL(0, d_formatSpecs.size(), i, (__out + i ↦ _))`
+- **groups/bal/balm/balm_metricid.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(d_description_p == 0 ==> SEPFORALL(0, sizeof("INVALID_ID"), i, stream + i ↦ "INVALID_ID"[i])) && (d_description_p != 0 ==> SEPFORALL(0, strlen(*d_description_p), i, stream + i ↦ (*d_description_p)[i])) && (__out == stream)`
+- **groups/bal/balm/balm_metricrecord.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == stream) && SEPFORALL(0, sizeof("[ " << d_metricId << ": " << d_count << " " << d_total << " " << d_min << " " << d_max << " ]"), i, stream + i ↦ "[ " << d_metricId << ": " << d_count << " " << d_total << " " << d_min << " " << d_max << " ]"[i])`
+- **groups/bal/balm/balm_metricregistry.cpp**
+  - requires:
+    - `candidatePrefix != NULL && string != NULL`
+    - `true`
+  - ensures:
+    - `(__out != MetricId() ==> ret.second) && (__out == MetricId() ==> !ret.second)`
+    - `(__out == true ==> FORALL(0, strlen(candidatePrefix), i, candidatePrefix[i] == string[i])) && (__out == false ==> EXISTS(0, strlen(candidatePrefix), i, candidatePrefix[i] != string[i]))`
+    - `__out == d_metrics.size()`
+    - `__out.second == true || __out.second == false`
+- **groups/bal/balm/balm_metricsample.cpp**
+  - requires:
+    - `stream ↦ _ && level >= 0 && spacesPerLevel >= 0`
+    - `stream.good() && SEPFORALL(0, end() - begin(), i, (this + i)->print(stream, level + 2, spacesPerLevel) && (this + i)->good())`
+    - `true`
+  - ensures:
+    - `(__out == *this) && ((this != &rhs) ==> (d_records ↦ rhs.d_records ⋆ d_timeStamp ↦ rhs.d_timeStamp ⋆ d_numRecords ↦ rhs.d_numRecords))`
+    - `__out == stream && (__out ↦ _)`
+    - `__out == stream ⋆ SEPFORALL(0, end() - begin(), i, (__out + i ↦ sep_v) && (sep_v == d_timeStamp || sep_v == "[" || sep_v == "]" || sep_v == NL))`
+- **groups/bal/balm/balm_metricsmanager.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == -1 ==> old_publisher == publisher) && (__out == 0 ==> old_publisher == publisher)`
+    - `__out == d_nextHandle - 1`
+- **groups/bal/balm/balm_publicationscheduler.cpp**
+  - requires:
+    - `categories.size() >= 0 && SEPFORALL(categories.begin(), categories.end(), it, (*it)->name() ↦ _)`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (*result ↦ catIt->second)) && (__out == false ==> *result ↦ old_result)`
+    - `__out == &d_mutex`
+    - `__out == stream`
+    - `__out.seconds() == 0 && __out.nanoseconds() == 0`
+- **groups/bal/balst/balst_stacktrace.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream && SEPFORALL(0, length(), i, (d_frames + i)->print(stream, level + 1, spacesPerLevel))`
+- **groups/bal/balst/balst_stacktraceframe.cpp**
+  - requires:
+    - `!stream.bad()`
+    - `stream ↦ _ && !stream.bad()`
+  - ensures:
+    - `__out == stream && (stream ↦ _)`
+    - `__out == stream && (stream.bad() || (stream.good() && (stream << object.address() && stream << object.libraryFileName().c_str() && stream << object.lineNumber() && stream << object.mangledSymbolName().c_str() && stream << object.offsetFromSymbol() && stream << object.sourceFileName().c_str() && stream << object.symbolName().c_str())))`
+- **groups/bal/balst/balst_stacktraceprinter.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == &stream) && (stream << bsl::endl) && (balst::StackTracePrintUtil::printStackTrace(stream, object.d_maxFrames, object.d_demanglingPreferredFlag, object.d_additionalIgnoreFrames + 1) == stream)`
+- **groups/bal/balst/balst_stacktraceprintutil.cpp**
+  - requires:
+    - `(0 <= maxFrames || maxFrames == -1) && (0 <= additionalIgnoreFrames) && (&stream != 0)`
+  - ensures:
+    - `__out == &stream`
+- **groups/bal/balst/balst_stacktracetestallocator.cpp**
+  - requires:
+    - `size >= 0`
+    - `specifiedMaxRecordedFrames >= 0`
+    - `true`
+  - ensures:
+    - `(__out == -1 ==> (k_ALLOCATED_BLOCK_MAGIC != blockHdr->d_magic || this != blockHdr->d_allocator_p || 0 == d_blocks || 0 == blockHdr->d_prevNext_p || 0 == *blockHdr->d_prevNext_p || (blockHdr->d_next_p && k_ALLOCATED_BLOCK_MAGIC != blockHdr->d_next_p->d_magic))) && (__out == 0 ==> (k_ALLOCATED_BLOCK_MAGIC == blockHdr->d_magic && this == blockHdr->d_allocator_p && d_blocks != 0 && blockHdr->d_prevNext_p != 0 && *blockHdr->d_prevNext_p != 0 && (!blockHdr->d_next_p || k_ALLOCATED_BLOCK_MAGIC == blockHdr->d_next_p->d_magic)))`
+    - `(__out >= specifiedMaxRecordedFrames) && (__out % k_PTRS_PER_MAX == 0)`
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ __out ↦ _))`
+    - `__out == d_allocationLimit.loadRelaxed()`
+- **groups/bal/balst/balst_stacktraceutil.cpp**
+  - requires:
+    - `pathName != nullptr && SEPFORALL(0, bsl::strlen(pathName), i, pathName + i ↦ _)`
+    - `true`
+  - ensures:
+    - `(__out >= pathName) && (__out == pathName || (*(__out - 1) == '/' || *(__out - 1) == '\\'))`
+    - `__out == -1`
+- **groups/bal/baltzo/baltzo_datafileloader.cpp**
+  - requires:
+    - `path != nullptr`
+    - `result != nullptr && timeZoneId != nullptr`
+    - `timeZoneId != nullptr ⋆ SEPFORALL(0, strlen(timeZoneId), i, (timeZoneId + i ↦ _))`
+  - ensures:
+    - `(__out == -1 ==> timeZoneId[0] == '/') && (__out == -2 ==> SEPEXISTS(0, strlen(timeZoneId), i, timeZoneId + i ↦ sep_v && !bsl::strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890/_+-", sep_v))) && (__out == 0 ==> SEPFORALL(0, strlen(timeZoneId), i, (timeZoneId + i ↦ sep_v && bsl::strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890/_+-", sep_v))))`
+    - `(__out == true ==> (bdls::FilesystemUtil::isDirectory(path, true) && bdls::FilesystemUtil::isRegularFile((bsl::string(path) + "/GMT").c_str(), true))) && (__out == false ==> !(bdls::FilesystemUtil::isDirectory(path, true) && bdls::FilesystemUtil::isRegularFile((bsl::string(path) + "/GMT").c_str(), true)))`
+    - `__out == u::loadTimeZoneFilePath_Impl(result, timeZoneId, d_rootPath) && (result ↦ _)`
+- **groups/bal/baltzo/baltzo_defaultzoneinfocache.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(u::userSingletonCachePtr != 0 ==> __out == u::userSingletonCachePtr) && (u::userSingletonCachePtr == 0 ==> (u::systemSingletonCachePtr != 0 && __out == u::systemSingletonCachePtr))`
+    - `__out != 0`
+- **groups/bal/baltzo/baltzo_dstpolicy.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream && (__out + level ↦ DstPolicy::toAscii(value)) && (spacesPerLevel >= 0 ==> (__out + level + 1 ↦ 10))`
+- **groups/bal/baltzo/baltzo_localdatetime.cpp**
+  - requires:
+    - `!stream.bad() && (object.datetimeTz() ↦ _ ⋆ object.timeZoneId().c_str() ↦ _)`
+  - ensures:
+    - `(__out == stream) && (stream.bad() || (SEPFORALL(0, object.datetimeTz().size(), i, stream + i ↦ object.datetimeTz()[i]) ⋆ SEPFORALL(0, object.timeZoneId().size(), i, stream + (object.datetimeTz().size() + i) ↦ object.timeZoneId().c_str()[i])))`
+- **groups/bal/baltzo/baltzo_localtimedescriptor.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream && SEPFORALL(0, 3, i, (__out + i ↦ sep_v && (sep_v == object.utcOffsetInSeconds() || sep_v == object.dstInEffectFlag() || sep_v == object.description().c_str())))`
+- **groups/bal/baltzo/baltzo_localtimeoffsetutil.cpp**
+  - requires:
+    - `timezone != NULL`
+  - ensures:
+    - `__out == 0 || __out != 0`
+- **groups/bal/baltzo/baltzo_localtimeperiod.cpp**
+  - requires:
+    - `stream ↦ _ && !stream.bad()`
+  - ensures:
+    - `(__out == stream) && (stream ↦ _)`
+- **groups/bal/baltzo/baltzo_localtimevalidity.cpp**
+  - requires:
+    - `stream ↦ _`
+  - ensures:
+    - `(__out == stream) && (__out ↦ _)`
+- **groups/bal/baltzo/baltzo_timezoneutil.cpp**
+  - requires:
+    - `result != 0`
+  - ensures:
+    - `(result != 0) && (result->datetimeTz().utcDatetime() == (originalTime.datetimeTz().utcDatetime() + bdlt::IntervalConversionUtil::convertToDatetimeInterval(interval))) ⋆ (__out == convertUtcToLocalTime(result, originalTime.timeZoneId().c_str(), utcTime))`
+- **groups/bal/baltzo/baltzo_timezoneutilimp.cpp**
+  - requires:
+    - `result != 0 && resultTimeZoneId != 0 && cache != 0`
+    - `start >= timeZone.beginTransitions() && start < timeZone.endTransitions()`
+    - `timeZone != 0 && timeZoneId != 0 && cache != 0`
+  - ensures:
+    - `(__out != timeZone.endTransitions() ==> __out->descriptor().dstInEffectFlag() == dstFlag) || (__out == timeZone.endTransitions())`
+    - `(__out == 0 ==> (result != 0)) && (__out != 0 ==> true)`
+    - `(__out == 0 ==> (timeZone != 0 && *timeZone != 0)) && (__out != 0 ==> *timeZone == 0)`
+- **groups/bal/baltzo/baltzo_windowstimezoneutil.cpp**
+  - requires:
+    - `result != 0 && windowsTimeZoneId != 0`
+    - `true`
+  - ensures:
+    - `(__out == 0 ==> (*result ↦ ptr->d_value)) && (__out == -1 ==> true)`
+    - `(__out == true ==> bsl::strcmp(a.d_key, b.d_key) < 0) && (__out == false ==> bsl::strcmp(a.d_key, b.d_key) >= 0)`
+- **groups/bal/baltzo/baltzo_zoneinfo.cpp**
+  - requires:
+    - `stream && !stream.bad()`
+    - `stream ↦ _ ⋆ object.identifier() ↦ _ ⋆ object.posixExtendedRangeDescription() ↦ _ ⋆ SEPFORALL(0, object.numTransitions(), i, (object.transitionAt(i) ↦ _))`
+    - `true`
+  - ensures:
+    - `(__out == (lhs.utcOffsetInSeconds() < rhs.utcOffsetInSeconds())) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && __out == (lhs.description() < rhs.description())) || (lhs.utcOffsetInSeconds() == rhs.utcOffsetInSeconds() && lhs.description() == rhs.description() && __out == (lhs.dstInEffectFlag() < rhs.dstInEffectFlag()))`
+    - `(__out == true ==> EXISTS(0, transitions.size(), i, transitions[i].descriptor() == descriptor)) && (__out == false ==> FORALL(0, transitions.size(), i, transitions[i].descriptor() != descriptor))`
+    - `__out == stream && (stream ↦ _)`
+    - `__out == stream && SEPFORALL(0, object.numTransitions(), i, (stream + i ↦ _))`
+- **groups/bal/baltzo/baltzo_zoneinfobinaryreader.cpp**
+  - requires:
+    - `address != nullptr && (address ↦ _ ⋆ (address + 1) ↦ _ ⋆ (address + 2) ↦ _ ⋆ (address + 3) ↦ _)`
+    - `buffer != 0 && 0 <= length && SEPFORALL(0, length, i, (buffer + i ↦ _))`
+    - `result != 0 && stream.good()`
+    - `zoneinfoResult != 0 && stream.good()`
+  - ensures:
+    - `(__out == 0 ==> (result->version() == *rawHeader.d_version ⋆ result->numLocalTimeTypes() == decode32(rawHeader.d_numLocalTimeTypes) ⋆ result->numIsGmt() == decode32(rawHeader.d_numIsGmt) ⋆ result->numIsStd() == decode32(rawHeader.d_numIsStd) ⋆ result->numLeaps() == decode32(rawHeader.d_numLeaps) ⋆ result->numTransitions() == decode32(rawHeader.d_numTransitions) ⋆ result->abbrevDataSize() == decode32(rawHeader.d_abbrevDataSize))) && (__out < 0 ==> true)`
+    - `(__out == true ==> SEPFORALL(0, length, i, (buffer + i ↦ sep_v && bdlb::CharType::isPrint(sep_v)))) && (__out == false ==> SEPEXISTS(0, length, i, (buffer + i ↦ sep_v && !bdlb::CharType::isPrint(sep_v))))`
+    - `__out == BSLS_BYTEORDER_BE_U32_TO_HOST(*reinterpret_cast<const int*>(address))`
+    - `__out == readImpl(zoneinfoResult, &description, k_READ_NORMALIZED, stream)`
+- **groups/bal/baltzo/baltzo_zoneinfocache.cpp**
+  - requires:
+    - `rc != NULL && timeZoneId != NULL`
+    - `timeZoneId != 0`
+  - ensures:
+    - `(__out != 0 ==> *rc == 0) && (__out == 0 ==> *rc != 0)`
+    - `(__out != 0 ==> d_cache.find(timeZoneId) != d_cache.end() && __out == d_cache.find(timeZoneId)->second) && (__out == 0 ==> d_cache.find(timeZoneId) == d_cache.end())`
+- **groups/bal/baltzo/baltzo_zoneinfoutil.cpp**
+  - requires:
+    - `resultTime != NULL && resultTransition != NULL && isWellFormed(timeZone) && EXISTS(0, timeZone.endTransitions(), it, it != timeZone.endTransitions())`
+  - ensures:
+    - `(__out == 0) || (__out == ErrorCode::k_OUT_OF_RANGE)`
+- **groups/bal/balxml/balxml_decoder.cpp**
+  - requires:
+    - `context != 0 && (context ↦ _)`
+    - `true`
+  - ensures:
+    - `(__out == BAEXML_SUCCESS || __out == BAEXML_FAILURE) && (context ↦ _)`
+    - `(__out == ErrorInfo::e_FATAL_ERROR && d_fatalError) || (__out == ErrorInfo::e_ERROR && d_errorCount != 0 && !d_fatalError) || (__out == ErrorInfo::e_WARNING && d_warningCount != 0 && d_errorCount == 0 && !d_fatalError) || (__out == ErrorInfo::e_NO_ERROR && d_errorCount == 0 && d_warningCount == 0 && !d_fatalError)`
+- **groups/bal/balxml/balxml_elementattribute.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(d_prefix || !d_qualifiedName || !d_prefixStack || !bsl::strchr(d_qualifiedName, ':')) ==> __out == d_prefix ⋆ (d_prefixStack && bsl::strchr(d_qualifiedName, ':') ==> __out == d_prefix)`
+- **groups/bal/balxml/balxml_encoder.cpp**
+  - requires:
+    - `options.encodingStyle() == balxml::EncodingStyle::COMPACT || options.encodingStyle() == balxml::EncodingStyle:`
+  - ensures:
+    - `(options.encodingStyle() == balxml::EncodingStyle::COMPACT ==> __out == 0) && (options.encodingStyle() == balxml::EncodingStyle::PRETTY ==> __out == options.initialIndentLevel())`
+- **groups/bal/balxml/balxml_formatter.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out.d_mode == rhs.d_mode`
+- **groups/bal/balxml/balxml_formatter_prettyimpl.cpp**
+  - requires:
+    - `state != 0 && (state->id() == StateId::e_IN_TAG || state->id() == StateId::e_FIRST_DATA_BETWEEN_TAGS || state->id() == StateId::e_TRAILING_DATA_BETWEEN_TAGS)`
+  - ensures:
+    - `(__out == stream) && (state->column() == 0`
+- **groups/bal/balxml/balxml_minireader.cpp**
+  - requires:
+    - `d_scanPtr != nullptr && d_scanPtr <= d_endPtr`
+    - `true`
+    - `val < 0x110000U`
+  - ensures:
+    - `(__out == 0 ==> d_scanPtr == d_endPtr) && (__out != 0 ==> *d_scanPtr ↦ __out)`
+    - `(error >= ErrorInfo::e_ERROR ==> __out == -1) && (error < ErrorInfo::e_ERROR ==> __out == 0)`
+    - `(s != 0 ==> __out == s) && (s == 0 ==> __out == "")`
+    - `(val >= 0x110000U ==> __out == 0) && (val < 0x110000U ==> __out > 0)`
+    - `__out == d_errorInfo`
+    - `__out == static_cast<char>(val)`
+- **groups/bal/balxml/balxml_namespaceregistry.cpp**
+  - requires:
+    - `SEPEXISTS(0, ARRAY_LEN(predefinedNamespaces), i, namespaceUri == predefinedNamespaces[i]) || true`
+  - ensures:
+    - `(__out >= balxml::NamespaceRegistry::e_PREDEF_MIN ==> namespaceUri == predefinedNamespaces[__out - balxml::NamespaceRegistry::e_PREDEF_MIN]) && (__out == -1 ==> true)`
+- **groups/bal/balxml/balxml_prefixstack.cpp**
+  - requires:
+    - `EXISTS(0, ARRAY_LEN(predefinedPrefixes), i, predefinedPrefixes[i].d_prefix == prefix)`
+    - `true`
+  - ensures:
+    - `(SEPEXISTS(0, d_numPrefixes, i, (d_prefixes[i].first == prefix && __out == d_prefixes[i].second))) || (__out == lookupPredefinedPrefix(prefix).d_nsid)`
+    - `(__out.d_prefix == prefix) || (__out == nullPrefix)`
+    - `__out == d_namespaceRegistry->lookupOrRegister(namespaceUri) && (__out == -1 ==> namespaceUri.empty())`
+- **groups/bal/balxml/balxml_typesparserutil.cpp**
+  - requires:
+    - `(inputLength == 1 && (input[0] == '1' || input[0] == '0')) ==> true`
+    - `inputLength > 0 ==> result != 0`
+    - `inputLength >= 0 && SEPFORALL(0, inputLength, i, input + i ↦ _) && (input + inputLength ↦ 0) && result != 0`
+    - `inputLength >= 0 && result != NULL`
+    - `result != 0 && input != 0 && input[bsl::strlen(input)] == '\0'`
+  - ensures:
+    - `(__out == BAEXML_SUCCESS ==> (result != 0 && (result ↦ _))) && (__out == BAEXML_FAILURE ==> true)`
+    - `(__out == BAEXML_SUCCESS ==> (result != 0)) && (__out == BAEXML_FAILURE ==> true)`
+    - `(__out == BAEXML_SUCCESS ==> consumed == inputLength) && (__out == BAEXML_FAILURE ==> consumed != inputLength || inputLength == 0)`
+    - `(__out == BAEXML_SUCCESS) && (__out == BAEXML_FAILURE ==> true)`
+    - `(inputLength == 1 && (input[0] == '1' || input[0] == '0')) ==> __out == BAEXML_SUCCESS && *result == (input[0] == '1')`
+- **groups/bal/balxml/balxml_typesprintutil.cpp**
+  - requires:
+    - `SEPFORALL(0, dataLength, i, (data + i ↦ sep_v) && (sep_v >= 0 && sep_v <= 255)) && (options == nullptr || (options != nullptr && EXISTS(options, options->allowControlCharacters())))`
+    - `true`
+  - ensures:
+    - `(__out == 0) ==> (!stream.fail()) && (__out != 0) ==> (stream.fail() && __out >= data && __out <= data + dataLength)`
+    - `__out == stream`
+- **groups/bal/balxml/balxml_utf8readerwrapper.cpp**
+  - requires:
+    - `true`
+    - `url != 0 && encoding != 0`
+  - ensures:
+    - `(__out == 0) || (__out != 0)`
+    - `(str != 0 ==> __out == str) && (str == 0 ==> __out == "")`
+    - `__out == d_errorInfo.source().get_allocator().mechanism()`
+- **groups/bal/balxml/balxml_util.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == u::extractNamespaceFromXsd_Impl(xsdSource, targetNamespace)`
+- **groups/bbl/bblb/bblb_schedulegenerationutil.cpp**
+  - requires:
+    - `PRE(1 <= year && year <= 9999 && 1 <= month && month <= 12 &&
+    (dayOfFeb == 0 || month != 2 || (1 <= dayOfFeb && dayOfFeb <= bdlt::SerialDateImpUtil::lastDayOfMonth(year, month))) &&
+    (1 <= day && day <= bdlt::SerialDateImpUtil::lastDayOfMonth(year, month)))`
+    - `denominator > 0`
+  - ensures:
+    - `((numerator > 0 && numerator % denominator != 0) ==> __out == (numerator / denominator + 1)) && ((numerator <= 0 || numerator % denominator == 0) ==> __out == (numerator / denominator))`
+    - `(__out == e_VALID_RANGE ==> ((*startSerialMonth ↦ exampleSerialMonth + u::rationalCeiling(earliestSerialMonth - exampleSerialMonth, intervalInMonths) * intervalInMonths) ⋆ (*endSerialMonth ↦ exampleSerialMonth + u::rationalFloor(latestSerialMonth - exampleSerialMonth, intervalInMonths) * intervalInMonths))) && (__out == e_OUT_OF_RANGE ==> (*startSerialMonth ↦ old_startSerialMonth ⋆ *endSerialMonth ↦ old_endSerialMonth))`
+    - `(numerator < 0 && numerator % denominator != 0) ? (__out == numerator/denominator - 1) : (__out == numerator/denominator)`
+    - `__out.year() == year && __out.month() == month && __out.day() == bsl::min(bdlt::SerialDateImpUtil::lastDayOfMonth(year, month), (dayOfFeb == 0 || month != 2) ? day : dayOfFeb)`
+- **groups/bbl/bbldc/bbldc_basicactual360.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (endDate - beginDate) / 360.0`
+- **groups/bbl/bbldc/bbldc_basicactual36525.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (endDate - beginDate) / 365.25`
+- **groups/bbl/bbldc/bbldc_basicactual365fixed.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (endDate - beginDate) / 365.0`
+- **groups/bbl/bbldc/bbldc_basicdaycountutil.cpp**
+  - requires:
+    - ````cpp
+PRE(convention == DayCountConvention::e_ACTUAL_360 ||
+    convention == DayCountConvention::e_ACTUAL_365_25 ||
+    convention == DayCountConvention::e_ACTUAL_365_FIXED ||
+    convention == DayCountConvention::e_ISDA_1_1 ||
+    convention == DayCountConvention::e_ISDA_30_360_EOM ||
+    convention == DayCountConvention::e_ISDA_ACTUAL_ACTUAL ||
+    convention == DayCountConvention::e_ISMA_30_360 ||
+    convention == DayCountConvention::e_NL_365 ||
+    convention == DayCountConvention::e_PSA_30_360_EOM ||
+    convention == DayCountConvention::e_SIA_30_360_EOM ||
+    convention == DayCountConvention::e_SIA_30_360_NEOM)
+````
+  - ensures:
+    - `true`
+- **groups/bbl/bbldc/bbldc_basicisdaactualactual.cpp**
+  - requires:
+    - `beginDate <= endDate`
+  - ensures:
+    - `__out == (yDiff * daysInBeginYear * daysInEndYear + beginYearDayDiff * daysInEndYear + endYearDayDiff * daysInBeginYear) / static_cast<double>(daysInBeginYear * daysInEndYear)`
+- **groups/bbl/bbldc/bbldc_basicisma30360.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == ((yEnd - yBegin) * 360 + (mEnd - mBegin) * 30 + (dEnd == 31 ? 30 : dEnd) - (dBegin == 31 ? 30 : dBegin))`
+    - `__out == computeDaysDiff(beginDate, endDate)`
+- **groups/bbl/bbldc/bbldc_basicnl365.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == ((y2 - y1) * 365 + (m2 - m1) * 31 - (s_daysInMonthCorrection[m2] - s_daysInMonthCorrection[m1]) + d2 - d1)`
+- **groups/bbl/bbldc/bbldc_basicpsa30360eom.cpp**
+  - requires:
+    - `bdlt::Date::isValidYearMonthDay(year, month, day)`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year))))) && (__out == false ==> !(month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year)))))`
+    - `(beginDate <= endDate ==> __out >= 0) && (beginDate > endDate ==> __out <= 0)`
+    - `(lhs > rhs ==> __out == lhs) && (lhs <= rhs ==> __out == rhs)`
+    - `__out == computeDaysDiff(beginDate, endDate)`
+- **groups/bbl/bbldc/bbldc_basicsia30360eom.cpp**
+  - requires:
+    - `bdlt::Date::isValidYearMonthDay(year, month, day)`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year))))) && (__out == false ==> !(month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year)))))`
+    - `(beginDate > endDate ==> __out <= 0) && (beginDate < endDate ==> __out >= 0) && (beginDate == endDate ==> __out == 0)`
+    - `__out == computeDaysDiff(beginDate, endDate)`
+- **groups/bbl/bbldc/bbldc_basicsia30360neom.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == ((beginDate > endDate ? -1 : 1) * (((y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1))))`
+    - `__out == computeDaysDiff(beginDate, endDate)`
+- **groups/bbl/bbldc/bbldc_calendardaycountutil.cpp**
+  - requires:
+    - `calendar.isInRange(beginDate) && calendar.isInRange(endDate)`
+  - ensures:
+    - `(convention == DayCountConvention::e_CALENDAR_BUS_252 ==> __out == bbldc::CalendarBus252::daysDiff(beginDate, endDate, calendar)) && (convention != DayCountConvention::e_CALENDAR_BUS_252 ==> __out == 0)`
+- **groups/bbl/bbldc/bbldc_daycountconvention.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == stream) && SEPFORALL(0, sizeof(toAscii(value)), i, stream + i ↦ toAscii(value)[i])`
+- **groups/bbl/bbldc/bbldc_perioddaycountutil.cpp**
+  - requires:
+    - `2 <= (periodDateEnd - periodDateBegin) && *periodDateBegin <= beginDate && beginDate <= *(periodDateEnd - 1) && *periodDateBegin <= endDate && endDate <= *(periodDateEnd - 1) && FORALL(periodDateBegin, periodDateEnd, i, *(i) <= *(i + 1))`
+    - `true`
+  - ensures:
+    - `(convention == DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == bbldc::PeriodIcmaActualActual::daysDiff(beginDate, endDate)) && (convention != DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == 0)`
+    - `(convention == DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == bbldc::PeriodIcmaActualActual::yearsDiff(beginDate, endDate, periodDateBegin, periodDateEnd, periodYearDiff)) && (convention != DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == 0.0)`
+- **groups/bbl/bbldc/bbldc_periodicmaactualactual.cpp**
+  - requires: _none_
+  - ensures:
+    - `(beginDate == endDate ==> __out == 0.0) && (beginDate != endDate ==> __out != 0.0)`
+- **groups/bbl/bbldc/bbldc_terminateddaycountutil.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(convention == DayCountConvention::e_ISDA_30_360_EOM ==> __out == bbldc::TerminatedIsda30360Eom::daysDiff(beginDate, endDate, terminationDate)) && (convention != DayCountConvention::e_ISDA_30_360_EOM ==> __out == 0)`
+- **groups/bbl/bbldc/bbldc_terminatedisda30360eom.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == ((beginDate <= endDate ? 1 : -1) * (((y2 - y1) * 360 + (m2 - m1) * 30 + d2) - d1))`
+- **groups/bdl/bdlat/bdlat_attributeinfo.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdlat/bdlat_enumeratorinfo.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdlat/bdlat_selectioninfo.cpp**
+  - requires:
+    - `stream.good() && (selectionInfo.nameLength() == 0 || selectionInfo.name() != 0) && (selectionInfo.annotation() == 0 || selectionInfo.annotation() != 0)`
+  - ensures:
+    - `__out == stream && (__out << "( " << selectionInfo.formattingMode() << ", " << selectionInfo.id() << ", " && (selectionInfo.nameLength() ? __out.write(selectionInfo.name(), selectionInfo.nameLength()) : __out << "<null-name>") && __out << ", " << selectionInfo.nameLength() << ", " && (selectionInfo.annotation() ? __out << selectionInfo.annotation() : __out << "<null-annotation>") && __out << " )")`
+- **groups/bdl/bdlb/bdlb_bigendian.cpp**
+  - requires:
+    - `!stream.bad()`
+    - `!stream.bad() && (level > 0 ==> SEPFORALL(0, level * spacesPerLevel, i, (stream + i ↦ _))) && (spacesPerLevel >= 0 ==> (stream + (level * spacesPerLevel) ↦ 10))`
+    - `!stream.bad() && (level >= 0) && (spacesPerLevel >= 0)`
+    - `!stream.bad() && level >= 0 && spacesPerLevel >= 0`
+    - `stream.bad() == false && (level >= 0) && (spacesPerLevel >= 0)`
+  - ensures:
+    - `(__out == stream) && (!stream.bad()) && (level > 0 ==> SEPFORALL(0, level * spacesPerLevel, i, (stream + i ↦ _))) && (spacesPerLevel >= 0 ==> (stream + (level * spacesPerLevel) ↦ 10))`
+    - `(__out == stream) && (!stream.bad()) && (stream ↦ _)`
+    - `(__out == stream) && (stream.bad() == false) && (SEPFORALL(0, sizeof(d_value), i, stream + i ↦ BSLS_BYTEORDER_NTOHL(d_value)[i]))`
+    - `__out == stream && !__out.bad()`
+    - `__out == stream && (stream ↦ _)`
+- **groups/bdl/bdlb/bdlb_bitstringutil.cpp**
+  - requires:
+    - `(0 <= numBits) && (numBits < 64)`
+    - `0 <= numBits && numBits < 64`
+    - `level >= 0`
+    - `numBits + pos1 <= 64 && numBits + pos2 <= 64`
+    - `true`
+  - ensures:
+    - `(__out == (~0ULL << numBits)) && (0 <= numBits) && (numBits < 64)`
+    - `(__out == stream) && (spacesPerLevel >= 0) && SEPFORALL(0, level * spacesPerLevel, i, stream + i ↦ ' ')`
+    - `(__out == true ==> (((word1 >> pos1) ^ (word2 >> pos2)) & BitMaskUtil::lt64(numBits)) != 0) && (__out == false ==> (((word1 >> pos1) ^ (word2 >> pos2)) & BitMaskUtil::lt64(numBits)) == 0)`
+    - `(__out == true ==> (lhs.d_hi > rhs.d_hi || (lhs.d_hi == rhs.d_hi && lhs.d_lo > rhs.d_lo))) && (__out == false ==> !(lhs.d_hi > rhs.d_hi || (lhs.d_hi == rhs.d_hi && lhs.d_lo > rhs.d_lo)))`
+    - `(__out.d_hi == (lhs.d_hi - rhs.d_hi - (__out.d_lo < (lhs.d_lo - rhs.d_lo)))) && (__out.d_lo == ((lhs.d_lo - rhs.d_lo) & ~k_UNUSED_LO_MASK))`
+    - `(__out.d_hi == (~old_d_hi + (__out.d_lo < old_d_lo))) ⋆ (__out.d_lo == (k_USED_LO_MASK & ~old_d_lo) + 1 - (k_BITS_PER_UINT64 * (__out.d_lo < old_d_lo)))`
+    - `(spacesPerLevel < 0 ==> (__out == stream && SEPFORALL(0, 1, i, &stream + i ↦ 32))) && (spacesPerLevel >= 0 ==> (__out == stream && SEPFORALL(0, 1, i, &stream + i ↦ 10) ⋆ SEPFORALL(1, level * spacesPerLevel + 1, i, &stream + i ↦ 32)))`
+    - `__out == ((1ULL << numBits) - 1)`
+    - `__out == static_cast<unsigned int>(value)`
+- **groups/bdl/bdlb/bdlb_caselessstringviewhash.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `true`
+- **groups/bdl/bdlb/bdlb_doublecompareutil.cpp**
+  - requires:
+    - `(a == a) && (b == b) && (relTol >= 0) && (absTol >= 0)`
+    - `true`
+  - ensures:
+    - `(a != a || b != b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_NON_COMPARABLE && (a == b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_EQUAL && (a == -b) ==> ((fabsval(a - b) <= absTol) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_EQUAL && (a < b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_LESS_THAN && (a > b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_GREATER_THAN) && (a != -b) ==> ((fabsval(a - b) <= absTol || fabsval(a - b) / fabsval((a + b) / 2.0) <= relTol) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_EQUAL && (a < b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_LESS_THAN && (a > b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_GREATER_THAN)`
+    - `(input >= 0.0 ==> __out == input) && (input < 0.0 ==> __out == -input)`
+- **groups/bdl/bdlb/bdlb_float.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(numberExp == 0 && (number & floatManMask) != 0 ==> __out == bdlb::Float::k_SUBNORMAL) && (numberExp == 0 && (number & floatManMask) == 0 ==> __out == bdlb::Float::k_ZERO) && (numberExp == floatExpMask && (number & floatManMask) != 0 ==> __out == bdlb::Float::k_NAN) && (numberExp == floatExpMask && (number & floatManMask) == 0 ==> __out == bdlb::Float::k_INFINITE) && (numberExp != 0 && numberExp != floatExpMask ==> __out == bdlb::Float::k_NORMAL)`
+    - `__out == *reinterpret_cast<FloatRep_t*>(&number)`
+    - `__out == *reinterpret_cast<unsigned long long*>(&number)`
+    - `__out == bdlb::Float::k_ZERO || __out == bdlb::Float::k_SUBNORMAL || __out == bdlb::Float::k_NAN || __out == bdlb::Float::k_INFINITE || __out == bdlb::Float::k_NORMAL`
+- **groups/bdl/bdlb/bdlb_guid.cpp**
+  - requires:
+    - `true`
+    - `x >= 0 && x <= 15`
+  - ensures:
+    - `__out == "0123456789abcdef"[x]`
+    - `__out == (bsl::memcmp(&lhs[0], &rhs[0], bdlb::Guid::k_GUID_NUM_BYTES) < 0)`
+- **groups/bdl/bdlb/bdlb_guidutil.cpp**
+  - requires:
+    - `hex != 0 && (c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F')`
+    - `true`
+  - ensures:
+    - `(__out == 0 && ((c >= '0' && c <= '9' && (hex ↦ c - '0')) || (c >= 'a' && c <= 'f' && (hex ↦ c - 'a' + 10)) || (c >= 'A' && c <= 'F' && (hex ↦ c - 'A' + 10)))) || (__out == -1 && (hex ↦ old_hex))`
+    - `true`
+- **groups/bdl/bdlb/bdlb_hashutil.cpp**
+  - requires:
+    - `(length >= 0) && (length == 0 || data != NULL)`
+  - ensures:
+    - `__out >= 0`
+- **groups/bdl/bdlb/bdlb_numericparseutil.cpp**
+  - requires:
+    - `!positiveNum.empty()`
+    - `(2 <= base && base <= 36) && (('0' <= character && character <= '9') || ('a' <= character && character <= 'z') || ('A' <= character && character <= 'Z') ==> (0 <= res_tmp && res_tmp < base)) && !(('0' <= character && character <= '9') || ('a' <= character && character <= 'z') || ('A' <= character && character <= 'Z')) ==> res_tmp == -1`
+    - `stdlibInput.size() >= 2`
+    - `true`
+  - ensures:
+    - `(('0' <= character && character <= '9') || ('a' <= character && character <= 'z') || ('A' <= character && character <= 'Z')) ==> (0 <= __out && __out < base) && !(('0' <= character && character <= '9') || ('a' <= character && character <= 'z') || ('A' <= character && character <= 'Z')) ==> __out == -1`
+    - `(__out == true ==> (stdlibInput.substr(0, 2) == "0x" || stdlibInput.substr(0, 2) == "0X")) && (__out == false ==> (stdlibInput.substr(0, 2) != "0x" && stdlibInput.substr(0, 2) != "0X"))`
+    - `(__out == true ==> bsl::isinf(number)) && (__out == false ==> !bsl::isinf(number))`
+    - `(positiveNum[0] == '+' ==> __out == positiveNum.substr(1)) && (positiveNum[0] != '+' ==> __out == positiveNum)`
+- **groups/bdl/bdlb/bdlb_print.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdlb/bdlb_randomdevice.cpp**
+  - requires:
+    - `(numBytes == 0) || (buffer != 0 && SEPFORALL(0, numBytes, i, (buffer + i ↦ _)))`
+  - ensures:
+    - `(numBytes == 0 ==> __out == 0) && (numBytes > 0 ==> SEPFORALL(0, numBytes, i, (buffer + i ↦ _)))`
+- **groups/bdl/bdlb/bdlb_string.cpp**
+  - requires:
+    - `lhsString != nullptr && rhsString != nullptr && SEPFORALL(0, strlen(lhsString), i, (lhsString + i ↦ _)) && SEPFORALL(0, strlen(rhsString), i, (rhsString + i ↦ _))`
+  - ensures:
+    - `(__out == true ==> SEPFORALL(0, strlen(lhsString), i, (bdlb::CharType::toLower(lhsString[i]) == bdlb::CharType::toLower(rhsString[i])))) && (__out == false ==> SEPEXISTS(0, strlen(lhsString), i, (bdlb::CharType::toLower(lhsString[i]) != bdlb::CharType::toLower(rhsString[i]))) || strlen(lhsString) != strlen(rhsString))`
+- **groups/bdl/bdlb/bdlb_stringrefutil.cpp**
+  - requires:
+    - `(ch == 32) || (ch >= 9 && ch <= 13) || (ch < 9 || ch > 13)`
+    - `true`
+  - ensures:
+    - `(('A' <= ch && ch <= 'Z') ==> __out == (ch | 0x20)) && (!(('A' <= ch && ch <= 'Z')) ==> __out == ch)`
+    - `(('a' <= ch && ch <= 'z') ==> __out == (ch & ~0x20)) && (!(('a' <= ch && ch <= 'z')) ==> __out == ch)`
+    - `(__out == true ==> (ch == 32 || (ch >= 9 && ch <= 13))) && (__out == false ==> (ch != 32 && (ch < 9 || ch > 13)))`
+- **groups/bdl/bdlb/bdlb_stringviewutil.cpp**
+  - requires:
+    - `(ch == 32) || (ch >= 9 && ch <= 13) || (ch < 9 || ch > 13)`
+  - ensures:
+    - `(__out == true ==> (ch == 32 || (ch >= 9 && ch <= 13))) && (__out == false ==> (ch != 32 && (ch < 9 || ch > 13)))`
+- **groups/bdl/bdlb/bdlb_tokenizer.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `&__out == this`
+    - `(__out == true ==> SEPEXISTS(0, d_token_p - d_prevDelim_p, i, (d_prevDelim_p + i) ↦ sep_v && d_sharedData.inputType(sep_v) == SFT)) && (__out == false ==> SEPFORALL(0, d_token_p - d_prevDelim_p, i, (d_prevDelim_p + i) ↦ sep_v && d_sharedData.inputType(sep_v) != SFT))`
+    - `(this != &rhs ==> (d_sharedData_p == rhs.d_sharedData_p ⋆ d_cursor_p == rhs.d_cursor_p ⋆ d_token_p == rhs.d_token_p ⋆ d_postDelim_p == rhs.d_postDelim_p ⋆ d_end_p == rhs.d_end_p ⋆ d_endFlag == rhs.d_endFlag)) && (__out == *this)`
+- **groups/bdl/bdlbb/bdlbb_blob.cpp**
+  - requires:
+    - `rhs.d_buffer ↦ _ ⋆ rhs.d_size ↦ _`
+    - `stream ↦ _`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.d_buffers == rhs.d_buffers && lhs.d_totalSize == rhs.d_totalSize && lhs.d_dataLength == rhs.d_dataLength && lhs.d_dataIndex == rhs.d_dataIndex && lhs.d_preDataIndexLength == rhs.d_preDataIndexLength)) && (__out == false ==> !(lhs.d_buffers == rhs.d_buffers && lhs.d_totalSize == rhs.d_totalSize && lhs.d_dataLength == rhs.d_dataLength && lhs.d_dataIndex == rhs.d_dataIndex && lhs.d_preDataIndexLength == rhs.d_preDataIndexLength))`
+    - `(this->d_buffer ↦ rhs.d_buffer) ⋆ (this->d_size ↦ rhs.d_size)`
+    - `__out == 0`
+    - `__out == buffer.print(stream, 0, -1)`
+    - `__out == stream && (__out ↦ _)`
+- **groups/bdl/bdlbb/bdlbb_blobstreambuf.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(c == EOF ==> __out == traits_type::not_eof(c)) && (c != EOF ==> __out == c)`
+    - `__out == 0`
+    - `__out == traits_type::eof()`
+- **groups/bdl/bdlbb/bdlbb_blobutil.cpp**
+  - requires:
+    - `0 <= bufferIndex && bufferIndex < source.numDataBuffers() && 0 <= numBytes && numBytes <= source.totalSize() - source.cumulativeSize(bufferIndex)`
+  - ensures:
+    - `__out == stream && SEPFORALL(0, numBytes, i, __out + i ↦ source.buffer(bufferIndex + i / source.buffer(bufferIndex).size()).data()[i % source.buffer(bufferIndex).size()])`
+- **groups/bdl/bdlbb/bdlbb_simpleblobbufferfactory.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == d_size`
+- **groups/bdl/bdlc/bdlc_bitarray.cpp**
+  - requires:
+    - `0 <= numBits && numBits < BitArray::k_BITS_PER_UINT64`
+  - ensures:
+    - `__out == ((static_cast<uint64_t>(1) << numBits) - 1)`
+- **groups/bdl/bdlc/bdlc_hashtable.cpp**
+  - requires:
+    - `hint != 0`
+  - ensures:
+    - `__out == *bsl::lower_bound(PRIME_NUMBERS, PRIME_NUMBERS + NUM_PRIME_NUMBERS, abs(hint)) || (bsl::lower_bound(PRIME_NUMBERS, PRIME_NUMBERS + NUM_PRIME_NUMBERS, abs(hint)) == PRIME_NUMBERS + NUM_PRIME_NUMBERS && __out == *(PRIME_NUMBERS + NUM_PRIME_NUMBERS - 1)) || (bsl::lower_bound(PRIME_NUMBERS, PRIME_NUMBERS + NUM_PRIME_NUMBERS, abs(hint)) != PRIME_NUMBERS && *bsl::lower_bound(PRIME_NUMBERS, PRIME_NUMBERS + NUM_PRIME_NUMBERS, abs(hint)) != abs(hint) && __out == *(bsl::lower_bound(PRIME_NUMBERS, PRIME_NUMBERS + NUM_PRIME_NUMBERS, abs(hint)) - 1))`
+- **groups/bdl/bdlc/bdlc_indexclerk.cpp**
+  - requires:
+    - `(unsigned int)index < (unsigned int)d_nextNewIndex`
+    - `FORALL(0, unusedStack.size(), i, (unusedStack[i] < nextNewIndex) && (FORALL(i + 1, unusedStack.size(), j, unusedStack[i] != unusedStack[j])))`
+  - ensures:
+    - `(__out == false ==> EXISTS(0, d_unusedStack.size(), i, d_unusedStack[i] == index)) && (__out == true ==> FORALL(0, d_unusedStack.size(), i, d_unusedStack[i] != index))`
+    - `(__out == true) == (!(indicesInvalid || (indicesNotUnique & 0x2)))`
+- **groups/bdl/bdlcc/bdlcc_fixedqueueindexmanager.cpp**
+  - requires:
+    - `d_capacity >= 0 && d_pushIndex <= d_maxCombinedIndex && d_popIndex <= d_maxCombinedIndex`
+    - `generation != NULL && index != NULL`
+    - `true`
+  - ensures:
+    - `(__out == e_SUCCESS) || (__out == e_QUEUE_FULL) || (__out == e_DISABLED_QUEUE)`
+    - `(__out >= 0) && (__out <= d_capacity)`
+    - `__out == ((encodedPushIndex & k_DISABLED_STATE_MASK) != 0)`
+    - `__out == ((generation << k_GENERATION_COUNT_SHIFT) | indexState)`
+    - `__out == (encodedPushIndex & ~k_DISABLED_STATE_MASK)`
+    - `__out == (encodedState >> k_GENERATION_COUNT_SHIFT)`
+    - `__out == ElementState(encodedState & k_ELEMENT_STATE_MASK)`
+- **groups/bdl/bdld/bdld_datum.cpp**
+  - requires:
+    - `stream.good()`
+    - `stream.good() && (stream ↦ _)`
+    - `true`
+  - ensures:
+    - `(__out != 0) ==> (__out ↦ _)`
+    - `(__out == stream) && (__out ↦ _)`
+    - `(stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == stream && (__out ↦ _)))`
+    - `__out == stream && (stream ↦ _)`
+    - `true`
+- **groups/bdl/bdld/bdld_datumarraybuilder.cpp**
+  - requires:
+    - `capacity >= 0 && length >= 0`
+  - ensures:
+    - `(capacity == 0 ==> __out == 1) && (capacity != 0 ==> EXISTS(0, 31, k, __out == capacity * (1 << k) && __out >= length)) && __out >= length`
+- **groups/bdl/bdld/bdld_datumbinaryref.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == (stream << bsl::flush) ⋆ d_data_p ↦ _ ⋆ d_size ↦ _))`
+- **groups/bdl/bdld/bdld_datumerror.cpp**
+  - requires:
+    - `stream != nullptr && !stream->bad()`
+  - ensures:
+    - `(__out == stream) && (stream != nullptr)`
+- **groups/bdl/bdld/bdld_datumintmapbuilder.cpp**
+  - requires:
+    - `size < bsl::numeric_limits<DatumIntMapBuilder::SizeType>::max() / 2`
+    - `true`
+  - ensures:
+    - `(__out == true ==> lhs.key() < rhs.key()) && (__out == false ==> lhs.key() >= rhs.key())`
+    - `__out >= size && (capacity == 0 ? __out == 1 : __out >= capacity && __out % capacity == 0)`
+- **groups/bdl/bdld/bdld_datummaker.cpp**
+  - requires:
+    - `size >= 0 && EXISTS(0, size, i, elements[i] != nullptr)`
+  - ensures:
+    - `true`
+- **groups/bdl/bdld/bdld_datummapbuilder.cpp**
+  - requires:
+    - `size < bsl::numeric_limits<DatumMapBuilder::SizeType>::max() / 2`
+    - `true`
+  - ensures:
+    - `(__out == true ==> lhs.key() < rhs.key()) && (__out == false ==> lhs.key() >= rhs.key())`
+    - `__out >= size && (capacity == 0 ? __out == 1 : __out >= capacity && __out % capacity == 0)`
+- **groups/bdl/bdld/bdld_datummapowningkeysbuilder.cpp**
+  - requires:
+    - `size >= 0`
+    - `true`
+  - ensures:
+    - `(__out == true ==> lhs.key() < rhs.key()) && (__out == false ==> lhs.key() >= rhs.key())`
+    - `__out >= size && (capacity == 0 ==> __out == 1) && (capacity != 0 ==> EXISTS(0, 31, k, __out == capacity * (1 << k)))`
+- **groups/bdl/bdld/bdld_datumudt.cpp**
+  - requires:
+    - `stream ↦ _ && !stream.bad()`
+  - ensures:
+    - `(__out == stream) && (stream ↦ _)`
+- **groups/bdl/bdlde/bdlde_base64alphabet.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == stream && (stream ↦ sep_v ⋆ sep_v == Base64Alphabet::toAscii(value))))`
+    - `__out == stream`
+- **groups/bdl/bdlde/bdlde_base64decoderoptions.cpp**
+  - requires:
+    - `stream ↦ _ && level >= 0 && spacesPerLevel >= 0`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.ignoreMode() == rhs.ignoreMode() && lhs.alphabet() == rhs.alphabet() && lhs.isPadded() == rhs.isPadded())) && (__out == false ==> !(lhs.ignoreMode() == rhs.ignoreMode() && lhs.alphabet() == rhs.alphabet() && lhs.isPadded() == rhs.isPadded()))`
+    - `__out == stream && (__out ↦ _)`
+- **groups/bdl/bdlde/bdlde_base64encoderoptions.cpp**
+  - requires:
+    - `stream ↦ _ && level >= 0 && spacesPerLevel >= 0`
+    - `true`
+  - ensures:
+    - `(__out == true) ==> (lhs.alphabet() == rhs.alphabet() && lhs.maxLineLength() == rhs.maxLineLength() && lhs.isPadded() == rhs.isPadded()) && (__out == false) ==> !(lhs.alphabet() == rhs.alphabet() && lhs.maxLineLength() == rhs.maxLineLength() && lhs.isPadded() == rhs.isPadded())`
+    - `__out == stream && (__out ↦ _)`
+- **groups/bdl/bdlde/bdlde_base64ignoremode.cpp**
+  - requires:
+    - `stream ↦ _ && !stream.bad()`
+    - `true`
+  - ensures:
+    - `__out == stream`
+    - `__out == stream && (stream ↦ _)`
+- **groups/bdl/bdlde/bdlde_byteorder.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(stream.bad() ==> __out == stream) && (!stream.bad() ==> __out == stream && SEPFORALL(0, ByteOrder::toAscii(value).size(), i, (stream + i ↦ ByteOrder::toAscii(value)[i])))`
+- **groups/bdl/bdlde/bdlde_charconvertstatus.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(stream.bad() ==> __out.bad()) && (__out == stream)`
+- **groups/bdl/bdlde/bdlde_charconvertutf32.cpp**
+  - requires:
+    - `SEPFORALL(0, 3, i, octBuf + i ↦ _)`
+    - `SEPFORALL(0, 4, i, octBuf + i ↦ _)`
+    - `SEPFORALL(0, n, i, (octBuf + i ↦ sep_v))`
+    - `octBuf ↦ _ ⋆ (octBuf + 1) ↦ _`
+    - `position != nullptr`
+    - `position <= d_end`
+    - `true`
+  - ensures:
+    - `(__out == 0 ==> !isContinuation(octBuf[0])) && (__out > 0 ==> (SEPFORALL(0, __out, i, (octBuf + i ↦ sep_v) && isContinuation(sep_v)) && (__out == n || !isContinuation(octBuf[__out]))))`
+    - `(__out == false ==> position < d_end) && (__out == true ==> d_end == position)`
+    - `(__out == false ==> position < d_end_p) && (__out == true ==> position >= d_end_p)`
+    - `(__out == true ==> ((oct & k_FOUR_OCTET_MASK) == k_FOUR_OCTET_TAG)) && (__out == false ==> ((oct & k_FOUR_OCTET_MASK) != k_FOUR_OCTET_TAG))`
+    - `(__out == true ==> (*position ↦ 0)) && (__out == false ==> (*position ↦ sep_v && sep_v != 0))`
+    - `(__out == true ==> (oct & k_CONTINUE_MASK) == k_CONTINUE_TAG) && (__out == false ==> (oct & k_CONTINUE_MASK) != k_CONTINUE_TAG)`
+    - `(__out == true ==> (oct & k_THREE_OCTET_MASK) == k_THREE_OCTET_TAG) && (__out == false ==> (oct & k_THREE_OCTET_MASK) != k_THREE_OCTET_TAG)`
+    - `(__out == true ==> (oct & k_TWO_OCTET_MASK) == k_TWO_OCTET_TAG) && (__out == false ==> (oct & k_TWO_OCTET_MASK) != k_TWO_OCTET_TAG)`
+    - `(__out == true ==> (uc >= 0xd800 && uc < 0xe000)) && (__out == false ==> !(uc >= 0xd800 && uc < 0xe000))`
+    - `(__out == true ==> d_capacity < rhs) && (__out == false ==> d_capacity >= rhs)`
+    - `(__out == true ==> d_capacity >= rhs) && (__out == false ==> d_capacity < rhs)`
+    - `(__out == true ==> uc > 0x10ffff) && (__out == false ==> uc <= 0x10ffff)`
+    - `__out == (!(oct & k_ONE_OCTET_MASK))`
+    - `__out == ((octBuf[1] & ~k_CONTINUE_MASK) | ((octBuf[0] & ~k_TWO_OCTET_MASK) << k_CONTINUE_CONT_WID))`
+    - `__out == ((octBuf[2] & ~k_CONTINUE_MASK) | ((octBuf[1] & ~k_CONTINUE_MASK) << k_CONTINUE_CONT_WID) | ((octBuf[0] & ~k_THREE_OCTET_MASK) << 2 * k_CONTINUE_CONT_WID))`
+    - `__out == ((octBuf[3] & ~k_CONTINUE_MASK) | ((octBuf[2] & ~k_CONTINUE_MASK) << k_CONTINUE_CONT_WID) | ((octBuf[1] & ~k_CONTINUE_MASK) << 2 * k_CONTINUE_CONT_WID) | ((octBuf[0] & ~k_FOUR_OCTET_MASK) << 3 * k_CONTINUE_CONT_WID))`
+    - `__out == ((uc & (~ (unsigned int) 0 << (k_FOUR_OCT_CONT_WID + 3 * k_CONTINUE_CONT_WID))) == 0)`
+    - `__out == ((uc & (~ (unsigned int) 0 << (k_THREE_OCT_CONT_WID + 2 * k_CONTINUE_CONT_WID))) == 0)`
+    - `__out == ((uc & (~ (unsigned int) 0 << (k_TWO_OCT_CONT_WID + k_CONTINUE_CONT_WID))) == 0)`
+    - `__out == ((uc & (~ (unsigned int) 0 << k_ONE_OCT_CONT_WID)) == 0)`
+    - `__out == false`
+    - `__out == reinterpret_cast<OctetType*>(ptr)`
+    - `__out == reinterpret_cast<const OctetType*>(ptr)`
+    - `__out == true`
+    - `__out >= input`
+- **groups/bdl/bdlde/bdlde_crc32.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `SEPFORALL(0, 11, i, stream + i ↦ array[i])`
+- **groups/bdl/bdlde/bdlde_crc32c.cpp**
+  - requires:
+    - `(length == 0) || (data != 0)`
+    - `(length == 0) || (data != NULL)`
+  - ensures:
+    - `(data == nullptr && length == 0) ==> __out == old_crc`
+    - `true`
+- **groups/bdl/bdlde/bdlde_crc64.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `SEPFORALL(0, 18, i, (stream + i ↦ out[i]))`
+- **groups/bdl/bdlde/bdlde_hexdecoder.cpp**
+  - requires:
+    - `(d_state == e_ERROR_STATE || d_firstDigit) ==> res_tmp == -1 && (!d_firstDigit) ==> res_tmp == 0`
+  - ensures:
+    - `(__out == -1 ==> (d_state == e_ERROR_STATE || d_firstDigit)) && (__out == 0 ==> (d_state == e_DONE_STATE && !d_firstDigit))`
+- **groups/bdl/bdlde/bdlde_md5.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(lhs.d_length == rhs.d_length && 0 == bsl::memcmp(lhs.d_state, rhs.d_state, sizeof lhs.d_state) && 0 == bsl::memcmp(lhs.d_buffer, rhs.d_buffer, (sizeof *lhs.d_buffer) * getLengthInUse(lhs.d_length))) == __out`
+    - `__out == (length & 0x3f)`
+- **groups/bdl/bdlde/bdlde_quotedprintabledecoder.cpp**
+  - requires:
+    - `out != NULL && numOut != NULL && numIn != NULL && begin != NULL && end != NULL && maxNumOut >= 0`
+  - ensures:
+    - `(__out == -1 || __out == 0) && (__out == -1 ==> (d_state == e_ERROR_STATE || d_state == e_DONE_STATE)) && (__out == 0 ==> (d_state == e_INPUT_STATE || d_state == e_SAW_WS_STATE || d_state == e_SAW_EQUAL_STATE || d_state == e_NEED_HEX_STATE || d_state == e_NEED_SOFT_LF_STATE || d_state == e_NEED_HARD_LF_STATE))`
+- **groups/bdl/bdlde/bdlde_quotedprintableencoder.cpp**
+  - requires:
+    - `out != NULL && numOut != NULL && numIn != NULL && begin != NULL && end != NULL`
+  - ensures:
+    - `(maxNumOut == 0 ==> (*numOut == 0 && *numIn == 0)) && (*numOut >= 0 && *numIn >= 0)`
+- **groups/bdl/bdlde/bdlde_sha1.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.d_totalSize == rhs.d_totalSize && lhs.d_bufferSize == rhs.d_bufferSize && bsl::equal(lhs.d_buffer, lhs.d_buffer + lhs.d_bufferSize, rhs.d_buffer) && bsl::equal(bsl::begin(lhs.d_state), bsl::end(lhs.d_state), bsl::begin(rhs.d_state)))) && (__out == false ==> !(lhs.d_totalSize == rhs.d_totalSize && lhs.d_bufferSize == rhs.d_bufferSize && bsl::equal(lhs.d_buffer, lhs.d_buffer + lhs.d_bufferSize, rhs.d_buffer) && bsl::equal(bsl::begin(lhs.d_state), bsl::end(lhs.d_state), bsl::begin(rhs.d_state))))`
+    - `(index <= 19 ==> __out == bitwiseConditional(x, y, z)) && (index >= 40 && index <= 59 ==> __out == bitwiseMajority(x, y, z)) && (index > 19 && index < 40 || index > 59 ==> __out == (x ^ y ^ z))`
+    - `__out == ((condition & (x ^ y)) ^ y)`
+    - `__out == ((value << shift) | (value >> ((sizeof(value) * CHAR_BIT) - shift)))`
+    - `__out == ((x & y) | ((x | y) & z))`
+    - `true`
+- **groups/bdl/bdlde/bdlde_sha2.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == true ==> (lhs.d_totalSize == rhs.d_totalSize && lhs.d_bufferSize == rhs.d_bufferSize && SEPFORALL(0, lhs.d_bufferSize, i, (lhs.d_buffer + i ↦ sep_v1) && (rhs.d_buffer + i ↦ sep_v2) && (sep_v1 == sep_v2)) && SEPFORALL(0, 8, i, (lhs.d_state + i ↦ sep_v3) && (rhs.d_state + i ↦ sep_v4) && (sep_v3 == sep_v4)))) && (__out == false ==> !(lhs.d_totalSize == rhs.d_totalSize && lhs.d_bufferSize == rhs.d_bufferSize && SEPFORALL(0, lhs.d_bufferSize, i, (lhs.d_buffer + i ↦ sep_v1) && (rhs.d_buffer + i ↦ sep_v2) && (sep_v1 == sep_v2)) && SEPFORALL(0, 8, i, (lhs.d_state + i ↦ sep_v3) && (rhs.d_state + i ↦ sep_v4) && (sep_v3 == sep_v4))))`
+    - `__out == (rotateRight(value, 1) ^ rotateRight(value, 8) ^ (value >> 7))`
+    - `__out == (rotateRight(value, 14) ^ rotateRight(value, 18) ^ rotateRight(value, 41))`
+    - `__out == (rotateRight(value, 17) ^ rotateRight(value, 19) ^ (value >> 10))`
+    - `__out == (rotateRight(value, 19) ^ rotateRight(value, 61) ^ (value >> 6))`
+    - `__out == (rotateRight(value, 2) ^ rotateRight(value, 13) ^ rotateRight(value, 22))`
+    - `__out == (rotateRight(value, 28) ^ rotateRight(value, 34) ^ rotateRight(value, 39))`
+    - `__out == (rotateRight(value, 6) ^ rotateRight(value, 11) ^ rotateRight(value, 25))`
+    - `__out == (rotateRight(value, 7) ^ rotateRight(value, 18) ^ (value >> 3))`
+- **groups/bdl/bdlde/bdlde_utf8checkinginstreambufwrapper.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(errorStatus == 0 ==> __out == "NO_ERROR") && (errorStatus == k_SEEK_FAIL ==> __out == "SEEK_FAIL") && (errorStatus != 0 && errorStatus != k_SEEK_FAIL ==> __out == Utf8Util::toAscii(errorStatus))`
+    - `__out == -1 && d_offset == 0 && d_errorStatus == k_SEEK_FAIL && d_bufEndStatus == 0 && d_putBackMode == false`
+    - `__out == traits_type::eof()`
+- **groups/bdl/bdlde/bdlde_utf8util.cpp**
+  - requires:
+    - `!input.empty()`
+    - `(pc ↦ _) ⋆ (pc + 1 ↦ _)`
+    - `(pc ↦ _) ⋆ (pc + 1 ↦ _) ⋆ (pc + 2 ↦ _)`
+    - `invalidString != NULL && (string != NULL || length == 0)`
+    - `invalidString != NULL && string != NULL`
+    - `pc != nullptr && (pc ↦ _ ⋆ (pc + 1) ↦ _ ⋆ (pc + 2) ↦ _ ⋆ (pc + 3) ↦ _)`
+    - `true`
+  - ensures:
+    - `(__out == true) ==> (0x80 != (value & 0xc0)) && (__out == false) ==> (0x80 == (value & 0xc0))`
+    - `(__out >= 0) || (__out == k_UNEXPECTED_CONTINUATION_OCTET) || (__out == k_NON_CONTINUATION_OCTET) || (__out == k_END_OF_INPUT_TRUNCATION) || (__out == k_OVERLONG_ENCODING) || (__out == k_SURROGATE) || (__out == k_INVALID_INITIAL_OCTET) || (__out == k_VALUE_LARGER_THAN_0X10FFFF)`
+    - `(__out >= 0) || (__out == k_UNEXPECTED_CONTINUATION_OCTET) || (__out == k_NON_CONTINUATION_OCTET) || (__out == k_OVERLONG_ENCODING) || (__out == k_SURROGATE) || (__out == k_INVALID_INITIAL_OCTET) || (__out == k_END_OF_INPUT_TRUNCATION) || (__out == k_VALUE_LARGER_THAN_0X10FFFF)`
+    - `(__out >= 1) && (__out <= input.length())`
+    - `(character & k_ONEBYTEHEAD_TEST == k_ONEBYTEHEAD_RES ==> __out == 1) && (character & k_TWOBYTEHEAD_TEST == k_TWOBYTEHEAD_RES ==> __out == 2) && (character & k_THREEBYTEHEAD_TEST == k_THREEBYTEHEAD_RES ==> __out == 3) && ((character & k_ONEBYTEHEAD_TEST != k_ONEBYTEHEAD_RES && character & k_TWOBYTEHEAD_TEST != k_TWOBYTEHEAD_RES && character & k_THREEBYTEHEAD_TEST != k_THREEBYTEHEAD_RES) ==> __out == 4)`
+    - `__out == (((k_SURROGATE_MASK & value) == k_MIN_SURROGATE))`
+    - `__out == ((*pc & 0x1f) << 6) | (pc[1] & k_CONT_VALUE_MASK)`
+    - `__out == ((*pc & 0x7) << 18) | ((pc[1] & k_CONT_VALUE_MASK) << 12) | ((pc[2] & k_CONT_VALUE_MASK) << 6) | (pc[3] & k_CONT_VALUE_MASK)`
+    - `__out == ((*pc & 0xf) << 12) | ((pc[1] & k_CONT_VALUE_MASK) << 6) | (pc[2] & k_CONT_VALUE_MASK)`
+- **groups/bdl/bdldfp/bdldfp_decimal.cpp**
+  - requires:
+    - `stream ↦ _`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (x.value().d_raw & k_SIGN_MASK != 0)) && (__out == false ==> (x.value().d_raw & k_SIGN_MASK == 0))`
+    - `(__out == true) ==> (x.value().d_raw & k_SIGN_MASK != 0) && (__out == false) ==> (x.value().d_raw & k_SIGN_MASK == 0)`
+    - `(x.value().d_raw.w[0] & k_SIGN_MASK) != 0 || (x.value().d_raw.w[1] & k_SIGN_MASK) != 0 ==> __out && ((x.value().d_raw.w[0] & k_SIGN_MASK) == 0 && (x.value().d_raw.w[1] & k_SIGN_MASK) == 0 ==> !__out)`
+    - `__out == stream && (stream ↦ _)`
+- **groups/bdl/bdldfp/bdldfp_decimalconvertutil.cpp**
+  - requires:
+    - `count >= 0`
+    - `low <= high`
+  - ensures:
+    - `(value < 1 ==> __out == low) && (value > high ==> __out == high) && ((value >= 1 && value <= high) ==> __out == value)`
+    - `__out == static_cast<unsigned char*>(buffer) + count`
+- **groups/bdl/bdldfp/bdldfp_decimalimputil.cpp**
+  - requires:
+    - `v != NULL`
+  - ensures:
+    - `__out >= 0 && __out < 10`
+- **groups/bdl/bdljsn/bdljsn_error.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdljsn/bdljsn_jsontestsuiteutil.cpp**
+  - requires:
+    - `index < s_numData`
+    - `true`
+  - ensures:
+    - `__out != 0 && (__out == &s_data[index] && (__out->d_JSON_p ↦ _ ⋆ __out->d_length ↦ _))`
+    - `__out != 0 && SEPFORALL(0, 100000, i, (__out + i ↦ '['))`
+    - `__out != 0 && SEPFORALL(0, 50000 * lenOpenArrayObjectSubsequence + 1, i, (__out + i ↦ openArrayObject50000[i]))`
+- **groups/bdl/bdljsn/bdljsn_jsonutil.cpp**
+  - requires:
+    - `d_it != d_end`
+    - `d_it != d_sortedMembers.end() && (d_it == d_sortedMembers.begin() || EXISTS(d_sortedMembers.begin(), d_sortedMembers.end(), it, it == d_it))`
+    - `d_it != nullptr && *d_it != nullptr`
+    - `error != nullptr`
+    - `lhs->first ↦ _ ⋆ rhs->first ↦ _`
+    - `maxNestedDepth >= 0 && tokenizer != nullptr && error != nullptr && result != nullptr`
+    - `result && errorDescription && input`
+    - `tokenizer != 0 && result != 0 && error != 0 && maxNestedDepth >= 0`
+    - `true`
+  - ensures:
+    - `(__out == 0 ==> (result != 0 && tokenizer->tokenType() == Tokenizer::e_END_ARRAY)) && (__out != 0 ==> error != 0)`
+    - `(__out == 0 ==> (result != nullptr)) && (__out != 0 ==> errorDescription != nullptr)`
+    - `(__out == 0 ==> (result->type() == JsonType::e_NULL || result->type() == JsonType::e_BOOLEAN || result->type() == JsonType::e_STRING || result->type() == JsonType::e_NUMBER)) && (__out != 0 ==> error != nullptr)`
+    - `(__out == 0) || (__out != 0 && error != nullptr)`
+    - `(__out == true ==> d_it != d_end) && (__out == false ==> d_it == d_end)`
+    - `(__out == true ==> d_it == d_sortedMembers.begin()) && (__out == false ==> d_it != d_sortedMembers.begin())`
+    - `(__out == true ==> d_it == d_sortedMembers.end()) && (__out == false ==> d_it != d_sortedMembers.end())`
+    - `(__out == true ==> lhs->first < rhs->first) && (__out == false ==> lhs->first >= rhs->first)`
+    - `__out == (d_it != d_end)`
+    - `__out == (d_it != d_sortedMembers.end())`
+    - `__out == (d_it == d_begin)`
+    - `__out == **d_it`
+    - `__out == *d_it`
+- **groups/bdl/bdljsn/bdljsn_location.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdljsn/bdljsn_numberutil.cpp**
+  - requires:
+    - `begin <= end`
+    - `true`
+  - ensures:
+    - `(__out == end) || (!bdlb::CharType::isDigit(*__out))`
+    - `(lhs.d_isExpNegative == rhs.d_isExpNegative && lhs.d_significantDigits == rhs.d_significantDigits && lhs.d_exponent == rhs.d_exponent) ==> __out == true && (!(lhs.d_isExpNegative == rhs.d_isExpNegative && lhs.d_significantDigits == rhs.d_significantDigits) || lhs.d_exponent != rhs.d_exponent) ==> __out == false`
+- **groups/bdl/bdljsn/bdljsn_readoptions.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `d_allowTrailingText ↦ s_DEFAULT_INITIALIZER_ALLOW_TRAILING_TEXT ⋆ d_maxNestedDepth ↦ s_DEFAULT_INITIALIZER_MAX_NESTED_DEPTH`
+- **groups/bdl/bdljsn/bdljsn_stringutil.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == u::readUnquotedStringImp(value, string, flags)`
+- **groups/bdl/bdljsn/bdljsn_tokenizer.cpp**
+  - requires:
+    - `d_tokenType != e_ERROR`
+    - `true`
+  - ensures:
+    - `(__out == -1 ==> d_tokenType == e_ERROR) && (__out == 0 ==> d_tokenType != e_ERROR)`
+    - `(__out == 0 ==> (d_tokenType == e_ELEMENT_NAME || d_tokenType == e_ELEMENT_VALUE) && (d_valueBegin != d_valueEnd) && (*data ↦ bsl::string_view(d_stringBuffer).substr(d_valueBegin, d_valueEnd - d_valueBegin))) && (__out == -1 ==> !(d_tokenType == e_ELEMENT_NAME || d_tokenType == e_ELEMENT_VALUE) || (d_valueBegin == d_valueEnd))`
+    - `(__out == 0 ==> numRead != 0) && (__out == -1 ==> numRead == 0)`
+- **groups/bdl/bdljsn/bdljsn_writeoptions.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `d_initialIndentLevel ↦ s_DEFAULT_INITIALIZER_INITIAL_INDENT_LEVEL ⋆ d_sortMembers ↦ s_DEFAULT_INITIALIZER_SORT_MEMBERS ⋆ d_escapeForwardSlash ↦ s_DEFAULT_INITIALIZER_ESCAPE_FORWARD_SLASH ⋆ d_spacesPerLevel ↦ s_DEFAULT_INITIALIZER_SPACES_PER_LEVEL ⋆ d_style ↦ s_DEFAULT_INITIALIZER_STYLE`
+- **groups/bdl/bdljsn/bdljsn_writestyle.cpp**
+  - requires:
+    - `SEPFORALL(0, level, i, (stream + i ↦ _)) ⋆ (spacesPerLevel >= 0 ==> (stream + level + 1 ↦ 10))`
+  - ensures:
+    - `__out == stream && SEPFORALL(0, level, i, (__out + i ↦ sep_v)) ⋆ (__out + level ↦ WriteStyle::toAscii(value)) ⋆ (spacesPerLevel >= 0 ==> (__out + level + 1 ↦ 10))`
+- **groups/bdl/bdlma/bdlma_aligningallocator.cpp**
+  - requires:
+    - `size >= 0`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 && (reinterpret_cast<bsls::Types::size_type>(__out) & d_mask) == 0 && (__out ↦ _)))`
+- **groups/bdl/bdlma/bdlma_blocklist.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)`
+    - `__out == ((size + sizeOfBlock - 1) & ~(bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1))`
+- **groups/bdl/bdlma/bdlma_bufferimputil.cpp**
+  - requires:
+    - `(cursor != 0) && (buffer != 0) && (0 < size) && (0 <= *cursor) && (*cursor + size <= bufferSize)`
+  - ensures:
+    - `(__out != 0) && (__out >= buffer) && (__out + size <= buffer + bufferSize) && (static_cast<bsls::Types::size_type>(old_cursor) <= static_cast<bsls::Types::size_type>(*cursor)) && (static_cast<bsls::Types::size_type>(*cursor) <= bufferSize)`
+- **groups/bdl/bdlma/bdlma_buffermanager.cpp**
+  - requires:
+    - `size > 0 && address != NULL`
+  - ensures:
+    - `__out == size || __out > size`
+- **groups/bdl/bdlma/bdlma_concurrentallocatoradapter.cpp**
+  - requires:
+    - `numBytes >= 0`
+  - ensures:
+    - `(__out == 0 || (__out != 0 && (__out ↦ _)))`
+- **groups/bdl/bdlma/bdlma_concurrentfixedpool.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == 0) || (__out != 0)`
+- **groups/bdl/bdlma/bdlma_concurrentmultipool.cpp**
+  - requires:
+    - `size >= 0`
+    - `true`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ ((__out - 1) ↦ sep_v ⋆ ((size <= d_maxBlockSize && sep_v.d_header.d_poolIdx == findPool(size)) || (size > d_maxBlockSize && sep_v.d_header.d_poolIdx == -1)))))`
+    - `__out == 31 - bdlb::BitUtil::numLeadingUnsetBits(static_cast<bsl::uint32_t>(((size + k_MIN_BLOCK_SIZE - 1) >> 3) * 2 - 1))`
+- **groups/bdl/bdlma/bdlma_concurrentmultipoolallocator.cpp**
+  - requires:
+    - `size >= 0`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ __out ↦ _))`
+- **groups/bdl/bdlma/bdlma_concurrentpool.cpp**
+  - requires:
+    - `true`
+    - `x >= 0 && y > 0`
+  - ensures:
+    - `(__out % y == 0) && (__out >= x) && (__out - y < x || (__out - y) % y != 0)`
+    - `__out != 0 && (__out ↦ sep_v ⋆ d_freeList ↦ _ ⋆ d_refCount ↦ _)`
+    - `__out == roundUp(bsl::max(blockSize + HEADER_LENGTH, MINIMUM_LENGTH), bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT)`
+    - `__out == static_cast<LLink *>(static_cast<void *>(address))`
+- **groups/bdl/bdlma/bdlma_concurrentpoolallocator.cpp**
+  - requires:
+    - `size >= 0`
+    - `true`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)`
+    - `__out == ((totalSize + (BloombergLP::bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1)) & ~(BloombergLP::bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1)) && (BloombergLP::bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT == BloombergLP::bsls::AlignmentUtil::calculateAlignmentFromSize(__out))`
+- **groups/bdl/bdlma/bdlma_countingallocator.cpp**
+  - requires:
+    - `SEPFORALL(0, sizeof(stream), i, (stream + i) ↦ _)`
+    - `size >= 0`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)`
+    - `__out == stream && SEPFORALL(0, sizeof(stream), i, __out + i ↦ _)`
+- **groups/bdl/bdlma/bdlma_guardingallocator.cpp**
+  - requires:
+    - `(size == 0) ==> res_tmp == 0 && (size > 0) ==> res_tmp != 0`
+    - `address != 0 && pageSize == getSystemPageSize()`
+    - `address != nullptr && pageSize == getSystemPageSize()`
+    - `size > 0`
+    - `true`
+  - ensures:
+    - `(__out != 0 ==> (__out ↦ _ ⋆ SEPFORALL(0, size, i, (__out + i) ↦ _))) && (__out == 0 ==> true)`
+    - `(__out == 0 ==> size == 0) && (__out != 0 ==> (__out ↦ _))`
+    - `__out == pageSize.loadRelaxed() && (pageSize.loadRelaxed() != 0 ==> __out != 0)`
+    - `__out == static_cast<AfterUserBlockDeallocationData*>(static_cast<char*>(address) - OFFSET * 2)`
+    - `true`
+- **groups/bdl/bdlma/bdlma_infrequentdeleteblocklist.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ d_head_p->d_next_p ↦ old_d_head_p ⋆ d_head_p->d_memory ↦ _))`
+    - `__out == ((size + sizeOfBlock - 1) & ~static_cast<bsls::Types::size_type>(bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1))`
+- **groups/bdl/bdlma/bdlma_multipool.cpp**
+  - requires:
+    - `size <= d_maxBlockSize`
+    - `size >= 0`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)`
+    - `__out == (31 - bdlb::BitUtil::numLeadingUnsetBits(static_cast<bsl::uint32_t>(((size + k_MIN_BLOCK_SIZE - 1) >> 3) * 2 - 1)))`
+- **groups/bdl/bdlma/bdlma_pool.cpp**
+  - requires:
+    - `1 <= y`
+  - ensures:
+    - `(__out % y == 0) && (__out >= x) && (__out - y < x || __out - y % y != 0)`
+- **groups/bdl/bdlma/bdlma_sequentialpool.cpp**
+  - requires:
+    - `initialSize >= 0`
+    - `size >= 0`
+    - `true`
+  - ensures:
+    - `(__out == 0 ==> size == 0) && (__out != 0 ==> SEPFORALL(0, size, i, (__out + i) ↦ _))`
+    - `__out == ((size + sizeOfBlock - 1) & ~(bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT - 1))`
+    - `__out == ((static_cast<uint64_t>(-1) << k_NUM_GEOMETRIC_BIN) | (bdlb::BitUtil::roundUpToBinaryPower(static_cast<uint64_t>(initialSize)) - 1))`
+- **groups/bdl/bdlmt/bdlmt_eventscheduler.cpp**
+  - requires:
+    - `amount > 0`
+    - `d_data_p != 0`
+    - `true`
+  - ensures:
+    - `__out != 0`
+    - `__out == (d_currentTime - amount) + amount && d_currentTime == __out`
+    - `__out == 0`
+    - `__out == d_currentTime`
+    - `__out == d_data_p->currentTime()`
+    - `__out == d_running`
+    - `__out > 0`
+    - `true`
+- **groups/bdl/bdlmt/bdlmt_fixedthreadpool.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == 0) || (__out == -1)`
+- **groups/bdl/bdlmt/bdlmt_multiprioritythreadpool.cpp**
+  - requires:
+    - `(unsigned) priority < (unsigned) d_queue.numPriorities()`
+    - `true`
+  - ensures:
+    - `__out == d_queue.isEnabled()`
+    - `__out == d_queue.pushBack(job, priority)`
+- **groups/bdl/bdlmt/bdlmt_multiqueuethreadpool.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == d_nextId - 1 ⋆ d_queueRegistry[__out] ↦ _`
+- **groups/bdl/bdlmt/bdlmt_threadpool.cpp**
+  - requires:
+    - `aThis != 0`
+    - `true`
+  - ensures:
+    - `__out == 0`
+    - `__out == d_numActiveThreads`
+- **groups/bdl/bdlmt/bdlmt_throttle.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(numActions <= 0 || d_maxSimultaneousActions < numActions || d_nanosecondsPerAction == k_ALLOW_NONE) ==> __out == -1 && (numActions > 0 && d_maxSimultaneousActions >= numActions && d_nanosecondsPerAction != k_ALLOW_NONE) ==> __out == 0`
+- **groups/bdl/bdlmt/bdlmt_timereventscheduler.cpp**
+  - requires:
+    - `amount > 0`
+    - `d_data_p != 0`
+    - `true`
+  - ensures:
+    - `__out == d_currentTime`
+    - `__out == d_currentTime && d_currentTime == old_d_currentTime + amount`
+    - `__out == d_data_p->currentTime()`
+    - `__out >= 0`
+    - `__out.totalMicroseconds() == minTime`
+    - `true`
+- **groups/bdl/bdlpcre/bdlpcre_regex.cpp**
+  - requires:
+    - `errorMessage != NULL && errorOffset != NULL && pattern != NULL && (flags & ~VALID_FLAGS) == 0`
+    - `matchContextData != 0`
+    - `matchContextData != nullptr`
+    - `pcre2Context != 0 && patternCode != 0`
+    - `subject.data() != nullptr && subject.length() >= 0 && subjectOffset <= subject.length()`
+    - `true`
+  - ensures:
+    - `(__out == 0 ==> (matchContextData->d_matchData_p ↦ _ ⋆ matchContextData->d_matchContext_p ↦ _ ⋆ matchContextData->d_jitStack_p ↦ _)) && (__out == k_INTERNAL_ERROR ==> (matchContextData->d_matchData_p == 0 ⋆ matchContextData->d_matchContext_p == 0 ⋆ matchContextData->d_jitStack_p == 0))`
+    - `(__out == k_STATUS_SUCCESS) || (__out == k_INTERNAL_ERROR)`
+    - `(bslmt::ThreadUtil::isEqual(d_mainThread, bslmt::ThreadUtil::self()) ==> __out == RegEx::k_STATUS_SUCCESS) && (!bslmt::ThreadUtil::isEqual(d_mainThread, bslmt::ThreadUtil::self()) ==> __out == allocateMatchContext(matchContextData))`
+    - `__out == k_IS_JIT_SUPPORTED`
+    - `__out == match(subject.data(), subject.length(), subjectOffset)`
+    - `d_pcre2Context_p ↦ pcre2Context ⋆ d_pcre2PatternCode_p ↦ patternCode ⋆ d_depthLimit ↦ depthLimit ⋆ d_jitStackSize ↦ jitStackSize ⋆ __out == allocateMatchContext(&d_mainThreadMatchData)`
+- **groups/bdl/bdls/bdls_fdstreambuf.cpp**
+  - requires:
+    - `(buffer == 0 && numBytes == 0) || (buffer != 0 && numBytes > 0)`
+    - `true`
+  - ensures:
+    - `(__out != traits_type::eof() ==> (__out == traits_type::to_int_type(*gptr()))) || (__out == traits_type::eof())`
+    - `(__out == 0 ==> d_mode == e_INPUT_MODE) && (__out == -1 ==> d_mode != e_INPUT_MODE)`
+    - `__out == this && (buffer == 0 && numBytes == 0 ==> d_mode == e_NULL_MODE && d_buf_p == 0) && (buffer != 0 && numBytes > 0 ==> d_buf_p != 0)`
+    - `true`
+- **groups/bdl/bdls/bdls_filesystemutil.cpp**
+  - requires:
+    - `dirFD >= 0`
+    - `idx <= str.size() && (len != bsl::string::npos ? idx + len <= str.size() : true)`
+    - `path != 0`
+    - `path != NULL`
+    - `path != NULL && EXISTS(0, strlen(path), i, path[i] == '\0')`
+    - `true`
+  - ensures:
+    - `(__out == 0) || (__out != 0)`
+    - `(__out == 0) || (__out == bdls::FilesystemUtil::k_ERROR_ALREADY_EXISTS) || (__out == bdls::FilesystemUtil::k_ERROR_PATH_NOT_FOUND) || (__out == -1)`
+    - `(__out == true ==> (*path == '.' && (!path[1] || ('.' == path[1] && !path[2])))) && (__out == false ==> !(*path == '.' && (!path[1] || ('.' == path[1] && !path[2]))))`
+    - `(__out == true ==> (path[strlen(path) - 1] == '.' && (path[strlen(path) - 2] == '.' || path[strlen(path) - 2] == '/'))) && (__out == false ==> !(path[strlen(path) - 1] == '.' && (path[strlen(path) - 2] == '.' || path[strlen(path) - 2] == '/')))`
+    - `__out == bsl::string_view(str).substr(idx, len)`
+    - `true`
+- **groups/bdl/bdls/bdls_pathutil.cpp**
+  - requires:
+    - `path != 0`
+    - `path != nullptr && rootEnd >= 0 && rootEnd <= static_cast<int>(bsl::strlen(path)) && (length >= 0 || length == -1)`
+    - `true`
+  - ensures:
+    - `(__out >= path + rootEnd) && (__out <= path + length) && (__out == path + rootEnd || isSeparator(*(__out - 1)) == false || (__out > path && isSeparator(*(__out - 1))))`
+    - `__out == (ch == '\\' || ch == '/')`
+    - `__out == u_appendIfValid(path, filename) && (path->c_str() ↦ _)`
+- **groups/bdl/bdls/bdls_pipeutil.cpp**
+  - requires:
+    - `pipeName != 0`
+  - ensures:
+    - `__out == u_makeCanonicalName(pipeName, baseName)`
+- **groups/bdl/bdls/bdls_processutil.cpp**
+  - requires:
+    - `path != nullptr`
+    - `true`
+  - ensures:
+    - `(__out == "" || __out == "\"/proc\" exists." || __out == "\"/proc\" does not exist.")`
+    - `(__out == true ==> (0 == rc && !(s.st_mode & S_IFDIR) && (s.st_mode & executableBits))) && (__out == false ==> !(0 == rc && !(s.st_mode & S_IFDIR) && (s.st_mode & executableBits)))`
+    - `__out > 0`
+    - `true`
+- **groups/bdl/bdls/bdls_tempdirectoryguard.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == d_dirName`
+- **groups/bdl/bdlsb/bdlsb_fixedmeminput.cpp**
+  - requires:
+    - `(!(which & 1) || position >= 0) && (which & 1) ==> position < d_bufferSize`
+  - ensures:
+    - `(__out == -1 ==> (!(which & 1) || position < 0)) && (__out != -1 ==> __out == position)`
+- **groups/bdl/bdlsb/bdlsb_fixedmeminstreambuf.cpp**
+  - requires:
+    - `(which & bsl::ios_base::in) && (way == bsl::ios_base::beg || way == bsl::ios_base::cur || way == bsl::ios_base::end)`
+  - ensures:
+    - `(!(which & bsl::ios_base::in) ==> __out == pos_type(-1)) && (way != bsl::ios_base::beg && way != bsl::ios_base::cur && way != bsl::ios_base::end ==> __out == pos_type(-1)) && (__out < pos_type(0) || static_cast<bsl::size_t>(__out) > d_bufferSize ==> __out == pos_type(-1))`
+- **groups/bdl/bdlsb/bdlsb_fixedmemoutput.cpp**
+  - requires: _none_
+  - ensures:
+    - `(!(which & bsl::ios_base::out) ==> __out == pos_type(-1)) && (__out != pos_type(-1) ==> __out == pos_type(length()))`
+- **groups/bdl/bdlsb/bdlsb_fixedmemoutstreambuf.cpp**
+  - requires:
+    - `(which & bsl::ios_base::out) ==> !(offset > 0 || -offset > length())`
+  - ensures:
+    - `(__out == -1) || (__out == length())`
+- **groups/bdl/bdlsb/bdlsb_memoutstreambuf.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(insertionChar == traits_type::eof() ==> __out == traits_type::not_eof(insertionChar)) && (insertionChar != traits_type::eof() ==> __out == sputc(static_cast<char_type>(insertionChar)))`
+- **groups/bdl/bdlsb/bdlsb_overflowmemoutput.cpp**
+  - requires: _none_
+  - ensures:
+    - `(!(which & bsl::ios_base::out) || way != bsl::ios_base::beg && way != bsl::ios_base::cur && way != bsl::ios_base::end || __out < 0 ==> __out == -1) && (!(which & bsl::ios_base::out) && way == bsl::ios_base::beg && way == bsl::ios_base::cur && way == bsl::ios_base::end && __out >= 0 ==> __out != -1)`
+- **groups/bdl/bdlsb/bdlsb_overflowmemoutstreambuf.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(c == EOF ==> __out == traits_type::not_eof(c)) && (c != EOF ==> __out == c)`
+- **groups/bdl/bdlt/bdlt_calendar.cpp**
+  - requires:
+    - `nextBusinessDay != NULL && date < Date(9999, 12, 31) && nth > 0`
+    - `true`
+  - ensures:
+    - `(__out == e_SUCCESS ==> *nextBusinessDay > date) && (__out == e_FAILURE ==> __out == 1)`
+    - `(__out == false ==> (d_packedCalendar.length() != static_cast<int>(d_nonBusinessDays.length()) || EXISTS(d_packedCalendar.beginBusinessDays(), d_packedCalendar.endBusinessDays(), iter, *iter - d_packedCalendar.firstDate() != static_cast<int>(d_nonBusinessDays.find0AtMinIndex(*iter - d_packedCalendar.firstDate()))))) && (__out == true ==> (d_packedCalendar.length() == static_cast<int>(d_nonBusinessDays.length()) && FORALL(d_packedCalendar.beginBusinessDays(), d_packedCalendar.endBusinessDays(), iter, *iter - d_packedCalendar.firstDate() == static_cast<int>(d_nonBusinessDays.find0AtMinIndex(*iter - d_packedCalendar.firstDate())))))`
+    - `__out > initialDate && !isWeekendDay(__out) && (length() == 0 || !d_nonBusinessDays.find0AtMinIndex(__out - firstDate()))`
+- **groups/bdl/bdlt/bdlt_calendarcache.cpp**
+  - requires:
+    - `calendarName != NULL`
+    - `calendarName != nullptr`
+    - `rhs.d_ptr ↦ _ ⋆ rhs.d_loadTime ↦ _`
+    - `true`
+  - ensures:
+    - `(d_cache.find(calendarName) != d_cache.end() && (!d_hasTimeOutFlag || d_timeOut > CurrentTime::utc() - d_cache.find(calendarName)->second.loadTime())) ==> __out != nullptr && __out == d_cache.find(calendarName)->second.get() || __out == nullptr`
+    - `__out == *this ⋆ (d_ptr ↦ rhs.d_ptr ⋆ d_loadTime ↦ rhs.d_loadTime)`
+    - `__out == d_ptr && (d_ptr ↦ _)`
+    - `true`
+- **groups/bdl/bdlt/bdlt_currenttime.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(-1440 < __out.offset()) && (__out.offset() < 1440)`
+- **groups/bdl/bdlt/bdlt_date.cpp**
+  - requires:
+    - `bsl::numeric_limits<int>::max() - numDays > 0`
+  - ensures:
+    - `__out == 0 || __out == -1`
+- **groups/bdl/bdlt/bdlt_datetime.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+    - `__out == stream && SEPFORALL(0, 25, i, (stream + i ↦ buffer[i]))`
+- **groups/bdl/bdlt/bdlt_datetimeimputil.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out != 0`
+- **groups/bdl/bdlt/bdlt_datetimeinterval.cpp**
+  - requires:
+    - `(u::k_HOURS_CEILING >= hours && u::k_MINUTES_CEILING >= minutes && u::k_SECONDS_CEILING >= seconds && u::k_MILLISECONDS_CEILING >= milliseconds && u::k_HOURS_FLOOR <= hours && u::k_MINUTES_FLOOR <= minutes && u::k_SECONDS_FLOOR <= seconds && u::k_MILLISECONDS_FLOOR <= milliseconds)`
+    - `result != NULL && spec != NULL && numBytes >= 0`
+    - `true`
+  - ensures:
+    - `(__out == true) ==> (hours == old_hours % TimeUnitRatio::k_H_PER_D && minutes == old_minutes % TimeUnitRatio::k_M_PER_D && seconds == old_seconds % TimeUnitRatio::k_S_PER_D && milliseconds == old_milliseconds % TimeUnitRatio::k_MS_PER_D)`
+    - `__out == stream`
+    - `__out >= 0`
+- **groups/bdl/bdlt/bdlt_datetimetz.cpp**
+  - requires:
+    - `stream ↦ _ && !stream.bad()`
+  - ensures:
+    - `(__out == stream) && (!stream.bad()) && (stream ↦ _)`
+- **groups/bdl/bdlt/bdlt_dateutil.cpp**
+  - requires:
+    - `(original.month() == 2) && (original.day() == 28 || original.day() == 29)`
+    - `true`
+  - ensures:
+    - `(__out.month() == original.month()) && (__out.day() == original.day() || __out.day() == (SerialDateImpUtil::isLeapYear(__out.year()) ? 29 : 28))`
+    - `(day1 > day2 ==> __out == 7 - day1 + day2) && (day1 <= day2 ==> __out == day2 - day1) && (0 <= __out && __out <= 6)`
+    - `(original.day() == SerialDateImpUtil::lastDayOfMonth(original.year(), original.month()) || __out.day() == original.day() || __out.day() == SerialDateImpUtil::lastDayOfMonth(__out.year(), __out.month())) && (__out.year() * 12 + __out.month() == original.year() * 12 + original.month() + numMonths)`
+- **groups/bdl/bdlt/bdlt_dayofweek.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream && SEPFORALL(0, strlen(toAscii(value)), i, (stream + i ↦ toAscii(value)[i]))`
+- **groups/bdl/bdlt/bdlt_dayofweekset.cpp**
+  - requires:
+    - `!stream.bad() && (stream ↦ _)`
+    - `true`
+  - ensures:
+    - `__out == *this && (d_index < 8 ==> ((1 << d_index) & d_data) != 0 || d_index == 8)`
+    - `__out == stream && (stream ↦ _)`
+- **groups/bdl/bdlt/bdlt_defaultcalendarcache.cpp**
+  - requires:
+    - `loader != NULL && allocator != NULL && bsls::TimeInterval() <= timeout && timeout <= bsls::TimeInterval(INT_MAX, 0)`
+    - `true`
+  - ensures:
+    - `(__out == 0 || __out == 1) && (__out == 0 ==> bsls::AtomicOperations::getPtrAcquire(&g_cachePtr) != NULL)`
+    - `__out != 0 && (__out != 0 ==> true)`
+- **groups/bdl/bdlt/bdlt_defaulttimetablecache.cpp**
+  - requires:
+    - `loader != NULL && allocator != NULL && bsls::TimeInterval() <= timeout && timeout <= bsls::TimeInterval(INT_MAX, 0)`
+    - `true`
+  - ensures:
+    - `(__out == 0 || __out == 1) && (__out == 0 ==> bsls::AtomicOperations::getPtrAcquire(&g_cachePtr) != NULL)`
+    - `__out != 0 && (__out != 0 ==> true)`
+- **groups/bdl/bdlt/bdlt_fixutil.cpp**
+  - requires:
+    - `(buffer != NULL && -(24 * 60) < tzOffset && tzOffset < 24 * 60) ==> res_tmp >= 0`
+    - `buffer != 0 && paddedLen >= 0 && SEPFORALL(0, paddedLen + 1, i, (buffer + i ↦ _))`
+    - `buffer != NULL && 0 <= bufferLength`
+    - `buffer != NULL && 0 <= value && 0 <= paddedLen`
+    - `nextPos != 0 && result != 0 && begin < end && SEPFORALL(begin, end, i, *(i) ↦ _ && isdigit(*(i)))`
+    - `nextPos != NULL && date != NULL && begin != NULL && end != NULL && begin <= end && (end - begin >= (int)sizeof("YYYYMMDD") - 1)`
+    - `nextPos != NULL && time != NULL && tzOffset != NULL && isNextDay != NULL && begin != NULL && end != NULL && begin <= end`
+  - ensures:
+    - `(__out == 0 ==> (*result ↦ tmp ⋆ *nextPos ↦ end)) && (__out == -1 ==> true)`
+    - `(__out == 0 ==> *nextPos != NULL && date->year() != 0 && date->month() != 0 && date->day() != 0) && (__out == -1 ==> *nextPos == begin)`
+    - `(__out == paddedLen + 1) && (buffer ↦ separator) && SEPFORALL(0, paddedLen, i, (buffer - paddedLen + i ↦ sep_v) && (sep_v != 0))`
+    - `(buffer != NULL && -(24 * 60) < tzOffset && tzOffset < 24 * 60) ==> __out >= 0`
+    - `__out == 0 || __out == -1`
+    - `__out == k_DATE_STRLEN`
+    - `__out == paddedLen && FORALL(0, paddedLen, i, buffer[i] >= '0' && buffer[i] <= '9')`
+- **groups/bdl/bdlt/bdlt_fixutilconfiguration.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdlt/bdlt_fuzzutil.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `true`
+- **groups/bdl/bdlt/bdlt_iso8601utilconfiguration.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdlt/bdlt_iso8601utilparseconfiguration.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == stream`
+- **groups/bdl/bdlt/bdlt_monthofyear.cpp**
+  - requires:
+    - `stream ↦ _`
+  - ensures:
+    - `__out == stream && (stream ↦ _)`
+- **groups/bdl/bdlt/bdlt_packedcalendar.cpp**
+  - requires:
+    - `0 <= offset && d_lastDate - d_firstDate >= offset`
+    - `isHoliday(date)`
+    - `level >= 0 && spacesPerLevel != 0`
+    - `true`
+  - ensures:
+    - `(0 <= offset && d_lastDate - d_firstDate >= offset) ==> (0 <= __out && __out <= static_cast<int>(d_holidayOffsets.length()) && d_holidayOffsets[__out] == offset)`
+    - `(__out == (lhs.d_firstDate == rhs.d_firstDate && lhs.d_lastDate == rhs.d_lastDate && lhs.d_weekendDaysTransitions == rhs.d_weekendDaysTransitions && lhs.d_holidayOffsets == rhs.d_holidayOffsets && lhs.d_holidayCodesIndex == rhs.d_holidayCodesIndex && lhs.d_holidayCodes == rhs.d_holidayCodes))`
+    - `(firstDate <= lastDate ==> __out >= 0 && __out <= (lastDate - firstDate + 1)) && (firstDate > lastDate ==> __out == 0)`
+    - `SEPFORALL(0, level * spacesPerLevel, i, (stream + i ↦ ' '))`
+    - `__out == rhs`
+    - `__out.d_offsetIter ↦ rhs.d_offsetIter ⋆ __out.d_calendar_p ↦ rhs.d_calendar_p ⋆ __out.d_currentOffset ↦ rhs.d_currentOffset ⋆ __out.d_endFlag ↦ rhs.d_endFlag`
+    - `true`
+- **groups/bdl/bdlt/bdlt_posixdateimputil.cpp**
+  - requires:
+    - `0 <= year`
+    - `k_MIN_YEAR <= year && year <= k_MAX_YEAR`
+    - `k_MIN_YEAR <= year && year <= k_MAX_YEAR && k_MIN_MONTH <= month && month <= k_MAX_MONTH`
+  - ensures:
+    - `(bdlt::PosixDateImpUtil::isLeapYear(year) && year == k_YEAR_1752 ==> __out == y1752DaysThroughMonth) && (bdlt::PosixDateImpUtil::isLeapYear(year) && year != k_YEAR_1752 ==> __out == leapDaysThroughMonth) && (!bdlt::PosixDateImpUtil::isLeapYear(year) ==> __out == normDaysThroughMonth)`
+    - `(month == k_FEBRUARY && isLeapYear(year) ==> __out == normDaysPerMonth[month] + 1) && (month != k_FEBRUARY || !isLeapYear(year) ==> __out == normDaysPerMonth[month])`
+    - `(year >= k_YEAR_2000 ==> __out == k_NUM_LEAP_YEARS_UNTIL_YEAR_2000 + (year - k_YEAR_2000) / 4 - (year - k_YEAR_2000) / 100 + (year - k_YEAR_2000) / 400) && (year >= k_YEAR_1800 && year < k_YEAR_2000 ==> __out == k_NUM_LEAP_YEARS_UNTIL_YEAR_1800 + (year - k_YEAR_1800) / 4 - (year - k_YEAR_1800) / 100) && (year < k_YEAR_1800 ==> __out == year / 4)`
+    - `__out == (year - 1) * k_DAYS_IN_NON_LEAP_YEAR + (year - 1) / 4 - (year > k_YEAR_1752 ? k_YEAR_1752_NUM_MISSING_DAYS + (year > k_YEAR_1800 ? (year - k_YEAR_1701) / 100 - (year - k_YEAR_1601) / 400 : 0) : 0)`
+- **groups/bdl/bdlt/bdlt_prolepticdateimputil.cpp**
+  - requires:
+    - `(k_MIN_YEAR <= year && year <= k_MAX_YEAR) && (k_MIN_MONTH <= month && month <= k_MAX_MONTH)`
+    - `k_MIN_YEAR <= year && year <= k_MAX_YEAR`
+    - `k_MIN_YEAR <= year && year <= k_MAX_YEAR && 0 <= month && month <= k_MAX_MONTH`
+  - ensures:
+    - `(month == k_FEB && isLeapYear(year) ==> __out == normDaysPerMonth[month] + 1) && (month != k_FEB || !isLeapYear(year) ==> __out == normDaysPerMonth[month])`
+    - `__out == (year - 1) * k_DAYS_IN_NON_LEAP_YEAR + numLeapYearsSoFar(year - 1)`
+    - `__out == getArrayDaysThroughMonth(year)[month]`
+- **groups/bdl/bdlt/bdlt_time.cpp**
+  - requires:
+    - `base > 0 && number != nullptr`
+    - `base >= 1 && number != 0`
+    - `number != 0 && base > 0`
+    - `true`
+  - ensures:
+    - `(__out == old_initial / base) && (number ↦ old_initial % base) && (old_initial == *number + __out * base)`
+    - `(__out == old_number / base) && (number ↦ (old_number % base + base) % base) && (0 <= *number) && (*number < base)`
+    - `(__out == old_number / base) && (number ↦ old_number % base) && (old_number == *number + __out * base)`
+    - `__out == static_cast<int>(wholeDays) && (this->microsecondsFromMidnight() == totalMicroseconds)`
+    - `true`
+- **groups/bdl/bdlt/bdlt_timetable.cpp**
+  - requires:
+    - `24 > time.hour() && (0 <= code || code == Timetable::k_UNSET_TRANSITION_CODE)`
+    - `d_dayIndex < d_timetable_p->d_timetable.length()`
+    - `true`
+  - ensures:
+    - `&__out == this`
+    - `(__out == true ==> finalTransitionCode() != old_finalTransitionCode) && (__out == false ==> finalTransitionCode() == old_finalTransitionCode)`
+    - `(time.hour() < 24) ==> (__out == finalTransitionCode() || __out == d_initialTransitionCode || __out == iter->d_code)`
+    - `__out == Timetable_ConstIterator(*this, dayIndex, 0)`
+- **groups/bdl/bdlt/bdlt_timetablecache.cpp**
+  - requires:
+    - `timetableName != NULL`
+    - `true`
+  - ensures:
+    - `(__out != nullptr ==> __out.use_count() > 0) && (__out == nullptr ==> __out.use_count() == 0)`
+    - `(__out.use_count() > 0) || (__out.use_count() == 0 && __out.get() == nullptr)`
+    - `(d_ptr ↦ rhs.d_ptr) ⋆ (d_loadTime ↦ rhs.d_loadTime) ⋆ (__out.d_ptr == rhs.d_ptr) ⋆ (__out.d_loadTime == rhs.d_loadTime)`
+    - `__out == d_ptr && (d_ptr ↦ _)`
+- **groups/bdl/bdlt/bdlt_timetz.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == stream) && (stream.bad() ==> old_stream.bad()) && (!stream.bad() ==> true)`
+- **groups/bsl/bslalg/bslalg_hashutil.cpp**
+  - requires:
+    - `0 <= length && (length == 0 || data != 0)`
+  - ensures:
+    - `true`
+- **groups/bsl/bslalg/bslalg_rbtreeutil.cpp**
+  - requires:
+    - `subtree != 0 && FORALL(0, res_tmp - subtree, i, (subtree + i)->leftChild() != 0)`
+    - `true`
+  - ensures:
+    - `(__out == true ==> (node == 0 || node->isBlack())) && (__out == false ==> (node != 0 && !node->isBlack()))`
+    - `__out != 0 && __out->leftChild() == 0 && FORALL(0, __out - subtree, i, (subtree + i)->leftChild() != 0)`
+- **groups/bsl/bslfmt/bslfmt_unicodecodepoint.cpp**
+  - requires:
+    - `(pc ↦ _ ⋆ (pc + 1 ↦ _ ⋆ (pc + 2 ↦ _)))`
+    - `(pc ↦ _ ⋆ pc + 1 ↦ _)`
+    - `maxBytes >= 2`
+    - `pc != NULL`
+    - `true`
+  - ensures:
+    - `(__out == true ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_LOW_SURROGATE_START)) && (__out == false ==> ((k_UTF16_SURROGATE_MASK_TESTONE & value) != k_UTF16_LOW_SURROGATE_START))`
+    - `(__out == true) ==> (0x80 != (value & 0xc0)) && (__out == false) ==> (0x80 == (value & 0xc0))`
+    - `(maxBytes < 2 ==> __out == false) && (__out == true ==> (maxBytes >= 2))`
+    - `__out == ((*pc & 0x1f) << 6) | ((pc[1] & k_UTF8_CONT_VALUE_MASK))`
+    - `__out == ((*pc & 0xf) << 12) | ((pc[1] & k_UTF8_CONT_VALUE_MASK) << 6) | (pc[2] & k_UTF8_CONT_VALUE_MASK) && (pc ↦ _ ⋆ (pc + 1 ↦ _ ⋆ (pc + 2 ↦ _)))`
+    - `__out == ((k_UTF16_SURROGATE_MASK_TESTBOTH & value) == k_UTF16_HIGH_SURROGATE_START)`
+    - `__out == ((k_UTF16_SURROGATE_MASK_TESTONE & value) == k_UTF16_HIGH_SURROGATE_START)`
+    - `__out == 1 || __out == 2`
+    - `true`
+- **groups/bsl/bslh/bslh_siphashalgorithm.cpp**
+  - requires:
+    - `p ↦ _ ⋆ (p + 1) ↦ _ ⋆ (p + 2) ↦ _ ⋆ (p + 3) ↦ _ ⋆ (p + 4) ↦ _ ⋆ (p + 5) ↦ _ ⋆ (p + 6) ↦ _ ⋆ (p + 7) ↦ _`
+    - `true`
+  - ensures:
+    - `__out == ((x << b) | (x >> (64 - b)))`
+    - `__out == BSLS_BYTEORDER_LE_U64_TO_HOST(*((u64*)p))`
+- **groups/bsl/bslim/bslim_printer.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == d_level`
+- **groups/bsl/bslma/bslma_allocator.cpp**
+  - requires:
+    - `bytes >= 0 && align > 0`
+  - ensures:
+    - `(__out != 0) && (__out ↦ _)`
+- **groups/bsl/bslma/bslma_bufferallocator.cpp**
+  - requires:
+    - `(0 < alignment) && (alignment <= bsls::AlignmentUtil::BSLS_MAX_ALIGNMENT) && (0 == (alignment & (alignment - 1))) && (0 <= *cursor) && (*cursor <= bufSize) && (0 < size) && (size <= bufSize)`
+  - ensures:
+    - `(__out == nullptr ==> *cursor + bsls::AlignmentUtil::calculateAlignmentOffset(buffer + *cursor, alignment) + size > bufSize) && (__out != nullptr ==> __out >= buffer && __out < buffer + bufSize)`
+- **groups/bsl/bslma/bslma_infrequentdeleteblocklist.cpp**
+  - requires:
+    - `numBytes >= 0`
+  - ensures:
+    - `(numBytes == 0 ==> __out == 0) && (numBytes != 0 ==> __out != 0)`
+- **groups/bsl/bslma/bslma_mallocfreeallocator.cpp**
+  - requires:
+    - `p != 0`
+    - `true`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ __out ↦ _))`
+    - `__out == &p->object()`
+    - `true`
+- **groups/bsl/bslma/bslma_newdeleteallocator.cpp**
+  - requires:
+    - `address != 0`
+    - `true`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ __out ↦ _))`
+    - `__out != 0 && (__out == &address->object())`
+    - `true`
+- **groups/bsl/bslma/bslma_sequentialpool.cpp**
+  - requires:
+    - `(size == 0 ==> true) && (size != 0 ==> 0 < size)`
+  - ensures:
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ __out ↦ _))`
+- **groups/bsl/bslma/bslma_testallocator.cpp**
+  - requires:
+    - `output != NULL && blockList != NULL`
+    - `true`
+  - ensures:
+    - `(__out == true ==> bsls::AlignmentUtil::calculateAlignmentOffset(address, int(alignment)) == 0) && (__out == false ==> bsls::AlignmentUtil::calculateAlignmentOffset(address, int(alignment)) != 0)`
+    - `(size == 0 ==> __out == 0) && (size != 0 ==> __out != 0)`
+    - `0 < __out && __out < k_BLOCKID_LINE_SZ`
+- **groups/bsl/bslmt/bslmt_configuration.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(1 <= __out) && (__out <= INT_MAX)`
+- **groups/bsl/bslmt/bslmt_entrypointfunctoradapter.cpp**
+  - requires:
+    - `argument != nullptr`
+  - ensures:
+    - `__out == 0`
+- **groups/bsl/bslmt/bslmt_latch.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == d_sigCount`
+- **groups/bsl/bslmt/bslmt_qlock.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(__out == key ==> (key != 0 && oldKey == 0)) && (__out == oldKey ==> (oldKey != 0))`
+    - `__out != 0`
+    - `__out != 0 && (__out != 0 ==> true)`
+    - `__out == bslma::NewDeleteAllocator::singleton()`
+- **groups/bsl/bslmt/bslmt_sluice.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out != NULL`
+- **groups/bsl/bslmt/bslmt_testutil.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `&__out == mutex_p && (true ==> &__out == mutex_p)`
+    - `__out == ptr`
+- **groups/bsl/bslmt/bslmt_threadattributes.cpp**
+  - requires:
+    - `stream ↦ _ && level >= 0 && spacesPerLevel >= 0`
+    - `true`
+  - ensures:
+    - `__out == (lhs.detachedState() == rhs.detachedState() && lhs.guardSize() == rhs.guardSize() && lhs.inheritSchedule() == rhs.inheritSchedule() && lhs.schedulingPolicy() == rhs.schedulingPolicy() && lhs.schedulingPriority() == rhs.schedulingPriority() && lhs.stackSize() == rhs.stackSize() && lhs.threadName() == rhs.threadName())`
+    - `__out == stream && (__out ↦ _)`
+    - `d_detachedState ↦ rhs.d_detachedState ⋆ d_guardSize ↦ rhs.d_guardSize ⋆ d_inheritScheduleFlag ↦ rhs.d_inheritScheduleFlag ⋆ d_schedulingPolicy ↦ rhs.d_schedulingPolicy ⋆ d_schedulingPriority ↦ rhs.d_schedulingPriority ⋆ d_stackSize ↦ rhs.d_stackSize ⋆ d_threadName ↦ rhs.d_threadName`
+- **groups/bsl/bslmt/bslmt_threadutil.cpp**
+  - requires:
+    - `((int) policy >= ThreadAttributes::e_SCHED_MIN && (int) policy <= ThreadAttributes::e_SCHED_MAX) && (normalizedSchedulingPriority >= 0.0 && normalizedSchedulingPriority <= 1.0)`
+    - `true`
+  - ensures:
+    - `(minPri == ThreadAttributes::e_UNSET_PRIORITY || maxPri == ThreadAttributes::e_UNSET_PRIORITY) ==> __out == ThreadAttributes::e_UNSET_PRIORITY`
+    - `true`
+- **groups/bsl/bslmt/bslmt_throughputbenchmark.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == s_antiOptimization`
+    - `true`
+- **groups/bsl/bslmt/bslmt_turnstile.cpp**
+  - requires:
+    - `timestamp != 0`
+    - `true`
+  - ensures:
+    - `__out == ((nowUSecs - d_nextTurn) > 0 ? (nowUSecs - d_nextTurn) : 0) && __out >= 0`
+    - `__out == *timestamp && (timestamp ↦ __out)`
+- **groups/bsl/bsls/bsls_alignment.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(value == Alignment::BSLS_MAXIMUM ==> __out == "MAXIMUM") && (value == Alignment::BSLS_NATURAL ==> __out == "NATURAL") && (value == Alignment::BSLS_BYTEALIGNED ==> __out == "BYTEALIGNED") && (value != Alignment::BSLS_MAXIMUM && value != Alignment::BSLS_NATURAL && value != Alignment::BSLS_BYTEALIGNED ==> __out == "(* UNKNOWN *)")`
+- **groups/bsl/bsls/bsls_asserttest.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == (d_str_p == 0 && d_length == 0)`
+    - `__out == (lhs.length() == rhs.length() && 0 == memcmp(lhs.str(), rhs.str(), lhs.length()))`
+    - `__out == (testName.isEmpty() || throwName.isEmpty() || throwName == testName)`
+- **groups/bsl/bsls/bsls_blockgrowth.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(value == BlockGrowth::BSLS_GEOMETRIC ==> __out == "GEOMETRIC") && (value == BlockGrowth::BSLS_CONSTANT ==> __out == "CONSTANT") && (value != BlockGrowth::BSLS_GEOMETRIC && value != BlockGrowth::BSLS_CONSTANT ==> __out == "(* UNKNOWN *)")`
+- **groups/bsl/bsls/bsls_bslonce.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == true || __out == false`
+- **groups/bsl/bsls/bsls_bslsourcenameparserutil.cpp**
+  - requires:
+    - `SEPFORALL(begin, end, i, (begin + i ↦ _))`
+    - `componentNamePtr != NULL && componentNameLength != NULL && sourceName != NULL`
+    - `filename != nullptr && EXISTS(0, strlen(filename), i, SEPEXISTS(0, sizeof(pathSeparators) - 1, j, filename[i] == pathSeparators[j]))`
+    - `true`
+  - ensures:
+    - `(__out == 0 ==> (componentNamePtr != NULL && componentNameLength != 0)) && (__out != 0 ==> (__out == -1 || __out == -2 || __out == -3))`
+    - `(__out == begin) || (__out != begin ==> SEPEXISTS(0, end - begin, i, (begin + i ↦ ch) && __out == (begin + i + 1)))`
+    - `(__out == filename) || (FORALL(0, __out - filename, i, SEPEXISTS(0, sizeof(pathSeparators), j, filename + i == pathSeparators[j])))`
+    - `(__out == true ==> (sourceType & BslSourceNameParserUtil::k_MASK_TEST) != 0) && (__out == false ==> (sourceType & BslSourceNameParserUtil::k_MASK_TEST) == 0)`
+    - `(__out == true ==> (tag == 't' || tag == 'g')) && (__out == false ==> (tag != 't' && tag != 'g'))`
+    - `(__out == true ==> (tag >= 'a' && tag <= 'z')) && (__out == false ==> !(tag >= 'a' && tag <= 'z'))`
+- **groups/bsl/bsls/bsls_bsltestutil.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == ptr`
+- **groups/bsl/bsls/bsls_log.cpp**
+  - requires:
+    - `numBytes >= 0`
+    - `size > 0 && buffer != NULL && format != NULL`
+  - ensures:
+    - `(__out == 0 ==> d_buffer_p == 0) && (__out != 0 ==> (__out == d_buffer_p ⋆ SEPFORALL(0, numBytes, i, (__out + i ↦ _))))`
+    - `(size > 0 && buffer != NULL && format != NULL) ==> __out >= 0`
+- **groups/bsl/bsls/bsls_logseverity.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out != 0 && ((value == LogSeverity::e_FATAL ==> __out == "FATAL") && (value == LogSeverity::e_ERROR ==> __out == "ERROR") && (value == LogSeverity::e_WARN ==> __out == "WARN") && (value == LogSeverity::e_DEBUG ==> __out == "DEBUG") && (value == LogSeverity::e_INFO ==> __out == "INFO") && (value == LogSeverity::e_TRACE ==> __out == "TRACE") && (value != LogSeverity::e_FATAL && value != LogSeverity::e_ERROR && value != LogSeverity::e_WARN && value != LogSeverity::e_DEBUG && value != LogSeverity::e_INFO && value != LogSeverity::e_TRACE ==> __out == "(* UNKNOWN *)"))`
+- **groups/bsl/bsls/bsls_nameof.cpp**
+  - requires:
+    - `functionName != nullptr && buffer != nullptr && std::strlen(functionName) >= k_USELESS`
+  - ensures:
+    - `(__out == functionName ==> std::strncmp(uselessPreamble, functionName, k_USELESS_PREAMBLE_LEN) != 0) && (__out == buffer ==> std::strncmp(uselessPreamble, functionName, k_USELESS_PREAMBLE_LEN) == 0)`
+- **groups/bsl/bsls/bsls_outputredirector.cpp**
+  - requires:
+    - `expected != 0`
+  - ensures:
+    - `__out == compare(expected, strlen(expected))`
+- **groups/bsl/bsls/bsls_stackaddressutil.cpp**
+  - requires:
+    - `output != NULL && length > 0`
+    - `tag != 0 && strlen(tag) > 0`
+  - ensures:
+    - `(__out != 0 ==> (strncmp(__out - taglength - 1, tag, taglength) == 0)) && (__out == 0 ==> true)`
+    - `(__out == -1 || __out == 0) ==> output[length - 1] == 0`
+- **groups/bsl/bsls/bsls_systemclocktype.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(value == SystemClockType::Enum::e_REALTIME ==> __out == "REALTIME") && (value == SystemClockType::Enum::e_MONOTONIC ==> __out == "MONOTONIC") && (value != SystemClockType::Enum::e_REALTIME && value != SystemClockType::Enum::e_MONOTONIC ==> __out == "(* UNKNOWN *)")`
+- **groups/bsl/bsls/bsls_systemtime.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `true`
+- **groups/bsl/bsls/bsls_timeinterval.cpp**
+  - requires:
+    - `isSumValidInt64(d_seconds, seconds) && isSumValidInt64(d_seconds + seconds, (static_cast<bsls::Types::Int64>(d_nanoseconds) + nanoseconds) / k_NANOSECS_PER_SEC)`
+  - ensures:
+    - `__out == *this`
+- **groups/bsl/bslstl/bslstl_error.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == error_category::message(value)`
+    - `true`
+- **groups/bsl/bslstl/bslstl_sharedptr.cpp**
+  - requires:
+    - `bufferSize > 0`
+  - ensures:
+    - `__out != nullptr && (__out.get() ↦ _ ⋆ SEPFORALL(0, bufferSize, i, (__out.get() + i) ↦ _))`
+- **groups/bsl/bslstl/bslstl_stopstate.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out != 0`
+    - `true`
+- **groups/bsl/bsltf/bsltf_allocemplacabletesttype.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == s_numDeletes`
+- **groups/bsl/bsltf/bsltf_alloctesttype.cpp**
+  - requires:
+    - `&rhs != this`
+  - ensures:
+    - `(__out == *this) && (&rhs != this ==> (d_data_p ↦ *rhs.d_data_p))`
+- **groups/bsl/bsltf/bsltf_copymovestate.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out != 0`
+- **groups/bsl/bsltf/bsltf_emplacabletesttype.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `__out == *this ⋆ d_arg01 ↦ rhs.d_arg01 ⋆ d_arg02 ↦ rhs.d_arg02 ⋆ d_arg03 ↦ rhs.d_arg03 ⋆ d_arg04 ↦ rhs.d_arg04 ⋆ d_arg05 ↦ rhs.d_arg05 ⋆ d_arg06 ↦ rhs.d_arg06 ⋆ d_arg07 ↦ rhs.d_arg07 ⋆ d_arg08 ↦ rhs.d_arg08 ⋆ d_arg09 ↦ rhs.d_arg09 ⋆ d_arg10 ↦ rhs.d_arg10 ⋆ d_arg11 ↦ rhs.d_arg11 ⋆ d_arg12 ↦ rhs.d_arg12 ⋆ d_arg13 ↦ rhs.d_arg13 ⋆ d_arg14 ↦ rhs.d_arg14`
+    - `__out == s_numDeletes`
+- **groups/bsl/bsltf/bsltf_movestate.cpp**
+  - requires:
+    - `(value == MoveState::e_NOT_MOVED) || (value == MoveState::e_MOVED) || (value == MoveState::e_UNKNOWN)`
+  - ensures:
+    - `(value == MoveState::e_NOT_MOVED ==> __out == "NOT_MOVED") && (value == MoveState::e_MOVED ==> __out == "MOVED") && (value == MoveState::e_UNKNOWN ==> __out == "UNKNOWN") && (value != MoveState::e_NOT_MOVED && value != MoveState::e_MOVED && value != MoveState::e_UNKNOWN ==> __out == "(* UNKNOWN *)")`
+- **groups/bsl/bsltf/bsltf_nonoptionalalloctesttype.cpp**
+  - requires:
+    - `rhs.d_data_p != 0 && (rhs.d_data_p ↦ _)`
+  - ensures:
+    - `(&rhs != this) ==> (d_data_p != 0 && (d_data_p ↦ *rhs.d_data_p)) ⋆ (d_data_p != rhs.d_data_p)`
+- **groups/bsl/bsltf/bsltf_stdtestallocator.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(s_StdTestAllocatorConfiguration_allocator_p != 0 ==> __out == s_StdTestAllocatorConfiguration_allocator_p) && (s_StdTestAllocatorConfiguration_allocator_p == 0 ==> __out == &bslma::NewDeleteAllocator::singleton())`
+- **groups/bsl/bslx/bslx_byteinstream.cpp**
+  - requires:
+    - `object.length() >= 0 && stream.good()`
+  - ensures:
+    - `(__out == stream) && (stream.flags() == old_flags)`
+- **groups/bsl/bslx/bslx_byteoutstream.cpp**
+  - requires:
+    - `stream.good() && SEPFORALL(0, static_cast<int>(object.d_buffer.size()), i, (object.d_buffer.data() + i) ↦ _)`
+  - ensures:
+    - `__out == stream && stream.flags() == old_stream.flags()`
+- **groups/bsl/bslx/bslx_testinstream.cpp**
+  - requires:
+    - `object.length() >= 0 && SEPFORALL(0, object.length(), i, (object.data() + i) ↦ _)`
+    - `true`
+  - ensures:
+    - `(__out == *this) && (isValid() ==> variable >= 0)`
+    - `(__out == stream) && (stream.flags() == old_stream.flags())`
+- **groups/bsl/bslx/bslx_testoutstream.cpp**
+  - requires:
+    - `0 <= length`
+    - `SEPFORALL(0, sizeof(object.d_imp), i, object.d_imp + i ↦ _)`
+  - ensures:
+    - `&__out == this`
+    - `(__out == &stream) && SEPFORALL(0, sizeof(object.d_imp), i, (stream + i ↦ object.d_imp[i]))`
+- **groups/bsl/bslx/bslx_typecode.cpp**
+  - requires:
+    - `true`
+  - ensures:
+    - `(stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == &stream && (stream ↦ _)))`

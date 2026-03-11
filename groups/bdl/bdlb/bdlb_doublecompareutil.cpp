@@ -15,6 +15,8 @@ const double DoubleCompareUtil::k_DEFAULT_RELATIVE_TOLERANCE = 1e-12;
 const double DoubleCompareUtil::k_DEFAULT_ABSOLUTE_TOLERANCE = 1e-24;
 
 /// Return the absolute value of the specified `input`.
+// requires: true
+// ensures: (input >= 0.0 ==> __out == input) && (input < 0.0 ==> __out == -input)
 static inline
 double fabsval(double input)
 {
@@ -26,6 +28,8 @@ double fabsval(double input)
                      // ------------------------------
 
 // CLASS METHODS
+// requires: (a == a) && (b == b) && (relTol >= 0) && (absTol >= 0)
+// ensures: (a != a || b != b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_NON_COMPARABLE && (a == b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_EQUAL && (a == -b) ==> ((fabsval(a - b) <= absTol) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_EQUAL && (a < b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_LESS_THAN && (a > b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_GREATER_THAN) && (a != -b) ==> ((fabsval(a - b) <= absTol || fabsval(a - b) / fabsval((a + b) / 2.0) <= relTol) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_EQUAL && (a < b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_LESS_THAN && (a > b) ==> __out == BloombergLP::bdlb::DoubleCompareUtil::e_GREATER_THAN)
 DoubleCompareUtil::CompareResult
 DoubleCompareUtil::fuzzyCompare(double a,
                                 double b,

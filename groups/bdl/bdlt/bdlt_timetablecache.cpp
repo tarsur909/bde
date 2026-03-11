@@ -53,6 +53,8 @@ TimetableCache_Entry::~TimetableCache_Entry()
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: (d_ptr ↦ rhs.d_ptr) ⋆ (d_loadTime ↦ rhs.d_loadTime) ⋆ (__out.d_ptr == rhs.d_ptr) ⋆ (__out.d_loadTime == rhs.d_loadTime)
 TimetableCache_Entry& TimetableCache_Entry::operator=(
                                                const TimetableCache_Entry& rhs)
 {
@@ -63,6 +65,8 @@ TimetableCache_Entry& TimetableCache_Entry::operator=(
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_ptr && (d_ptr ↦ _)
 bsl::shared_ptr<const Timetable> TimetableCache_Entry::get() const
 {
     return d_ptr;
@@ -110,6 +114,8 @@ TimetableCache::~TimetableCache()
 }
 
 // MANIPULATORS
+// requires: timetableName != NULL
+// ensures: (__out.use_count() > 0) || (__out.use_count() == 0 && __out.get() == nullptr)
 bsl::shared_ptr<const Timetable>
 TimetableCache::getTimetable(const char *timetableName)
 {
@@ -195,6 +201,8 @@ int TimetableCache::invalidateAll()
 }
 
 // ACCESSORS
+// requires: timetableName != NULL
+// ensures: (__out != nullptr ==> __out.use_count() > 0) && (__out == nullptr ==> __out.use_count() == 0)
 bsl::shared_ptr<const Timetable>
 TimetableCache::lookupTimetable(const char *timetableName) const
 {
