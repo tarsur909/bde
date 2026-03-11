@@ -100,6 +100,8 @@ EnvironmentVariableAccessor::EnvironmentVariableAccessor(
 #endif
 
 // ACCESSORS
+// requires: true
+// ensures: __out == d_returnValue
 inline
 const char *EnvironmentVariableAccessor::value() const
 {
@@ -215,6 +217,8 @@ Ordinal::Ordinal(bsl::size_t n)
 }  // close namespace u
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == stream
 bsl::ostream& u::operator<<(bsl::ostream& stream, Ordinal position)
 {
     // ranks start at 0, but are displayed as 1st, 2nd, etc.
@@ -370,6 +374,8 @@ bool isValidEnvironmentVariableName(
 /// documentation.  Return 0 if `options` are valid, and a non-zero value
 /// otherwise.  If `options` is invalid, a descriptive message is written to
 /// the specified `errorStream`.
+// requires: true
+// ensures: __out == 0 || __out == 1 || __out == 2 || __out == 3 || __out == 4 || __out == 5 || __out == 6 || __out == 7 || __out == 8 || __out == 9 || __out == 10 || __out == 11 || __out == 12 || __out == 14 || __out == -1 || __out == -2 || __out == -3
 int validate(const bsl::vector<Option>& options,
              bsl::ostream&              errorStream)
 {
@@ -1186,6 +1192,8 @@ void CommandLine::validateAndInitialize(bsl::ostream& errorStream)
 }
 
 // PRIVATE ACCESSORS
+// requires: true
+// ensures: (__out != -1 ==> d_options[__out].name() == name) && (__out == -1 ==> FORALL(0, d_options.size(), i, d_options[i].name() != name))
 int CommandLine::findName(const bsl::string_view& name) const
 {
     for (unsigned int i = 0; i < d_options.size(); ++i) {
@@ -1284,6 +1292,8 @@ int CommandLine::missing(bool checkAlsoNonOptions) const
 }
 
 // CLASS METHODS
+// requires: specTable != 0 && length >= 0
+// ensures: __out == (status == 0)
 bool CommandLine::isValidOptionSpecificationTable(
                                                  const OptionInfo *specTable,
                                                  int               length,
@@ -1393,6 +1403,8 @@ CommandLine::~CommandLine()
 }
 
 // MANIPULATORS
+// requires: rhs.d_state != e_INVALID
+// ensures: (__out == *this) && (d_options == rhs.d_options) && (d_state == e_NOT_PARSED || (d_state == e_PARSED && d_arguments == rhs.d_arguments))
 CommandLine& CommandLine::operator=(const CommandLine& rhs)
 {
     BSLS_ASSERT(d_state != e_INVALID);
@@ -1438,6 +1450,8 @@ int CommandLine::parse(int                argc,
 }
 
 // ACCESSORS
+// requires: true
+// ensures: (__out == true ==> 0 <= findName(name)) && (__out == false ==> findName(name) < 0)
 bool CommandLine::hasOption(const bsl::string_view& name) const
 {
     return 0 <= findName(name);
@@ -1566,6 +1580,8 @@ OptionType::Enum CommandLine::type(const bsl::string_view& name) const
 }
 
 // BDE_VERIFY pragma: -FABC01  // not in alphabetic order
+// requires: true
+// ensures: true
 bool CommandLine::theBool(const bsl::string_view& name) const
 {
     const int index = findName(name);
@@ -2011,6 +2027,8 @@ bsl::ostream& CommandLine::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: __out == (lhs.isParsed() && rhs.isParsed() && lhs.options() == rhs.options())
 bool balcl::operator==(const CommandLine& lhs, const CommandLine& rhs)
 {
     return lhs.isParsed() && rhs.isParsed() && lhs.options() == rhs.options();
@@ -2042,6 +2060,8 @@ namespace balcl {
                           // ------------------------------
 
 // ACCESSORS
+// requires: true
+// ensures: (__out != -1 ==> (0 <= __out && __out < static_cast<int>(d_schema_p->size()))) && (__out == -1 ==> true)
 int CommandLineOptionsHandle::index(const bsl::string_view& name) const
 {
     for (CommandLine_Schema::const_iterator itr  = d_schema_p->cbegin(),

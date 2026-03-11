@@ -13,6 +13,8 @@ namespace BloombergLP {
                          // --------------------------
 
 // FREE OPERATORS
+// requires: stream.good() && (selectionInfo.nameLength() == 0 || selectionInfo.name() != 0) && (selectionInfo.annotation() == 0 || selectionInfo.annotation() != 0)
+// ensures: __out == stream && (__out << "( " << selectionInfo.formattingMode() << ", " << selectionInfo.id() << ", " && (selectionInfo.nameLength() ? __out.write(selectionInfo.name(), selectionInfo.nameLength()) : __out << "<null-name>") && __out << ", " << selectionInfo.nameLength() << ", " && (selectionInfo.annotation() ? __out << selectionInfo.annotation() : __out << "<null-annotation>") && __out << " )")
 bsl::ostream& operator<<(bsl::ostream&              stream,
                          const bdlat_SelectionInfo& selectionInfo)
 {

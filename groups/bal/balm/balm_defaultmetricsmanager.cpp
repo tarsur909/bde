@@ -29,6 +29,8 @@ bslma::Allocator     *balm::DefaultMetricsManager::s_allocator_p = 0;
 
 namespace balm {
 // CLASS METHODS
+// requires: basicAllocator != 0 && s_singleton_p == 0 && s_allocator_p == 0
+// ensures: (__out != 0) && (s_allocator_p ↦ bslma::Default::globalAllocator(basicAllocator)) ⋆ (s_singleton_p ↦ __out)
 MetricsManager *DefaultMetricsManager::create(bslma::Allocator *basicAllocator)
 {
     BSLS_ASSERT(0 == s_singleton_p);

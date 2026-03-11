@@ -40,6 +40,8 @@ INTEGER bitwiseMajority(INTEGER x, INTEGER y, INTEGER z)
 
 /// First mixing function used by SHA-224 and SHA-256.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 2) ^ rotateRight(value, 13) ^ rotateRight(value, 22))
 bsl::uint32_t f1(bsl::uint32_t value)
 {
     return rotateRight(value,  2)
@@ -49,6 +51,8 @@ bsl::uint32_t f1(bsl::uint32_t value)
 
 /// First mixing function used by SHA-384 and SHA-512.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 28) ^ rotateRight(value, 34) ^ rotateRight(value, 39))
 bsl::uint64_t f1(bsl::uint64_t value)
 {
     return rotateRight(value, 28)
@@ -58,6 +62,8 @@ bsl::uint64_t f1(bsl::uint64_t value)
 
 /// Second mixing function used by SHA-224 and SHA-256.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 6) ^ rotateRight(value, 11) ^ rotateRight(value, 25))
 bsl::uint32_t f2(bsl::uint32_t value)
 {
     return rotateRight(value,  6)
@@ -67,6 +73,8 @@ bsl::uint32_t f2(bsl::uint32_t value)
 
 /// Second mixing function used by SHA-384 and SHA-512.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 14) ^ rotateRight(value, 18) ^ rotateRight(value, 41))
 bsl::uint64_t f2(bsl::uint64_t value)
 {
     return rotateRight(value, 14)
@@ -76,6 +84,8 @@ bsl::uint64_t f2(bsl::uint64_t value)
 
 /// Third mixing function used by SHA-224 and SHA-256.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 7) ^ rotateRight(value, 18) ^ (value >> 3))
 bsl::uint32_t f3(bsl::uint32_t value)
 {
     return rotateRight(value,  7) ^ rotateRight(value, 18) ^ (value >>  3);
@@ -83,6 +93,8 @@ bsl::uint32_t f3(bsl::uint32_t value)
 
 /// Third mixing function used by SHA-384 and SHA-512.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 1) ^ rotateRight(value, 8) ^ (value >> 7))
 bsl::uint64_t f3(bsl::uint64_t value)
 {
     return rotateRight(value,  1) ^ rotateRight(value,  8) ^ (value >>  7);
@@ -90,6 +102,8 @@ bsl::uint64_t f3(bsl::uint64_t value)
 
 /// Fourth mixing function used by SHA-224 and SHA-256.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 17) ^ rotateRight(value, 19) ^ (value >> 10))
 bsl::uint32_t f4(bsl::uint32_t value)
 {
     return rotateRight(value, 17) ^ rotateRight(value, 19) ^ (value >> 10);
@@ -97,6 +111,8 @@ bsl::uint32_t f4(bsl::uint32_t value)
 
 /// Fourth mixing function used by SHA-384 and SHA-512.  Mixes together the
 /// bits of the specified `value`.
+// requires: true
+// ensures: __out == (rotateRight(value, 19) ^ rotateRight(value, 61) ^ (value >> 6))
 bsl::uint64_t f4(bsl::uint64_t value)
 {
     return rotateRight(value, 19) ^ rotateRight(value, 61) ^ (value >>  6);
@@ -653,6 +669,8 @@ bsl::ostream& Sha512::print(bsl::ostream& stream) const
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: (__out == true ==> (lhs.d_totalSize == rhs.d_totalSize && lhs.d_bufferSize == rhs.d_bufferSize && SEPFORALL(0, lhs.d_bufferSize, i, (lhs.d_buffer + i ↦ sep_v1) && (rhs.d_buffer + i ↦ sep_v2) && (sep_v1 == sep_v2)) && SEPFORALL(0, 8, i, (lhs.d_state + i ↦ sep_v3) && (rhs.d_state + i ↦ sep_v4) && (sep_v3 == sep_v4)))) && (__out == false ==> !(lhs.d_totalSize == rhs.d_totalSize && lhs.d_bufferSize == rhs.d_bufferSize && SEPFORALL(0, lhs.d_bufferSize, i, (lhs.d_buffer + i ↦ sep_v1) && (rhs.d_buffer + i ↦ sep_v2) && (sep_v1 == sep_v2)) && SEPFORALL(0, 8, i, (lhs.d_state + i ↦ sep_v3) && (rhs.d_state + i ↦ sep_v4) && (sep_v3 == sep_v4))))
 bool bdlde::operator==(const Sha224& lhs, const Sha224& rhs)
 {
     return lhs.d_totalSize  == rhs.d_totalSize

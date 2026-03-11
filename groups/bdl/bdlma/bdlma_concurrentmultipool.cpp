@@ -174,6 +174,8 @@ void ConcurrentMultipool::initialize(
 }
 
 // PRIVATE ACCESSORS
+// requires: true
+// ensures: __out == 31 - bdlb::BitUtil::numLeadingUnsetBits(static_cast<bsl::uint32_t>(((size + k_MIN_BLOCK_SIZE - 1) >> 3) * 2 - 1))
 inline
 int ConcurrentMultipool::findPool(bsls::Types::size_type size) const
 {
@@ -292,6 +294,8 @@ ConcurrentMultipool::~ConcurrentMultipool()
 }
 
 // MANIPULATORS
+// requires: size >= 0
+// ensures: (size == 0 ==> __out == 0) && (size != 0 ==> (__out != 0 ⋆ ((__out - 1) ↦ sep_v ⋆ ((size <= d_maxBlockSize && sep_v.d_header.d_poolIdx == findPool(size)) || (size > d_maxBlockSize && sep_v.d_header.d_poolIdx == -1)))))
 void *ConcurrentMultipool::allocate(bsls::Types::size_type size)
 {
     if (BSLS_PERFORMANCEHINT_PREDICT_LIKELY(size)) {

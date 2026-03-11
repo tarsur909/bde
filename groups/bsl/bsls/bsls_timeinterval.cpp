@@ -81,6 +81,8 @@ TimeInterval::TimeInterval(double seconds)
 }
 
 // MANIPULATORS
+// requires: isSumValidInt64(d_seconds, seconds) && isSumValidInt64(d_seconds + seconds, (static_cast<bsls::Types::Int64>(d_nanoseconds) + nanoseconds) / k_NANOSECS_PER_SEC)
+// ensures: __out == *this
 TimeInterval& TimeInterval::addInterval(bsls::Types::Int64 seconds,
                                         int                nanoseconds)
 {

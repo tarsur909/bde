@@ -41,6 +41,8 @@ namespace ball {
                         // ------------------
 
 // CLASS METHODS
+// requires: FORALL(0, strlen(pattern), i, (pattern[i] == '\\' && (pattern[i + 1] != '\\' && pattern[i + 1] != '*')) ==> false) && (pattern[i] == '*' && (i + 1 < strlen(pattern)) ==> pattern[i + 1] == '\0')
+// ensures: true
 bool PatternUtil::isValidPattern(const char *pattern)
 {
     while (*pattern) {

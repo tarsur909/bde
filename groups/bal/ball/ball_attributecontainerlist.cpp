@@ -44,6 +44,8 @@ AttributeContainerList::AttributeContainerList(
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == *this && SEPFORALL(rhs.begin(), rhs.end(), it, EXISTS(__out.begin(), __out.end(), jt, *jt == *it))
 AttributeContainerList& AttributeContainerList::operator=(
                                              const AttributeContainerList& rhs)
 {
@@ -154,6 +156,8 @@ void AttributeContainerList::removeAllAndRelease()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == true || __out == false
 bool AttributeContainerList::hasValue(const Attribute& value) const
 {
     Node *node = d_head_p;
@@ -189,6 +193,8 @@ AttributeContainerList::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: (lhs.numContainers() == rhs.numContainers() && FORALL(0, lhs.numContainers(), i, lhs[i] == rhs[i])) ==> __out == true && (lhs.numContainers() != rhs.numContainers() || EXISTS(0, lhs.numContainers(), i, lhs[i] != rhs[i])) ==> __out == false
 bool ball::operator==(const AttributeContainerList& lhs,
                       const AttributeContainerList& rhs)
 {

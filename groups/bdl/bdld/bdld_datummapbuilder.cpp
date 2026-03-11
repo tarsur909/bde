@@ -26,6 +26,8 @@ typedef DatumMapBuilder::allocator_type allocator_type;
 
 /// Calculate the new capacity needed to accommodate data having the
 /// specified `size` for the datum map having the specified `capacity`.
+// requires: size < bsl::numeric_limits<DatumMapBuilder::SizeType>::max() / 2
+// ensures: __out >= size && (capacity == 0 ? __out == 1 : __out >= capacity && __out % capacity == 0)
 static DatumMapBuilder::SizeType getNewCapacity(
                                             DatumMapBuilder::SizeType capacity,
                                             DatumMapBuilder::SizeType size)
@@ -74,6 +76,8 @@ static bool compareGreater(const DatumMapEntry& lhs, const DatumMapEntry& rhs)
 
 /// Return `true` if key in the specified `lhs` is less than key in the
 /// specified `rhs` and `false` otherwise.
+// requires: true
+// ensures: (__out == true ==> lhs.key() < rhs.key()) && (__out == false ==> lhs.key() >= rhs.key())
 static bool compareLess(const DatumMapEntry& lhs, const DatumMapEntry& rhs)
 {
     return lhs.key() < rhs.key();

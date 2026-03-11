@@ -16,6 +16,8 @@ namespace bslx {
                      // ---------------
 
 // CLASS METHODS
+// requires: true
+// ensures: (stream.bad() ==> __out == stream) && (!stream.bad() ==> (__out == &stream && (stream ↦ _)))
 bsl::ostream& TypeCode::print(bsl::ostream&  stream,
                               TypeCode::Enum value,
                               int            level,

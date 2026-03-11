@@ -29,6 +29,8 @@ namespace bdld {
                               // ----------------
 
 // ACCESSORS
+// requires: size >= 0 && EXISTS(0, size, i, elements[i] != nullptr)
+// ensures: true
 bdld::Datum DatumMaker::operator()(const bdld::DatumMapEntry *elements,
                                    int                        size,
                                    bool                       sorted) const

@@ -33,6 +33,8 @@ static const char *const months[] = {
                                   // ----------
 
 // MANIPULATORS
+// requires: bsl::numeric_limits<int>::max() - numDays > 0
+// ensures: __out == 0 || __out == -1
 int Date::addDaysIfValid(int numDays)
 {
     enum { k_SUCCESS = 0, k_FAILURE = -1 };

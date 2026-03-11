@@ -36,6 +36,8 @@ static void yield()
                         // -------------
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == true || __out == false
 bool BslOnce::doEnter()
 {
     int state = bsls::AtomicOperations::testAndSwapInt(&d_onceState,

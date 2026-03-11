@@ -27,6 +27,8 @@ namespace bdlb {
                          // --------------------
 
 // ACCESSORS
+// requires: !stream.bad() && (level >= 0) && (spacesPerLevel >= 0)
+// ensures: __out == stream && !__out.bad()
 bsl::ostream& BigEndianInt16::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const
@@ -55,6 +57,8 @@ bsl::ostream& BigEndianInt16::print(bsl::ostream& stream,
                          // ---------------------
 
 // ACCESSORS
+// requires: !stream.bad() && (level > 0 ==> SEPFORALL(0, level * spacesPerLevel, i, (stream + i ↦ _))) && (spacesPerLevel >= 0 ==> (stream + (level * spacesPerLevel) ↦ 10))
+// ensures: (__out == stream) && (!stream.bad()) && (level > 0 ==> SEPFORALL(0, level * spacesPerLevel, i, (stream + i ↦ _))) && (spacesPerLevel >= 0 ==> (stream + (level * spacesPerLevel) ↦ 10))
 bsl::ostream& BigEndianUint16::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const
@@ -80,6 +84,8 @@ bsl::ostream& BigEndianUint16::print(bsl::ostream& stream,
                          // --------------------
 
 // ACCESSORS
+// requires: !stream.bad() && level >= 0 && spacesPerLevel >= 0
+// ensures: (__out == stream) && (!stream.bad()) && (stream ↦ _)
 bsl::ostream& BigEndianInt32::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const
@@ -108,6 +114,8 @@ bsl::ostream& BigEndianInt32::print(bsl::ostream& stream,
                          // ---------------------
 
 // ACCESSORS
+// requires: stream.bad() == false && (level >= 0) && (spacesPerLevel >= 0)
+// ensures: (__out == stream) && (stream.bad() == false) && (SEPFORALL(0, sizeof(d_value), i, stream + i ↦ BSLS_BYTEORDER_NTOHL(d_value)[i]))
 bsl::ostream& BigEndianUint32::print(bsl::ostream& stream,
                                      int           level,
                                      int           spacesPerLevel) const
@@ -133,6 +141,8 @@ bsl::ostream& BigEndianUint32::print(bsl::ostream& stream,
                          // --------------------
 
 // ACCESSORS
+// requires: !stream.bad()
+// ensures: __out == stream && (stream ↦ _)
 bsl::ostream& BigEndianInt64::print(bsl::ostream& stream,
                                     int           level,
                                     int           spacesPerLevel) const

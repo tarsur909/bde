@@ -16,6 +16,8 @@ namespace bdlde {
                           // ------------------------
 
 // CLASS METHODS
+// requires: true
+// ensures: (stream.bad() ==> __out.bad()) && (__out == stream)
 bsl::ostream& CharConvertStatus::print(bsl::ostream&           stream,
                                        CharConvertStatus::Enum value,
                                        int                     level,
