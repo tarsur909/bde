@@ -44,6 +44,8 @@ AttributeContainerList::AttributeContainerList(
 }
 
 // MANIPULATORS
+// requires: true
+// ensures: __out == *this
 AttributeContainerList& AttributeContainerList::operator=(
                                              const AttributeContainerList& rhs)
 {
@@ -154,6 +156,8 @@ void AttributeContainerList::removeAllAndRelease()
 }
 
 // ACCESSORS
+// requires: true
+// ensures: __out == true || __out == false
 bool AttributeContainerList::hasValue(const Attribute& value) const
 {
     Node *node = d_head_p;

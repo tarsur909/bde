@@ -68,6 +68,8 @@ typedef bdls::FilesystemUtil FileUtil;
 /// Return `true` if the specified file descriptor `fd` refers to a regular
 /// file and `false` otherwise.  Note that a regular file is a file and not
 /// a directory, pipe, printer, keyboard or other device.
+// requires: true
+// ensures: true
 static
 bool getRegularFileInfo(bdls::FilesystemUtil::FileDescriptor fd)
 {
@@ -463,6 +465,8 @@ void FdStreamBuf_FileHandler::unmap(void *mappedMemory, bsl::streamoff length)
 }
 
 // ACCESSORS
+// requires: true
+// ensures: (__out == 0 ==> (d_fileId == -1 || (buf.st_size <= 0))) && (__out != 0 ==> (d_fileId != -1 && __out == buf.st_size))
 bsl::streamoff
 FdStreamBuf_FileHandler::fileSize() const
 {
@@ -524,6 +528,8 @@ FdStreamBuf::~FdStreamBuf()
 }
 
 // PRIVATE MANIPULATORS
+// requires: true
+// ensures: (__out == 0 ==> d_mode == e_INPUT_MODE) && (__out == -1 ==> d_mode != e_INPUT_MODE)
 int FdStreamBuf::switchToInputMode()
 {
     switch (d_mode) {
@@ -812,6 +818,8 @@ int FdStreamBuf::flush()
 }
 
 // PROTECTED MANIPULATORS
+// requires: true
+// ensures: (__out == traits_type::to_int_type(*gptr()) ==> (d_mode == e_INPUT_PUTBACK_MODE || (d_mmapBase_p != 0 && d_mmapLen > 0))) && (__out == traits_type::eof() ==> (d_mode != e_INPUT_MODE && switchToInputMode() != 0)) && (__out == underflowRead() ==> (d_mmapBase_p == 0 || d_mmapLen == 0))
 bsl::streambuf::int_type
 FdStreamBuf::underflow()
 {
@@ -997,6 +1005,8 @@ FdStreamBuf::overflow(int_type c)
     return ret;
 }
 
+// requires: (buffer == 0 && numBytes == 0) ==> (d_mode == e_NULL_MODE && (d_buf_p ↦ sep_v && sep_v != 0)) && (buffer != 0 && numBytes > 0) ==> (d_buf_p ↦ buffer)
+// ensures: (buffer == 0 && numBytes == 0 ==> (d_mode == e_NULL_MODE && (d_buf_p ↦ sep_v && sep_v != 0))) && (buffer != 0 && numBytes > 0 ==> (d_buf_p ↦ buffer)) && (__out == this)
 FdStreamBuf *FdStreamBuf::setbuf(char *buffer, bsl::streamsize numBytes)
     // 'buffer == 0 && n == 0' means to make this object have a 1 byte buffer.
     // 'buffer != 0 && n > 0' means to use 'buffer' as this object's internal

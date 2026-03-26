@@ -42,6 +42,8 @@ bool Context::isValid(Transmission::Cause transmissionCause,
 }
 
 // ACCESSORS
+// requires: stream.good() && (stream ↦ _)
+// ensures: __out == stream && (__out.good() && (__out ↦ _))
 bsl::ostream& Context::print(bsl::ostream& stream,
                              int           level,
                              int           spacesPerLevel) const

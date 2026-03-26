@@ -61,6 +61,8 @@ FixUtilConfiguration::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+// requires: true
+// ensures: (__out == stream) && (SEPFORALL(0, 2, i, (stream + i ↦ sep_v) && ((i == 0 && sep_v == object.fractionalSecondPrecision()) || (i == 1 && sep_v == object.useZAbbreviationForUtc()))))
 bsl::ostream& bdlt::operator<<(bsl::ostream&               stream,
                                const FixUtilConfiguration& object)
 {

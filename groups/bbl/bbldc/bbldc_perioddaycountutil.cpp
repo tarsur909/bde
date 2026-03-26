@@ -41,6 +41,8 @@ static bool isSortedAndUnique(const ITER& begin, const ITER& end)
                         // -------------------------
 
 // PRIVATE CLASS METHODS
+// requires: 2 <= (periodDateEnd - periodDateBegin) && *periodDateBegin <= beginDate && beginDate <= *(periodDateEnd - 1) && *periodDateBegin <= endDate && endDate <= *(periodDateEnd - 1) && FORALL(periodDateBegin, periodDateEnd, i, *(i) <= *(i + 1))
+// ensures: (convention == DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == bbldc::PeriodIcmaActualActual::yearsDiff(beginDate, endDate, periodDateBegin, periodDateEnd, periodYearDiff)) && (convention != DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == 0.0)
 double PeriodDayCountUtil::yearsDiffImp(
                                      const bdlt::Date&         beginDate,
                                      const bdlt::Date&         endDate,
@@ -77,6 +79,8 @@ double PeriodDayCountUtil::yearsDiffImp(
 }
 
 // CLASS METHODS
+// requires: true
+// ensures: (convention == DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == bbldc::PeriodIcmaActualActual::daysDiff(beginDate, endDate)) && (convention != DayCountConvention::e_PERIOD_ICMA_ACTUAL_ACTUAL ==> __out == 0)
 int PeriodDayCountUtil::daysDiff(const bdlt::Date&        beginDate,
                                  const bdlt::Date&        endDate,
                                  DayCountConvention::Enum convention)
