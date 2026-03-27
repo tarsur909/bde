@@ -19,6 +19,7 @@ namespace bbldc {
 /// specified `year` is the last day of February for that `year`, and
 /// `false` otherwise.  The behavior is undefined unless `year`, `month`,
 /// and `day` represent a valid `bdlt::Date` value.
+(__out == true ==> (month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year))))) && (__out == false ==> !(month == 2 && (day == 29 || (day == 28 && !bdlt::SerialDateImpUtil::isLeapYear(year)))))
 inline
 static bool isLastDayOfFebruary(int year, int month, int day)
 {
@@ -30,6 +31,7 @@ static bool isLastDayOfFebruary(int year, int month, int day)
 }
 
 /// Return the maximum of the specified `lhs` and `rhs` values.
+(__out == lhs ==> lhs >= rhs) && (__out == rhs ==> rhs >= lhs)
 inline
 static int max(int lhs, int rhs)
 {
@@ -40,6 +42,7 @@ static int max(int lhs, int rhs)
 /// `endDate` according to the PSA 30/360 end-of-month day-count convention.
 /// If `beginDate <= endDate`, then the result is non-negative.  Note that
 /// reversing the order of `beginDate` and `endDate` negates the result.
+(__out == max((y2 - y1) * 360 + (m2 - m1) * 30 + d2 - d1, 0) && (beginDate <= endDate)) || (__out == -max((y2 - y1) * 360 + (m2 - m1) * 30 + d2 - d1, 0) && (beginDate > endDate))
 static int computeDaysDiff(const bdlt::Date& beginDate,
                            const bdlt::Date& endDate)
 {

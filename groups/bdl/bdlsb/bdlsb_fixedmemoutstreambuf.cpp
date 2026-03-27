@@ -17,6 +17,7 @@ namespace bdlsb {
                            // --------------------------
 
 // PROTECTED MANIPULATORS
+(!(which & bsl::ios_base::out) ==> __out == pos_type(-1)) && ((which & bsl::ios_base::out) ==> __out == pos_type(length()) || __out == pos_type(-1))
 FixedMemOutStreamBuf::pos_type
 FixedMemOutStreamBuf::seekoff(off_type                offset,
                               bsl::ios_base::seekdir  fixedPosition,

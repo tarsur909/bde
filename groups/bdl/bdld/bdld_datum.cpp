@@ -1437,6 +1437,7 @@ bsl::ostream& Datum::print(bsl::ostream& stream,
                          // -------------------
 
 // ACCESSORS
+__out == stream && (__out.bad() == false)
 bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1462,6 +1463,7 @@ bsl::ostream& DatumArrayRef::print(bsl::ostream& stream,
                           // ----------------------
 
 // ACCESSORS
+(__out == stream) && (__out.bad() ==> stream.bad()) && (__out.good() ==> stream.good()) && (__out != 0) && (stream ↦ _)
 bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                                       int           level,
                                       int           spacesPerLevel) const
@@ -1487,6 +1489,7 @@ bsl::ostream& DatumIntMapEntry::print(bsl::ostream& stream,
                             // -------------------
 
 // ACCESSORS
+(__out == stream) && (stream.bad() ==> __out.bad()) && (stream.good() ==> __out.good() && (__out->stream_state ↦ stream_state_flushed))
 bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                                    int           level,
                                    int           spacesPerLevel) const
@@ -1508,6 +1511,7 @@ bsl::ostream& DatumMapEntry::print(bsl::ostream& stream,
                           // class DatumMapRef
                           // -----------------
 // ACCESSORS
+(__out != NULL) ==> findElementBinary(key, *this) == __out || findElementLinear(key, *this) == __out
 const Datum *DatumIntMapRef::find(int key) const
 {
     return d_sorted ? findElementBinary(key, *this) :
@@ -1563,6 +1567,7 @@ bsl::ostream& DatumIntMapRef::print(bsl::ostream& stream,
 }  // close package namespace
 
 // FREE OPERATORS
+(lhs.type() == rhs.type() && (lhs.type() == Datum::e_DOUBLE ? lhs.theDouble() == rhs.theDouble() : (lhs.type() == Datum::e_STRING ? lhs.theString() == rhs.theString() : (lhs.type() == Datum::e_INTEGER ? lhs.theInteger() == rhs.theInteger() : (lhs.type() == Datum::e_BOOLEAN ? lhs.theBoolean() == rhs.theBoolean() : (lhs.type() == Datum::e_NIL ? true : (lhs.type() == Datum::e_ERROR ? lhs.theError() == rhs.theError() : (lhs.type() == Datum::e_DATE ? lhs.theDate() == rhs.theDate() : (lhs.type() == Datum::e_TIME ? lhs.theTime() == rhs.theTime() : (lhs.type() == Datum::e_DATETIME ? lhs.theDatetime() == rhs.theDatetime() : (lhs.type() == Datum::e_DATETIME_INTERVAL ? lhs.theDatetimeInterval() == rhs.theDatetimeInterval() : (lhs.type() == Datum::e_INTEGER64 ? lhs.theInteger64() == rhs.theInteger64() : (lhs.type() == Datum::e_BINARY ? lhs.theBinary() == rhs.theBinary() : (lhs.type() == Datum::e_DECIMAL64 ? lhs.theDecimal64() == rhs.theDecimal64() : (lhs.type() == Datum::e_ARRAY ? lhs.theArray() == rhs.theArray() : (lhs.type() == Datum::e_MAP ? lhs.theMap() == rhs.theMap() : (lhs.type(
 bool bdld::operator==(const Datum& lhs, const Datum& rhs)
 {
     const Datum::DataType type = lhs.type();

@@ -147,6 +147,7 @@ namespace baljsn {
                              // -----------------
 
 // CLASS METHODS
+(__out == 0 ==> (*value ↦ bdljsn::StringUtil::readUnquotedString(value, data, bdljsn::StringUtil::e_ACCEPT_CAPITAL_UNICODE_ESCAPE))) && (__out != 0 ==> true)
 int ParserUtil::getUnquotedString(bsl::string             *value,
                                   const bsl::string_view&  data)
 {

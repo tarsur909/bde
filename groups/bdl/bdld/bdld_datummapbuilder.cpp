@@ -26,6 +26,7 @@ typedef DatumMapBuilder::allocator_type allocator_type;
 
 /// Calculate the new capacity needed to accommodate data having the
 /// specified `size` for the datum map having the specified `capacity`.
+__out >= size && (__out == capacity || (__out >= 1 && (__out & (__out - 1)) == 0))
 static DatumMapBuilder::SizeType getNewCapacity(
                                             DatumMapBuilder::SizeType capacity,
                                             DatumMapBuilder::SizeType size)
